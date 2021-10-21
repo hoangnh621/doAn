@@ -1,0 +1,36 @@
+.InputInformation {
+    height: 3.810625rem;
+    margin-bottom: 0.875rem;
+
+    label {
+        height: 1.0625rem;
+        margin-bottom: 0.25rem;
+
+        font-size: 0.75rem;
+        font-weight: 400;
+        
+        color: rgb(208, 210, 214);
+    }
+
+    input {
+        height: 2.375rem;
+        width: 100%;
+
+        border: 0.0625rem solid rgb(216, 214, 222);
+        border-radius: 0.3125rem;
+
+        font-size: 0.875rem;
+        line-height: 2.375rem;
+
+        padding: 0.38325rem 0.875rem;
+
+    }
+
+    input:focus {
+        border-color: rgb(105, 113, 240);
+    }
+
+    input:focus-visible {
+        outline: none;
+    }
+}

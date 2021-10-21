@@ -1,9 +1,9 @@
-// import './App.css';
+import ForgotPassword from './components/ForgotPassword'
 
 function App() {
   return (
     <div className="App">
-      <h2>Nguyễn Huy Hoàng</h2>
+      <ForgotPassword/>
     </div>
   );
 }
