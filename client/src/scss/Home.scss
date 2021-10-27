@@ -1,0 +1,14 @@
+@import 'color';
+
+.wrapper {
+    height: 100vh;
+
+    //navigation
+    .main-menu {
+        background-color: $background-color-second;
+    }
+
+    .content {
+        background-color: $background-color-main;
+    }
+}

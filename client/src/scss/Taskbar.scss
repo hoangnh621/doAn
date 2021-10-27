@@ -1,0 +1,59 @@
+@import 'color';
+
+.header-navbar {
+    width: calc(83.3333% - 3.5rem);
+
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 1;
+
+    margin: 1.1375rem 1.75rem 0;
+
+    .navbar-container {
+        height: 3.9rem;
+        justify-content: space-between;
+
+        border-radius: 0.428rem;
+        padding: 0.7rem 0.875rem;
+        background-color: $background-color-second;
+
+        .left-navbar {
+            align-items: center;
+            a {
+                padding: 0 .4375rem;
+
+                svg {
+                    color: $text-main;
+                    font-size: 1.3125rem;
+                }
+            }
+
+            input {
+                width: 60rem;
+                border: 0;
+                padding-top: 0.5rem;
+
+                color: $text-main;
+                background-color: $background-color-second;
+            }
+
+            input:focus-visible {
+                outline: none;
+            }
+        }
+
+        .right-navbar {
+            display: flex;
+            align-items: center;
+
+            #nav-Close {
+                svg:hover{
+                    color: $primary;
+                }
+            }
+
+        }
+
+    }
+}

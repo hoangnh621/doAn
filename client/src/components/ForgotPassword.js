@@ -28,7 +28,6 @@ function ForgotPassword() {
                         />
                         <Button className="btn-forgotPassword w-100">Gửi email đặt lại</Button>
                         <div>
-                            <Button outline color="primary"><FiChevronLeft/> Quay lại đăng ký</Button>
                             <Button outline color="primary"><FiChevronLeft/> Quay lại đăng nhập</Button>
                         </div>
                     </form>

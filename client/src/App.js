@@ -1,9 +1,9 @@
-import ForgotPassword from './components/ForgotPassword'
+import Home from './components/Home'
 
 function App() {
   return (
     <div className="App">
-      <ForgotPassword/>
+      <Home/>
     </div>
   );
 }

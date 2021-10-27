@@ -1,0 +1,78 @@
+@import 'color';
+
+.dropdown {
+
+    .dropdown-toggle {
+        padding: 0;
+        border: 0;
+        background-color: $background-color-second;
+        a {
+            div:nth-child(1) {
+                align-items: flex-end;
+                flex-direction: column;
+                margin-right: 0.7rem;
+                span:nth-child(1) {
+                    color: $text-main;
+                    font-size: 0.875rem;
+                }
+        
+                span:nth-child(2) {
+                    color: $text-main;
+                    font-size: 0.75rem;
+                }
+            }
+        
+            img {
+                height: 2.5rem;
+                border-radius: 50%;
+            }
+        }
+        
+        a:hover {
+            text-decoration: none;
+        }
+    }
+    
+    .dropdown-toggle::after {
+        display: none;
+    }
+    
+    .btn-secondary.dropdown-toggle:focus {
+        background-color: $background-color-second;
+        box-shadow: none;
+        border: none;
+    }
+
+    .btn-secondary.dropdown-toggle.btn:focus {
+        box-shadow: none;
+    }
+
+    .btn-secondary.dropdown-toggle {
+        background-color: $background-color-second;
+    }
+
+    
+    .dropdown-menu {
+        top: 0.5625rem !important;
+        // transform: translate3d(-40px, 40px, 0px) !important;
+        // animation-duration: .3s;
+        // animation-fill-mode: both;
+        // animation-name: slideIn;
+        background-color: $background-color-second;
+
+        .dropdown-item {
+            color: $text-main;
+            display: flex;
+            align-items: center;
+            font-size: 0.875rem;
+        }
+
+        .dropdown-item:hover {
+            color: $primary;
+            background-color: $background-color-primary;
+        }
+
+    
+    }
+}
+

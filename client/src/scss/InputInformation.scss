@@ -1,3 +1,5 @@
+@import 'color';
+
 .InputInformation {
     height: 3.810625rem;
     margin-bottom: 0.875rem;
@@ -9,15 +11,16 @@
         font-size: 0.75rem;
         font-weight: 400;
         
-        color: rgb(208, 210, 214);
+        color: $text-main;
     }
 
     input {
         height: 2.375rem;
         width: 100%;
 
-        border: 0.0625rem solid rgb(216, 214, 222);
+        border: 0.0625rem solid $text-second;
         border-radius: 0.3125rem;
+        background-color: $background-color-second;
 
         font-size: 0.875rem;
         line-height: 2.375rem;
@@ -27,7 +30,7 @@
     }
 
     input:focus {
-        border-color: rgb(105, 113, 240);
+        border-color: $primary;
     }
 
     input:focus-visible {

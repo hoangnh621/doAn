@@ -1,0 +1,10 @@
+@import 'color';
+
+a {
+    padding: 0 .4375rem;
+    cursor: pointer;
+    svg {
+        color: $text-main;
+        font-size: 1.3125rem;
+    }
+}
