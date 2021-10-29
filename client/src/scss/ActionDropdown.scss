@@ -1,0 +1,40 @@
+@import 'color';
+
+.dropdown {
+    
+    .dropdown-menu {
+        margin-top: 0.6875rem;
+        animation-duration: 0.3s;
+        animation-name: slideIn;
+
+        @keyframes slideIn {
+            from {
+                top: 0.7rem;
+            }
+
+            to {
+                top: 0.5625rem !important;
+            }
+        }
+        background-color: $background-color-second;
+
+        .dropdown-item {
+            color: $text-main;
+            display: flex;
+            align-items: center;
+            font-size: 0.875rem;
+
+            svg {
+                font-size: 1rem;
+            }
+        }
+
+        .dropdown-item:hover {
+            color: $primary;
+            background-color: $background-color-primary;
+        }
+
+    
+    }
+}
+

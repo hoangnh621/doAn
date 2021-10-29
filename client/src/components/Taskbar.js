@@ -22,7 +22,7 @@ function Taskbar() {
             id: 'nav-CheckSquare',
             href: null,
             children: <FiCheckSquare/>,
-            text: "Nhiệm vụ",
+            text: "Lời nhắc",
             handler: null,
         },
         {

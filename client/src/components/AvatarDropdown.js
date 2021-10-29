@@ -26,9 +26,9 @@ const AvatarDropdown = () => {
           </a>
       </DropdownToggle>
       <DropdownMenu>
-              <DropdownItem><RiSettings2Line className = "mr-2"/>Cài đặt</DropdownItem>
-              <DropdownItem><FiCheckSquare className = "mr-2"/>Nhắc nhở</DropdownItem>
-              <DropdownItem><CgLogOff className = "mr-2"/>Đăng xuất</DropdownItem>
+            <DropdownItem><RiSettings2Line className = "mr-2"/>Cài đặt</DropdownItem>
+            <DropdownItem><FiCheckSquare className = "mr-2"/>Lời nhắc</DropdownItem>
+            <DropdownItem><CgLogOff className = "mr-2"/>Đăng xuất</DropdownItem>
       </DropdownMenu>
   </Dropdown>
   );
