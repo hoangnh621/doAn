@@ -32,32 +32,6 @@
                     border-radius: 0.428rem;
 
                     background-color: $background-color-second;
-
-                    .table {
-                        color: $text-main;
-                        max-height: 100%;
-
-                        tr:hover {
-                            color: $primary;
-
-                            a {
-                                background-color: $background-color-hoverTable;
-                                svg {
-                                    color: $primary;
-                                }
-                            }
-                        }
-
-                        th {
-                            font-size: 0.75rem;
-                            font-weight: 700;
-                        }
-
-                        td {
-                            font-size: 0.815rem;
-                            font-weight: 400;
-                        }
-                    }
                 }
             }
 

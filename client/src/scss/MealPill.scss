@@ -1,0 +1,30 @@
+@import 'color';
+
+.nav-pills {
+    .nav-item {
+        a {
+            color: $text-main;
+        }
+
+        .active {
+            background-image: linear-gradient(118deg, $primary,$primary-button);
+            box-shadow: 0 0 10px 1px $primary-button;
+        
+            color: #fff;
+            background-color: $background-color-second;
+        }
+    }
+
+}
+
+.tab-content {
+    .tab-pane{
+        p {
+            color: $text-main;
+
+            padding-left: 0.75rem;
+            margin-top: 1rem;
+            font-size: 0.815rem;
+        }
+    }
+}

@@ -1,0 +1,33 @@
+@import 'color';
+
+.table {
+    color: $text-main;
+    max-height: 100%;
+
+    tr:hover {
+        color: #fff!important;
+
+        a {
+            background-color: $background-color-hoverTable;
+            svg {
+                color: #fff;
+            }
+        }
+
+        td {
+            label {
+                color: $text-main;
+            }
+        }
+    }
+
+    th {
+        font-size: 0.75rem;
+        font-weight: 700;
+    }
+
+    td {
+        font-size: 0.815rem;
+        font-weight: 400;
+    }
+}

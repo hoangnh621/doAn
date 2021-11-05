@@ -1,0 +1,102 @@
+@import 'color';
+
+.customFood {
+    animation-duration: 0.2s;
+    animation-name: slideInForm;
+
+    @keyframes slideInForm {
+        from {
+            top: 2rem;
+        }
+        to {
+            top: 1.45rem ;
+        }
+    }
+
+    margin-top: 0.6875rem;
+    width: 12rem;
+    padding: 0.5rem 1.5rem;
+    background-color: $background-color-second;
+    border-radius: 0.428rem;
+    border: 0.0625rem solid rgba(0, 0, 0, 0.15);
+
+    position: absolute;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+
+    //Số lượng
+    label {
+        input {
+            width:4.65rem;
+            margin-left: 0.3rem;
+            padding-left: 0.3rem;
+            border-radius: 0.428rem;
+            border: 0.0625rem solid $primary;
+            
+            background-color: $background-color-second;
+            color: $text-main;
+        }
+
+        input:focus-visible {
+            outline: none;
+        }
+    }
+
+    label:hover {
+        color: #fff !important;
+    }
+
+    .dropdowns-item-selected {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+        .dropdown {
+            margin-bottom: 0.5rem;
+
+            .dropdown-toggle {
+                font-size: 0.815rem;
+                color: $text-main;
+
+            }
+            
+            .dropdown-toggle:hover {
+                color: #fff ;
+            }
+            
+            .dropdown-menu {
+                a {
+                    background-color: $background-color-second;
+                }
+
+                a:hover {
+                    background-color: $background-color-primary;
+                }
+            }
+        }
+    }
+
+    .button-groups-update {
+        justify-content: space-between;
+        .btn-outline-secondary {
+            color: $primary;
+            border-color: $primary;
+
+            font-size: 0.815rem;
+        }
+
+        .btn-outline-secondary:hover {
+            background-image: linear-gradient(118deg, $primary,$primary-button);
+            box-shadow: 0 0 10px 1px $primary-button;
+        
+            color: #fff;
+            background-color: $background-color-second;
+        }
+
+        .btn-outline-secondary {
+            box-shadow: none;
+        }
+
+    }
+}
