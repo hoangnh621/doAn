@@ -5,7 +5,10 @@ import Taskbar from './Taskbar'
 import ItemBar from './ItemBar'
 import {arrItems} from './Data'
 import MealPill from './MealPill'
-import {Row, Col, ListGroup} from 'reactstrap'
+import {BsPlus} from 'react-icons/bs'
+import SearchFoodTable from './SearchFoodTable'
+import InputInformation from './InputInformation'
+import {Row, Col, ListGroup, Button} from 'reactstrap'
 
 
 function Home() {
@@ -47,11 +50,22 @@ function Home() {
                         <Col className="col-md-6">
                             <Row className = "search-chart-item">
                                 <Col className="col-sm-12">
-                                    <div></div>
+                                    <div className = "d-flex table-search">
+                                        <div className = 'block-input-button'>
+                                            <InputInformation 
+                                            id = 'search-food' 
+                                            content = 'Tìm kiếm'
+                                            placeholder = 'Nhập tên thức ăn'
+                                            />
+                                            <Button>Thêm<BsPlus className = 'ml-2'/></Button>
+                                        </div>
+                                        <div>
+                                            <SearchFoodTable/>
+                                        </div>
+                                    </div>
                                 </Col>
                                 <Col className="col-sm-12">
                                 <div></div>
-
                                 </Col>
                             </Row>
                         </Col>
