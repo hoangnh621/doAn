@@ -1,6 +1,6 @@
 @import 'color';
 
-.table {
+.searchFoodTable {
     color: $text-main;
     max-height: 100%;
 
@@ -8,7 +8,6 @@
         color: #fff!important;
 
         a {
-            background-color: $background-color-hoverTable;
             svg {
                 color: #fff;
             }
@@ -27,7 +26,24 @@
     }
 
     td {
+        position: relative;
         font-size: 0.815rem;
         font-weight: 400;
+
+        .customFood {
+            left: -4.9rem;
+
+            animation-duration: 0.25s;
+            animation-name: slideInForm1;
+
+            @keyframes slideInForm1 {
+                from {
+                    top: 3rem;
+                }
+                to {
+                    top: 2rem ;
+                }
+            }
+        }
     }
 }

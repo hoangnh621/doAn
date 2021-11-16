@@ -200,7 +200,7 @@ function MealTable({
     })
 
     return (
-        <Table borderless hover className = "m-0">
+        <Table borderless hover className = "m-0 mealTable">
             <thead>
                 <tr>
                     <th>Thức ăn</th>
@@ -215,14 +215,19 @@ function MealTable({
             <tbody>
                 {foodData.map(({id,name,unit,protein,carbs,fat}) => {
                     return (
-                    <tr key = {id}>
+                    <tr key = {id} >
                         <td>{name}</td>
                         <td>{}({unit})</td>
                         <td className = "meal-calo">{protein*4 + carbs*4 + fat*9}</td>
                         <td className = "meal-protein">{protein}</td>
                         <td className = "meal-carbs">{carbs}</td>                    
                         <td className = "meal-fat">{fat}</td>
-                        <td><ActionMealDropdown isRemoveRow = {isRemoveRow} setIsRemoveRow = {setIsRemoveRow}/></td>
+                        <td>
+                            <ActionMealDropdown 
+                            isRemoveRow = {isRemoveRow} 
+                            setIsRemoveRow = {setIsRemoveRow}
+                            />
+                        </td>
                     </tr>
                     )
                 })}

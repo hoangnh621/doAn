@@ -6,7 +6,7 @@ import { RiUserLine, RiLineChartLine} from 'react-icons/ri'
 //demo dữ liệu thức ăn
 const foodData = [
     {
-        id: 1,
+        id: '1',
         name: 'Ức gà', 
         unit: 'g',
         protein: 25,
@@ -14,15 +14,15 @@ const foodData = [
         fat: 0,
     },
     {
-        id: 2,
-        name: 'Cớm trắng', 
+        id: '2',
+        name: 'Cơm trắng', 
         unit: 'g',
         protein: 5,
         carbs: 15, 
         fat: 1,
     },
     {
-        id: 3,
+        id: '3',
         name: 'Yến mạch', 
         unit: 'g',
         protein: 11,
@@ -30,7 +30,7 @@ const foodData = [
         fat: 0,
     },
     {
-        id: 4,
+        id: '4',
         name: 'Hạt điều', 
         unit: 'g',
         protein: 13,
@@ -38,7 +38,7 @@ const foodData = [
         fat: 15,
     },
     {
-        id: 5,
+        id: '5',
         name: 'Rau muống', 
         unit: 'g',
         protein: 9,
@@ -46,7 +46,7 @@ const foodData = [
         fat: 0,
     },
     {
-        id: 6,
+        id: '6',
         name: 'Trứng gà', 
         unit: 'g',
         protein: 9,
@@ -54,14 +54,13 @@ const foodData = [
         fat: 10,
     },
     {
-        id: 7,
+        id: '7',
         name: 'Cá rô phi', 
         unit: 'g',
         protein: 25,
         carbs: 0, 
         fat: 4,
     },
-    
 ]
 
 //Item của trang chủ

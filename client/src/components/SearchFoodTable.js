@@ -8,17 +8,21 @@ import CustomFood from './CustomFood'
 import CustomCheckbox from './CustomCheckbox'
 
 function SearchFoodTable() {
-    const [isCustomFoodSearch, setIsCustomFoodSearch] = useState()
-    const toggle = (e) => {
-        setIsCustomFoodSearch( e.target.id)
+    const [currentCustomFood, setCurrenCustomFood] = useState()
+    const handleShowCustomFood = (e) => {
+        setCurrenCustomFood(e.currentTarget.id)
+        console.log(e.currentTarget)
+        console.log(currentCustomFood)
     }
 
+
     return (
-        <Table borderless hover className = "m-0">
+        <Table borderless hover className = "m-0 searchFoodTable">
             <thead>
                 <tr>
                     <th>Chọn</th>
                     <th>Thức ăn</th>
+                    <th>Số lượng</th>
                     <th>Protein (g)</th>
                     <th>Carbs (g)</th>
                     <th>Fat (g)</th>
@@ -31,6 +35,7 @@ function SearchFoodTable() {
                     <tr key = {id}>
                         <td><CustomCheckbox label = ''/></td>
                         <td>{name}</td>
+                        <td>100g</td>
                         <td className = "search-protein">{protein}</td>
                         <td className = "search-carbs">{carbs}</td>                    
                         <td className = "search-fat">{fat}</td>
@@ -38,15 +43,16 @@ function SearchFoodTable() {
                             <a 
                             id = {id}
                             href = {null}
-                            onClick = {toggle}
+                            onClick = {handleShowCustomFood}
                             >
                                 <BsPen/>
                             </a>
                             {
-                            isCustomFoodSearch === 
-                            <CustomFood 
-                            handleShowCustomFood ={setIsCustomFoodSearch}
+                            currentCustomFood === id 
+                            ? <CustomFood 
+                            handleShowCustomFood ={() => setCurrenCustomFood()}
                             />
+                            : true
                             }
                         </td>
                     </tr>
