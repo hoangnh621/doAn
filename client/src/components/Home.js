@@ -8,6 +8,7 @@ import MealPill from './MealPill'
 import {BsPlus} from 'react-icons/bs'
 import SearchFoodTable from './SearchFoodTable'
 import InputInformation from './InputInformation'
+import PaginationData from './PaginationData'
 import {Row, Col, ListGroup, Button} from 'reactstrap'
 
 
@@ -61,6 +62,9 @@ function Home() {
                                         </div>
                                         <div>
                                             <SearchFoodTable/>
+                                        </div>
+                                        <div className = 'pagination-data d-flex '>
+                                            <PaginationData/>
                                         </div>
                                     </div>
                                 </Col>

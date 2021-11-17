@@ -1,0 +1,79 @@
+@import 'color';
+
+.pagination-data {
+    justify-content:flex-end;
+
+    .pagination {
+        margin-right: 0.75rem;
+
+        .page-item {
+            a {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                border: 0;
+                width: 1.75rem;
+                height: 1.77375rem;
+
+                color: #fff;
+                background-color: $background-color-main;
+            }
+
+            .page-link:focus {
+                box-shadow: none;
+            }
+        }
+
+        .page-item:first-child {
+            a {
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+
+                height: 1.77375rem;
+                width: 2.0525rem;
+
+                border-top-left-radius: 50%;
+                border-bottom-left-radius: 50%;
+
+                span {
+                    svg {
+                        height: 1rem;
+                        width: 0.75rem;
+                    }
+
+                }
+            }
+        }
+        .page-item:last-child {
+            a {
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                
+                height: 1.77375rem;
+                width: 2.0525rem;
+
+                border-top-right-radius: 50%;
+                border-bottom-right-radius: 50%;
+
+                span {
+                    svg {
+                        height: 1rem;
+                        width: 0.75rem;
+                    }
+
+                }
+            }
+        }
+
+        .active {
+            background-color: $background-color-main;
+            a {
+                background-color: $primary;
+                border-radius: 50%;
+            }
+        }
+    }
+}
