@@ -61,6 +61,14 @@ const foodData = [
         carbs: 0, 
         fat: 4,
     },
+    {
+        id: '8',
+        name: 'Chả cốm', 
+        unit: 'g',
+        protein: 15,
+        carbs: 0, 
+        fat: 4,
+    },
 ]
 
 //Item của trang chủ
