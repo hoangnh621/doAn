@@ -46,6 +46,20 @@ function SearchFoodTable() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentPage,  foodData, searchFood ])
 
+    //Mảng chứa dữ liệu của các row đã checked
+    const [dataChecked, setDataChecked] = useState([])
+    const handleChecked = (data) => {
+        setDataChecked(prev => {
+            const isChecked = dataChecked.includes(data)
+            if(isChecked) {
+                return dataChecked.filter(item => item !== data)
+            }
+            else 
+                return [...prev, data]
+        })
+    }
+
+
     return (
         <div className = "d-flex search-food-table">
             <div className = 'block-input-button'>
@@ -74,26 +88,34 @@ function SearchFoodTable() {
                         </tr>
                     </thead>
                     <tbody>
-                        {food_data.map(({id,name,protein,carbs,fat}) => {
+                        {food_data.map((data) => {
                             return (
-                            <tr key = {id}>
-                                <td><CustomCheckbox label = ''/></td>
-                                <td>{name}</td>
-                                <td>100g</td>
-                                <td className = "search-protein">{protein}</td>
-                                <td className = "search-carbs">{carbs}</td>                    
-                                <td className = "search-fat">{fat}</td>
+                            <tr key = {data.id}>
+                                <td><CustomCheckbox 
+                                data = {data}
+                                dataChecked = {dataChecked}
+                                handleChecked = {handleChecked}
+                                />
+                                </td>
+                                <td>{data.name}</td>
+                                <td>{`${data.quantity} (${data.unit})`}</td>
+                                <td className = "search-protein">{data.protein}</td>
+                                <td className = "search-carbs">{data.carbs}</td>                    
+                                <td className = "search-fat">{data.fat}</td>
                                 <td>
                                     <a 
-                                        id = {id}
+                                        id = {data.id}
                                         href = {null}
                                         onClick = {handleShowCustomFood}
                                     >
                                         <BsPen/>
                                     </a>
                                     {
-                                        currentCustomFood === id 
-                                        ? <CustomFood handleShowCustomFood ={() => setCurrenCustomFood()}/>
+                                        currentCustomFood === data.id 
+                                        ? <CustomFood 
+                                            data = {data}
+                                            handleShowCustomFood ={() => setCurrenCustomFood()}
+                                            />
                                         : true
                                     }
                                 </td>

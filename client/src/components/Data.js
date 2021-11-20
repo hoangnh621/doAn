@@ -8,6 +8,7 @@ const foodData = [
     {
         id: '1',
         name: 'Ức gà', 
+        quantity: 100,
         unit: 'g',
         protein: 25,
         carbs: 0, 
@@ -16,6 +17,7 @@ const foodData = [
     {
         id: '2',
         name: 'Cơm trắng', 
+        quantity: 100,
         unit: 'g',
         protein: 5,
         carbs: 15, 
@@ -24,6 +26,7 @@ const foodData = [
     {
         id: '3',
         name: 'Yến mạch', 
+        quantity: 100,
         unit: 'g',
         protein: 11,
         carbs: 12, 
@@ -32,6 +35,7 @@ const foodData = [
     {
         id: '4',
         name: 'Hạt điều', 
+        quantity: 100,
         unit: 'g',
         protein: 13,
         carbs: 10, 
@@ -40,6 +44,7 @@ const foodData = [
     {
         id: '5',
         name: 'Rau muống', 
+        quantity: 100,
         unit: 'g',
         protein: 9,
         carbs: 1, 
@@ -48,6 +53,7 @@ const foodData = [
     {
         id: '6',
         name: 'Trứng gà', 
+        quantity: 100,
         unit: 'g',
         protein: 9,
         carbs: 0, 
@@ -56,6 +62,7 @@ const foodData = [
     {
         id: '7',
         name: 'Cá rô phi', 
+        quantity: 100,
         unit: 'g',
         protein: 25,
         carbs: 0, 
@@ -64,6 +71,7 @@ const foodData = [
     {
         id: '8',
         name: 'Chả cốm', 
+        quantity: 100,
         unit: 'g',
         protein: 15,
         carbs: 0, 

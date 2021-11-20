@@ -4,7 +4,15 @@ import { useState, useEffect} from 'react'
 import {BsChevronDown} from 'react-icons/bs'
 import {Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap'
 
-const CustomFood = ({handleShowCustomFood}) => {
+const CustomFood = ({handleShowCustomFood, data}) => {
+    //Số lượng thức ăn
+    const [quantityFood, setQuantityFood] = useState(1)
+    const handleCustomFood = (data) => {
+        data.quantity *= quantityFood
+        data.protein *= quantityFood
+        data.carbs *= quantityFood
+        data.fat *= quantityFood
+    }
     //Bỏ hành vi submit mặc định của form
     function handleSubmit(e) {
         e.preventDefault();
@@ -39,16 +47,6 @@ const CustomFood = ({handleShowCustomFood}) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
-    //Đơn vị
-    const [dropdownOpenDV, setDropdownOpenDV] = useState(false)
-    const toggleDropdownDV = () => {
-        setDropdownOpenDV(!dropdownOpenDV)
-    }
-    const [checkedDV, setCheckedDV] = useState('g')
-    const handleCheckedDV = (e) => {
-        setCheckedDV(e.target.attributes.value.nodeValue)
-    }
-
     //Bữa ăn
     const [dropdownOpenMeal, setDropdownOpenMeal] = useState(false)
     const toggleDropdownMeal = () => {
@@ -59,30 +57,20 @@ const CustomFood = ({handleShowCustomFood}) => {
         setCheckedMeal(e.target.attributes.value.nodeValue)
     }
 
+
     return (
         <form action="" onSubmit = {handleSubmit} className = "customFood">
             {/* Số lượng */}
             <label>
                 Số lượng: 
-                <input type="number" name="quantity" id="quantity" />
+                <input 
+                type="number"
+                min = '0'
+                value = {quantityFood}
+                onChange = {(e) => setQuantityFood(e.target.value)} 
+                />
             </label>
             <div className = "dropdowns-item-selected">
-                {/* Đơn vị */}
-                <Dropdown 
-                isOpen={dropdownOpenDV} 
-                toggle={toggleDropdownDV}
-                direction='right'
-                >
-                <DropdownToggle caret  >
-                    Đơn vị: {checkedDV}
-                    <BsChevronDown className = "ml-2"/>
-                </DropdownToggle>
-                <DropdownMenu >
-                    <DropdownItem onClick = {handleCheckedDV} value = 'g'  href={null} tag='a'>g</DropdownItem>
-                    <DropdownItem  onClick = {handleCheckedDV} value = 'ml'  href={null} tag='a' >ml</DropdownItem>
-                    <DropdownItem  onClick = {handleCheckedDV} value = 'ounce'  href={null} tag='a'>ounce</DropdownItem>
-                </DropdownMenu>
-                </Dropdown>
                 {/* Bữa ăn */}
                 <Dropdown 
                 isOpen={dropdownOpenMeal} 
@@ -103,7 +91,13 @@ const CustomFood = ({handleShowCustomFood}) => {
             </div>
             <div className = "d-flex button-groups-update ">
             <Button onClick = {handleShowCustomFood} outline size = "sm">Thoát</Button>
-            <Button outline size = "sm">Cập nhật</Button>
+            <Button 
+            outline 
+            size = "sm"
+            onClick = {() => handleCustomFood(data)}
+            >
+                Cập nhật
+            </Button>
             </div>
         </form>
     );

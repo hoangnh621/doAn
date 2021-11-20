@@ -67,6 +67,8 @@
             }
             
             .dropdown-menu {
+                margin-top: 1.3rem;
+                transform: translate3d(78px, 1px, 0px) !important;
                 a {
                     background-color: $background-color-second;
                 }
