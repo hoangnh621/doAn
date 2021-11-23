@@ -1,30 +1,18 @@
 import '../scss/MealItems.scss'
 import MealPill from './MealPill'
 import { Row, Col } from 'reactstrap'
+import { createContext, useState } from 'react'
 import SearchFoodTable from './SearchFoodTable'
-import { useReducer, createContext} from 'react'
 
 const Context = createContext()
-const initialState = {
-    breakfast: [],
-    lunch: [],
-    dinner: [],
-    snacks: [],
-}
 
-
-
-const reducer = ( state, actions) => {
-    switch(actions.type) {
-
-    }
-}
 
 const MealItems = () => {
-    const [ foodData, dispatch] = useReducer( reducer, initialState )
+    const [checkedData, setCheckedData] = useState([])
 
+    
     return (
-        <Context.Provider value = {[ reducer, initialState ]}>
+        <Context.Provider value = {[ checkedData, setCheckedData ]}>
             <Row className = "content-meal-items">
                 {/* bảng bữa ăn trong ngày */}
                 <Col className="col-md-6 p-0 ">
@@ -47,4 +35,5 @@ const MealItems = () => {
     )
 }
 
+export { Context }
 export default MealItems

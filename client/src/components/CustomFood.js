@@ -1,22 +1,31 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import '../scss/CustomFood.scss'
-import { useState, useEffect} from 'react'
+import { useState, useEffect, memo} from 'react'
 import {BsChevronDown} from 'react-icons/bs'
 import {Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap'
 
-const CustomFood = ({handleShowCustomFood, data}) => {
-    //Số lượng thức ăn
+const CustomFood = ({handleShowCustomFood, data, handleQuantityFood}) => {
+    
+
+    //Số lượng thức ăn và bữa ăn
+    const [checkedMeal, setCheckedMeal] = useState({
+        meal: 'breakfast',
+        name: 'Bữa sáng',
+    })
     const [quantityFood, setQuantityFood] = useState(1)
-    const handleCustomFood = (data) => {
-        data.quantity *= quantityFood
-        data.protein *= quantityFood
-        data.carbs *= quantityFood
-        data.fat *= quantityFood
+
+
+    //Cập nhật lượng thức ăn và bữa ăn chuyển sang component cha SearchFoodTable
+    const handleCustomFood = () => {
+        handleQuantityFood(quantityFood, checkedMeal.meal , data)
+        handleShowCustomFood()
     }
+
+
     //Bỏ hành vi submit mặc định của form
     function handleSubmit(e) {
         e.preventDefault();
     }
+
 
     //xử lý nhấn esc
     useEffect(() => {
@@ -28,33 +37,39 @@ const CustomFood = ({handleShowCustomFood, data}) => {
         return () => {
             window.removeEventListener('keyup', handleShowCustomFood)
         } 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[])
+    },[handleShowCustomFood])
+
 
     //xử lý ấn ra khỏi form
     useEffect(() => { 
         function handleMouseUp(event) {
-          const target = document.querySelector('.customFood')
-          const withinBoundaries = event.composedPath().includes(target)
-          if (!withinBoundaries) {
-              handleShowCustomFood()
-          } 
+            const target = document.querySelector('.customFood')
+            const withinBoundaries = event.composedPath().includes(target)
+            if (!withinBoundaries) {
+                handleShowCustomFood()
+            } 
         }
         window.addEventListener('mouseup', handleMouseUp)
         return () => {
             window.removeEventListener('mouseup', handleMouseUp)
         } 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[])
+    },[handleShowCustomFood])
+
 
     //Bữa ăn
     const [dropdownOpenMeal, setDropdownOpenMeal] = useState(false)
     const toggleDropdownMeal = () => {
         setDropdownOpenMeal(!dropdownOpenMeal)
     }
-    const [checkedMeal, setCheckedMeal] = useState('Bữa sáng')
+
+   
+    //Cập nhật state bữa ăn
     const handleCheckedMeal = (e) => {
-        setCheckedMeal(e.target.attributes.value.nodeValue)
+        if(e.target.innerHTML !== checkedMeal.name)
+        setCheckedMeal({ 
+            meal: e.target.attributes.value.nodeValue, 
+            name: e.target.innerHTML
+        })
     }
 
 
@@ -67,9 +82,14 @@ const CustomFood = ({handleShowCustomFood, data}) => {
                 type="number"
                 min = '0'
                 value = {quantityFood}
-                onChange = {(e) => setQuantityFood(e.target.value)} 
+                onChange = {(e) => {
+                    if(e.target.value < 0) setQuantityFood(1)
+                    else setQuantityFood(e.target.value)
+                }} 
                 />
             </label>
+            {/* Đơn vị */}
+            <p>Đơn vị: {`${data.quantity} (${data.unit})`}</p>
             <div className = "dropdowns-item-selected">
                 {/* Bữa ăn */}
                 <Dropdown 
@@ -78,14 +98,14 @@ const CustomFood = ({handleShowCustomFood, data}) => {
                 direction='right'
                 >
                 <DropdownToggle caret>
-                    Bữa ăn: {checkedMeal}
+                    Bữa ăn: {checkedMeal.name}
                     <BsChevronDown className = "ml-2"/>
                 </DropdownToggle>
                 <DropdownMenu>
-                    <DropdownItem onClick = {handleCheckedMeal} value = 'Bữa sáng' href={null} tag='a'>Bữa sáng</DropdownItem>
-                    <DropdownItem onClick = {handleCheckedMeal} value = 'Bữa trưa' href={null} tag='a' >Bữa trưa</DropdownItem>
-                    <DropdownItem onClick = {handleCheckedMeal} value = 'Bữa tối' href={null} tag='a'>Bữa tối</DropdownItem>
-                    <DropdownItem onClick = {handleCheckedMeal} value = 'Bữa phụ' href={null} tag='a'>Bữa phụ</DropdownItem>
+                    <DropdownItem onClick = {handleCheckedMeal} value = 'breakfast' >Bữa sáng</DropdownItem>
+                    <DropdownItem onClick = {handleCheckedMeal} value = 'lunch' >Bữa trưa</DropdownItem>
+                    <DropdownItem onClick = {handleCheckedMeal} value = 'dinner' >Bữa tối</DropdownItem>
+                    <DropdownItem onClick = {handleCheckedMeal} value = 'snacks' >Bữa phụ</DropdownItem>
                 </DropdownMenu>
                 </Dropdown>
             </div>
@@ -94,13 +114,13 @@ const CustomFood = ({handleShowCustomFood, data}) => {
             <Button 
             outline 
             size = "sm"
-            onClick = {() => handleCustomFood(data)}
+            onClick = {handleCustomFood}
             >
                 Cập nhật
             </Button>
             </div>
         </form>
-    );
+    )
 }
 
-export default CustomFood
+export default memo(CustomFood)

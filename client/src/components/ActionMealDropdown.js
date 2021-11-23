@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import { useState} from 'react'
 import CustomFood from './CustomFood'
 import '../scss/ActionMealDropdown.scss'
@@ -18,9 +17,7 @@ const ActionMealDropdown = ({isRemoveRow,setIsRemoveRow}) => {
     return (
     <Dropdown isOpen={dropdownOpen} toggle={toggle} >
         <DropdownToggle caret >
-            <a href = {null} className = "d-flex">
             <BsThreeDotsVertical/>
-            </a>
         </DropdownToggle>
         {showCustomFood 
         ? <CustomFood handleShowCustomFood = {handleShowCustomFood}/>

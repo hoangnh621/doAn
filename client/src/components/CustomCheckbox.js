@@ -1,14 +1,15 @@
+import { memo } from 'react'
 import '../scss/CustomCheckbox.scss'
 
 
-function CustomCheckbox({label, dataChecked, handleChecked, data}) {
+function CustomCheckbox({label, handleChecked, data, idChecked}) {
 
     
     return (
         <label className="container">{label}
             <input 
             type="checkbox"
-            checked = {dataChecked.includes(data)}
+            checked = {idChecked.includes(data.id)}
             onChange = {() => handleChecked(data)}
             />
             <span className="checkmark"></span>
@@ -16,4 +17,4 @@ function CustomCheckbox({label, dataChecked, handleChecked, data}) {
     )
 }
 
-export default CustomCheckbox
+export default memo(CustomCheckbox)

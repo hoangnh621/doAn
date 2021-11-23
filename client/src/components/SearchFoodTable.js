@@ -1,34 +1,45 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { foodData } from './Data'
+import '../scss/SearchFoodTable.scss'
+import CustomFood from './CustomFood'
 import { Table, Button } from 'reactstrap'
 import { BsPen, BsPlus } from 'react-icons/bs'
-import '../scss/SearchFoodTable.scss'
-import { useState, useMemo } from 'react'
-import CustomFood from './CustomFood'
 import CustomCheckbox from './CustomCheckbox'
 import SearchInputFood from './SearchInputFood'
 import PaginationData from './PaginationData'
+import { Context } from './MealItems'
+import { useState, useMemo, useEffect, useCallback, useContext, } from 'react'
+
 
 function SearchFoodTable() {
+    //Mảng chứa dữ liệu của các row đã checked
+    const [idChecked, setIdChecked] = useState([])
+    const [dataChecked, setDataChecked] = useContext(Context)
+
+
     //State hiện thị customFood mỗi khi click vào bsPen của từng row
     const [currentCustomFood, setCurrenCustomFood] = useState()
-    const handleShowCustomFood = (e) => {
+    const handleShowCustomFood = useCallback((e) => {
         setCurrenCustomFood(e.currentTarget.id)
-    }
+    }, [])
+
+
     //State tổng số row(item), page hiện tại, search
     const [totalItems, setTotalItems] = useState(0)
     const [currentPage, setCurrentPage] = useState(1)
     const [searchFood, setSearchFood] = useState('')
-    const handleSearch = (value) => {
-        setSearchFood(value)
+    const handleSearch = (valueSearch) => {
+        setSearchFood(valueSearch)
         setCurrentPage(1)
     }
 
+
     //Số row của một trang pagination
     const ITEMS_PER_PAGE = 3
+    
 
-    // eslint-disable-next-line no-unused-vars
-    const food_data = useMemo(() => {
+    //Tìm kiếm và phân trang
+    let computedFoodData = useMemo(() => {
         let computedFoodData = foodData
         setTotalItems(computedFoodData.length)
 
@@ -39,25 +50,66 @@ function SearchFoodTable() {
             )
         }
 
+        computedFoodData = computedFoodData.map((item) => ({
+            ...item,
+            quantityFood: 1,
+            meal: 'breakfast',
+        }))
+
         return computedFoodData.slice(
             (currentPage - 1) * ITEMS_PER_PAGE,
             (currentPage - 1) * ITEMS_PER_PAGE + ITEMS_PER_PAGE
         )
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentPage,  foodData, searchFood ])
+    }, [currentPage, searchFood])
 
-    //Mảng chứa dữ liệu của các row đã checked
-    const [dataChecked, setDataChecked] = useState([])
-    const handleChecked = (data) => {
-        setDataChecked(prev => {
-            const isChecked = dataChecked.includes(data)
-            if(isChecked) {
-                return dataChecked.filter(item => item !== data)
-            }
-            else 
-                return [...prev, data]
+
+    //Edit từng dòng dữ liệu
+    const [editFood, setEditFood] = useState(computedFoodData)
+   //Khi nào chuyển trang hay tìm kiếm
+    useMemo(() => {
+        setEditFood(computedFoodData)
+    }, [computedFoodData])
+
+
+    //Set số lượng của từng loại thức ăn
+    const handleQuantityFood = (valueQuantityFood, valueMeal, data) => {
+        setEditFood(prev => {
+            return prev.map(item => {
+                if(item.id === data.id)
+                return {
+                ...item,
+                quantityFood: +valueQuantityFood,
+                meal: valueMeal,
+                }
+                return item
+            })
         })
     }
+
+
+    const handleChecked = useCallback((data) => {
+       const isChecked = idChecked.includes(data.id)
+       if(isChecked) {
+            setIdChecked(idChecked.filter(id => id !== data.id))
+       }
+       else {
+            setIdChecked(prevIdChecked => ([
+                ...prevIdChecked,
+                data.id,
+            ]))
+            setDataChecked (prevDataChecked => ([
+                ...prevDataChecked,
+                data
+            ]))
+       } 
+    }, [idChecked, setDataChecked])
+
+
+    //Ràng buộc dữ liệu với checkbox đang check
+    useEffect(() => {
+        setDataChecked(editFood.filter(item => idChecked.includes(item.id)
+        ))
+    },[editFood, idChecked, setDataChecked])
 
 
     return (
@@ -88,20 +140,21 @@ function SearchFoodTable() {
                         </tr>
                     </thead>
                     <tbody>
-                        {food_data.map((data) => {
+                        {editFood.map((data) => {
                             return (
                             <tr key = {data.id}>
                                 <td><CustomCheckbox 
                                 data = {data}
+                                idChecked = {idChecked}
                                 dataChecked = {dataChecked}
                                 handleChecked = {handleChecked}
                                 />
                                 </td>
                                 <td>{data.name}</td>
-                                <td>{`${data.quantity} (${data.unit})`}</td>
-                                <td className = "search-protein">{data.protein}</td>
-                                <td className = "search-carbs">{data.carbs}</td>                    
-                                <td className = "search-fat">{data.fat}</td>
+                                <td>{`${data.quantity * data.quantityFood} (${data.unit})`}</td>
+                                <td className = "search-protein">{data.protein * data.quantityFood}</td>
+                                <td className = "search-carbs">{data.carbs * data.quantityFood}</td>                    
+                                <td className = "search-fat">{data.fat * data.quantityFood}</td>
                                 <td>
                                     <a 
                                         id = {data.id}
@@ -114,6 +167,7 @@ function SearchFoodTable() {
                                         currentCustomFood === data.id 
                                         ? <CustomFood 
                                             data = {data}
+                                            handleQuantityFood = {handleQuantityFood}
                                             handleShowCustomFood ={() => setCurrenCustomFood()}
                                             />
                                         : true

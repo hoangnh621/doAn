@@ -1,9 +1,70 @@
 import '../scss/MealPill.scss'
 import MealTable from './MealTable'
-import React, { useState } from 'react'
+import { Context } from './MealItems'
+import { useState, useContext, useMemo, memo } from 'react'
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap'
 
-const PillFilled = () => {
+const MealPill = () => {
+
+
+    //Lấy dữ liệu từ context 
+    // eslint-disable-next-line no-unused-vars
+    const [dataChecked, setDataChecked] = useContext(Context)
+
+
+    //Phân chia dữ liệu thành từng Mảng tương ứng với các bữa ăn
+    const [dataShare, setDataShare] = useState({
+        breakfast: [],
+        lunch: [],
+        dinner: [],
+        snacks: [],
+    })
+    console.log(dataChecked)
+
+    useMemo(() => {
+        dataChecked.map( item => {
+            let newmap
+            switch(item.meal) {
+                case 'breakfast': { 
+                    setDataShare({
+                        ...dataShare,
+                        breakfast: [...dataShare.breakfast, item]
+                    }
+                    )
+                    break
+                } 
+                case 'lunch': { 
+                    setDataShare(prevData => ({
+                        ...dataShare,
+                        lunch: prevData.lunch.push(item),
+                    }))
+                    break
+                }
+                case 'dinner': { 
+                    setDataShare(prevData => ({
+                        ...dataShare,
+                        dinner: prevData.dinner.push(item),
+                    }))
+                    break
+                }
+                case 'snacks': { 
+                    setDataShare(prevData => ({
+                        ...dataShare,
+                        snacks: prevData.snacks.push(item),
+                    }))
+                    break
+                }
+                default: 
+                return new Error('Invalid value')
+            }
+            return newmap
+        } )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [dataChecked])
+
+    console.log(dataShare)
+
+
     //Bữa sáng
     const [mealCaloBreFa, setMealCaloBreFa] = useState(0)
     const [mealProteinBreFa, setMealProteinBreFa] = useState(0)
@@ -169,4 +230,4 @@ const PillFilled = () => {
         </>
     )
 }
-export default PillFilled
+export default memo(MealPill)

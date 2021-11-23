@@ -6,17 +6,37 @@
 
     tr:hover {
         color: #fff!important;
+        td {
+            .dropdown {
 
-        a {
-            background-color: $background-color-hoverTable;
-            svg {
-                color: #fff;
+                button.dropdown-toggle {
+                    svg {
+                        background-color: $background-color-hoverTable;
+                        color: #fff;
+                    }
+                }
             }
         }
 
         td {
             label {
                 color: $text-main;
+            }
+        }
+    }
+
+    tr {
+        td {
+            .dropdown {
+                button.dropdown-toggle {
+                    font-size: 0.815rem;
+                    svg {
+                        height: 1.3125rem;
+                        width: 1.3125rem;
+
+                        color: $text-main;
+                    }
+                }
             }
         }
     }
