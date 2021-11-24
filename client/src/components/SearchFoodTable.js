@@ -2,18 +2,19 @@
 import { foodData } from './Data'
 import '../scss/SearchFoodTable.scss'
 import CustomFood from './CustomFood'
+import { Context } from './MealItems'
 import { Table, Button } from 'reactstrap'
 import { BsPen, BsPlus } from 'react-icons/bs'
 import CustomCheckbox from './CustomCheckbox'
 import SearchInputFood from './SearchInputFood'
 import PaginationData from './PaginationData'
-import { Context } from './MealItems'
 import { useState, useMemo, useEffect, useCallback, useContext, } from 'react'
 
 
 function SearchFoodTable() {
     //Mảng chứa dữ liệu của các row đã checked
     const [idChecked, setIdChecked] = useState([])
+    const [dataSearchTable, setDataSearchTable] = useState([])
     const [dataChecked, setDataChecked] = useContext(Context)
 
 
@@ -36,44 +37,41 @@ function SearchFoodTable() {
 
     //Số row của một trang pagination
     const ITEMS_PER_PAGE = 3
+
     
-
-    //Tìm kiếm và phân trang
-    let computedFoodData = useMemo(() => {
+    //Sao chép dữ liệu, và thêm các thuộc tính mới
+    const [dataRep, setDataRep] = useState(() => {
         let computedFoodData = foodData
-        setTotalItems(computedFoodData.length)
-
-        if(searchFood) {
-            computedFoodData = computedFoodData.filter(
-                foodData => 
-                    foodData.name.toLowerCase().includes(searchFood.toLowerCase())
-            )
-        }
-
-        computedFoodData = computedFoodData.map((item) => ({
+        computedFoodData = computedFoodData.map(item => ({
             ...item,
             quantityFood: 1,
             meal: 'breakfast',
         }))
+        return computedFoodData
+    })
 
+
+    //Tìm kiếm và phân trang
+    let computedFoodData = useMemo(() => {
+        let computedFoodData = dataRep
+        setTotalItems(computedFoodData.length)
+
+        if(searchFood) {
+            computedFoodData = computedFoodData.filter(
+                food => 
+                    food.name.toLowerCase().includes(searchFood.toLowerCase())
+            )
+        }
         return computedFoodData.slice(
             (currentPage - 1) * ITEMS_PER_PAGE,
             (currentPage - 1) * ITEMS_PER_PAGE + ITEMS_PER_PAGE
         )
-    }, [currentPage, searchFood])
-
-
-    //Edit từng dòng dữ liệu
-    const [editFood, setEditFood] = useState(computedFoodData)
-   //Khi nào chuyển trang hay tìm kiếm
-    useMemo(() => {
-        setEditFood(computedFoodData)
-    }, [computedFoodData])
+    }, [currentPage, dataRep, searchFood])
 
 
     //Set số lượng của từng loại thức ăn
     const handleQuantityFood = (valueQuantityFood, valueMeal, data) => {
-        setEditFood(prev => {
+        setDataRep(prev => {
             return prev.map(item => {
                 if(item.id === data.id)
                 return {
@@ -87,6 +85,7 @@ function SearchFoodTable() {
     }
 
 
+    //Xử lý dữ liệu khi checked vào các checkbox
     const handleChecked = useCallback((data) => {
        const isChecked = idChecked.includes(data.id)
        if(isChecked) {
@@ -97,19 +96,27 @@ function SearchFoodTable() {
                 ...prevIdChecked,
                 data.id,
             ]))
-            setDataChecked (prevDataChecked => ([
-                ...prevDataChecked,
+            setDataSearchTable (prevData => ([
+                ...prevData,
                 data
             ]))
        } 
-    }, [idChecked, setDataChecked])
+    }, [idChecked])
 
 
     //Ràng buộc dữ liệu với checkbox đang check
     useEffect(() => {
-        setDataChecked(editFood.filter(item => idChecked.includes(item.id)
+        setDataSearchTable(
+            computedFoodData.filter(item => idChecked.includes(item.id)
         ))
-    },[editFood, idChecked, setDataChecked])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[computedFoodData, idChecked])
+
+
+    //Di chuyển dữ liệu sang bảng meal
+    const handleMoveData = () => {
+        setDataChecked(dataSearchTable)
+    }
 
 
     return (
@@ -121,7 +128,9 @@ function SearchFoodTable() {
                 placeholder = 'Nhập tên thức ăn'
                 onSearch = {handleSearch}
                 />
-                <Button>
+                <Button
+                onClick = {handleMoveData}
+                >
                     Thêm
                     <BsPlus className = 'ml-2'/>
                 </Button>
@@ -140,7 +149,7 @@ function SearchFoodTable() {
                         </tr>
                     </thead>
                     <tbody>
-                        {editFood.map((data) => {
+                        {computedFoodData.map((data) => {
                             return (
                             <tr key = {data.id}>
                                 <td><CustomCheckbox 

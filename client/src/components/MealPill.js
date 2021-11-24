@@ -5,8 +5,6 @@ import { useState, useContext, useMemo, memo } from 'react'
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap'
 
 const MealPill = () => {
-
-
     //Lấy dữ liệu từ context 
     // eslint-disable-next-line no-unused-vars
     const [dataChecked, setDataChecked] = useContext(Context)
@@ -19,41 +17,98 @@ const MealPill = () => {
         dinner: [],
         snacks: [],
     })
-    console.log(dataChecked)
+
 
     useMemo(() => {
+        console.log(dataChecked)
         dataChecked.map( item => {
             let newmap
             switch(item.meal) {
                 case 'breakfast': { 
-                    setDataShare({
-                        ...dataShare,
-                        breakfast: [...dataShare.breakfast, item]
-                    }
-                    )
+                    setDataShare(prevData => {
+                        let newfood = []
+                        const isInto = prevData.breakfast.filter( data => data.id === item.id).length
+                        console.log(isInto)
+                        if(isInto) {
+                            const idChecked = dataChecked.map(item => item.id)
+                            const allDataChecked = [...prevData.breakfast.filter( data => data.id !== item.id), item]
+                            newfood = allDataChecked.filter(data => idChecked.includes(data.id))
+                        }
+                        else 
+                        {
+                            newfood = [...prevData.breakfast, item]
+                        }
+                        return {
+                            ...dataShare,
+                            breakfast: newfood,
+                        }
+                    })
+                    break
+                }
+                case 'lunch': { 
+                    setDataShare(prevData => {
+                        let newfood = []
+                        const isInto = prevData.lunch.filter( data => data.id === item.id).length
+                        console.log(isInto)
+                        if(isInto) {
+                            const idChecked = dataChecked.map(item => item.id)
+                            const allDataChecked = [...prevData.lunch.filter( data => data.id !== item.id), item]
+                            newfood = allDataChecked.filter(data => idChecked.includes(data.id))
+                        }
+                        else 
+                        {
+                            newfood = [...prevData.lunch, item]
+                        }
+                        return {
+                            ...dataShare,
+                            lunch: newfood,
+                        }
+                    })
                     break
                 } 
-                case 'lunch': { 
-                    setDataShare(prevData => ({
-                        ...dataShare,
-                        lunch: prevData.lunch.push(item),
-                    }))
-                    break
-                }
                 case 'dinner': { 
-                    setDataShare(prevData => ({
-                        ...dataShare,
-                        dinner: prevData.dinner.push(item),
-                    }))
+                    setDataShare(prevData => {
+                        let newfood = []
+                        const isInto = prevData.dinner.filter( data => data.id === item.id).length
+                        console.log(isInto)
+                        if(isInto) {
+                            const idChecked = dataChecked.map(item => item.id)
+                            const allDataChecked = [...prevData.dinner.filter( data => data.id !== item.id), item]
+                            newfood = allDataChecked.filter(data => idChecked.includes(data.id))
+                        }
+                        else 
+                        {
+                            newfood = [...prevData.dinner, item]
+                        }
+                        return {
+                            ...dataShare,
+                            dinner: newfood,
+                        }
+                    })
                     break
-                }
-                case 'snacks': { 
-                    setDataShare(prevData => ({
-                        ...dataShare,
-                        snacks: prevData.snacks.push(item),
-                    }))
+                } 
+                  case 'snacks': { 
+                    setDataShare(prevData => {
+                        let newfood = []
+                        const isInto = prevData.snacks.filter( data => data.id === item.id).length
+                        console.log(isInto)
+                        if(isInto) {
+                            const idChecked = dataChecked.map(item => item.id)
+                            const allDataChecked = [...prevData.snacks.filter( data => data.id !== item.id), item]
+                            newfood = allDataChecked.filter(data => idChecked.includes(data.id))
+                        }
+                        else 
+                        {
+                            newfood = [...prevData.snacks, item]
+                        }
+                        return {
+                            ...dataShare,
+                            snacks: newfood,
+                        }
+                    })
                     break
-                }
+                }  
+               
                 default: 
                 return new Error('Invalid value')
             }
