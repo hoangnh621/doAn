@@ -1,11 +1,11 @@
 import '../scss/InputInformation.scss'
-import { useState } from 'react'
+import { forwardRef } from 'react'
 
-function SearchInputFood({id, content, placeholder, onSearch}) {
-    const [search, setSearch] = useState('')
+
+function SearchInputFood({id, content, placeholder, onSearch, searchFood, setSearchFood}, searchRef) {
 
     const onInputSearch = (value) => {
-        setSearch(value)
+        setSearchFood(value)
         onSearch(value)
     }
 
@@ -13,14 +13,15 @@ function SearchInputFood({id, content, placeholder, onSearch}) {
         <div className = "InputInformation ">
             <label htmlFor={id}>{content}</label>
             <input 
+            ref = {searchRef}
             type="text" 
             id = {id}
             placeholder = {placeholder} 
-            value = {search}
+            value = {searchFood}
             onChange={(e) => onInputSearch(e.target.value)}
             />
         </div>
     )
 }
 
-export default SearchInputFood
+export default forwardRef(SearchInputFood)

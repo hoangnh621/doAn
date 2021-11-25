@@ -8,7 +8,7 @@ import { BsPen, BsPlus } from 'react-icons/bs'
 import CustomCheckbox from './CustomCheckbox'
 import SearchInputFood from './SearchInputFood'
 import PaginationData from './PaginationData'
-import { useState, useMemo, useEffect, useCallback, useContext, } from 'react'
+import { useState, useMemo, useCallback, useContext, useRef } from 'react'
 
 
 function SearchFoodTable() {
@@ -16,6 +16,11 @@ function SearchFoodTable() {
     const [idChecked, setIdChecked] = useState([])
     const [dataSearchTable, setDataSearchTable] = useState([])
     const [dataChecked, setDataChecked] = useContext(Context)
+
+
+    //Lưu thành phần search input bằng useRef
+    const searchRef = useRef()
+
 
 
     //State hiện thị customFood mỗi khi click vào bsPen của từng row
@@ -105,9 +110,9 @@ function SearchFoodTable() {
 
 
     //Ràng buộc dữ liệu với checkbox đang check
-    useEffect(() => {
+    useMemo(() => {
         setDataSearchTable(
-            computedFoodData.filter(item => idChecked.includes(item.id)
+            dataRep.filter(item => idChecked.includes(item.id)
         ))
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[computedFoodData, idChecked])
@@ -115,17 +120,33 @@ function SearchFoodTable() {
 
     //Di chuyển dữ liệu sang bảng meal
     const handleMoveData = () => {
-        setDataChecked(dataSearchTable)
+        setDataChecked(prevData => [
+            ...prevData,
+            ...dataSearchTable,
+        ])
+        setIdChecked([])
+        setSearchFood('')
+        setCurrentPage(1)
+        searchRef.current.focus()
+        const resetData = dataRep.map((item) => ({
+            ...item,
+            quantityFood: 1, 
+            meal: 'breakfast',
+        }))
+        setDataRep(resetData)
     }
-
+    
 
     return (
         <div className = "d-flex search-food-table">
             <div className = 'block-input-button'>
                 <SearchInputFood 
+                ref = {searchRef}
                 id = 'search-food' 
                 content = 'Tìm kiếm'
                 placeholder = 'Nhập tên thức ăn'
+                searchFood = {searchFood}
+                setSearchFood = {setSearchFood}
                 onSearch = {handleSearch}
                 />
                 <Button

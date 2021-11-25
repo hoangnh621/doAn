@@ -1,5 +1,5 @@
 import '../scss/CustomFood.scss'
-import { useState, useEffect, memo} from 'react'
+import { useState, useEffect } from 'react'
 import {BsChevronDown} from 'react-icons/bs'
 import {Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap'
 
@@ -123,4 +123,4 @@ const CustomFood = ({handleShowCustomFood, data, handleQuantityFood}) => {
     )
 }
 
-export default memo(CustomFood)
+export default CustomFood

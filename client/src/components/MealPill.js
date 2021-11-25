@@ -1,7 +1,7 @@
 import '../scss/MealPill.scss'
 import MealTable from './MealTable'
 import { Context } from './MealItems'
-import { useState, useContext, useMemo, memo } from 'react'
+import { useState, useContext, useMemo, memo, useEffect } from 'react'
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap'
 
 const MealPill = () => {
@@ -19,19 +19,52 @@ const MealPill = () => {
     })
 
 
+    //Chỉ số của từng bữa ăn
+    //Bữa sáng
+    const [ProteinBreak, setProteinBreak] = useState(0)
+    const [CarbsBreak, setCarbsBreak] = useState(0)
+    const [FatBreak, setFatBreak] = useState(0)
+
+    //Bữa trưa
+    const [ProteinLunch, setProteinLunch] = useState(0)
+    const [CarbsLunch, setCarbsLunch] = useState(0)
+    const [FatLunch, setFatLunch] = useState(0)
+
+    //Bữa tối
+    const [ProteinDinner, setProteinDinner] = useState(0)
+    const [CarbsDinner, setCarbsDinner] = useState(0)
+    const [FatDinner, setFatDinner] = useState(0)
+
+    //Bữa phụ
+    const [ProteinSnacks, setProteinSnacks] = useState(0)
+    const [CarbsSnacks, setCarbsSnacks] = useState(0)
+    const [FatSnacks, setFatSnacks] = useState(0)
+
     useMemo(() => {
-        console.log(dataChecked)
-        dataChecked.map( item => {
+        const computedFoodData = dataChecked
+        for(let i = 0; i < computedFoodData.length; i++) {
+            for(let j = i+ 1; j < computedFoodData.length; j++) {
+                const isMatch = (computedFoodData[i].id === computedFoodData[j].id && computedFoodData[i].meal === computedFoodData[j].meal )
+                if(isMatch) {
+                    computedFoodData[i].quantityFood += computedFoodData[j].quantityFood
+                    computedFoodData.splice(j, 1)
+                    j--
+                }
+            }
+        }
+        computedFoodData.map( item => {
             let newmap
             switch(item.meal) {
                 case 'breakfast': { 
                     setDataShare(prevData => {
                         let newfood = []
-                        const isInto = prevData.breakfast.filter( data => data.id === item.id).length
-                        console.log(isInto)
+                        //Kiểm tra trong bữa ăn đã có item của dataChecked chưa?
+                        const dataMatchId = prevData.breakfast.filter( data => data.id === item.id)
+                        const dataNotMatchId = prevData.breakfast.filter( data => data.id !== item.id)
+                        const isInto = dataMatchId.length
                         if(isInto) {
                             const idChecked = dataChecked.map(item => item.id)
-                            const allDataChecked = [...prevData.breakfast.filter( data => data.id !== item.id), item]
+                            const allDataChecked = [...dataNotMatchId, item]
                             newfood = allDataChecked.filter(data => idChecked.includes(data.id))
                         }
                         else 
@@ -48,11 +81,12 @@ const MealPill = () => {
                 case 'lunch': { 
                     setDataShare(prevData => {
                         let newfood = []
-                        const isInto = prevData.lunch.filter( data => data.id === item.id).length
-                        console.log(isInto)
+                        const dataMatchId = prevData.lunch.filter( data => data.id === item.id)
+                        const dataNotMatchId = prevData.lunch.filter( data => data.id !== item.id)
+                        const isInto = dataMatchId.length
                         if(isInto) {
                             const idChecked = dataChecked.map(item => item.id)
-                            const allDataChecked = [...prevData.lunch.filter( data => data.id !== item.id), item]
+                            const allDataChecked = [...dataNotMatchId, item]
                             newfood = allDataChecked.filter(data => idChecked.includes(data.id))
                         }
                         else 
@@ -69,11 +103,12 @@ const MealPill = () => {
                 case 'dinner': { 
                     setDataShare(prevData => {
                         let newfood = []
-                        const isInto = prevData.dinner.filter( data => data.id === item.id).length
-                        console.log(isInto)
+                        const dataMatchId = prevData.dinner.filter( data => data.id === item.id)
+                        const dataNotMatchId = prevData.dinner.filter( data => data.id !== item.id)
+                        const isInto = dataMatchId.length
                         if(isInto) {
                             const idChecked = dataChecked.map(item => item.id)
-                            const allDataChecked = [...prevData.dinner.filter( data => data.id !== item.id), item]
+                            const allDataChecked = [...dataNotMatchId, item]
                             newfood = allDataChecked.filter(data => idChecked.includes(data.id))
                         }
                         else 
@@ -90,11 +125,12 @@ const MealPill = () => {
                   case 'snacks': { 
                     setDataShare(prevData => {
                         let newfood = []
-                        const isInto = prevData.snacks.filter( data => data.id === item.id).length
-                        console.log(isInto)
+                        const dataMatchId = prevData.snacks.filter( data => data.id === item.id)
+                        const dataNotMatchId = prevData.snacks.filter( data => data.id !== item.id)
+                        const isInto = dataMatchId.length
                         if(isInto) {
                             const idChecked = dataChecked.map(item => item.id)
-                            const allDataChecked = [...prevData.snacks.filter( data => data.id !== item.id), item]
+                            const allDataChecked = [...dataNotMatchId, item]
                             newfood = allDataChecked.filter(data => idChecked.includes(data.id))
                         }
                         else 
@@ -117,32 +153,38 @@ const MealPill = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dataChecked])
 
-    console.log(dataShare)
 
+    //Hiện thị lượng chất của từng bữa ăn
+    useEffect(() => {
+        const proteinBreak = dataShare.breakfast.map(item => item.protein*item.quantityFood).reduce((pre,current) => {return pre + current}, 0)
+        const carbsBreak = dataShare.breakfast.map(item => item.carbs*item.quantityFood).reduce((pre,current) => {return pre + current}, 0)
+        const fatBreak = dataShare.breakfast.map(item => item.fat*item.quantityFood).reduce((pre,current) => {return pre + current}, 0)
+        setProteinBreak(proteinBreak)
+        setCarbsBreak(carbsBreak)
+        setFatBreak(fatBreak)
 
-    //Bữa sáng
-    const [mealCaloBreFa, setMealCaloBreFa] = useState(0)
-    const [mealProteinBreFa, setMealProteinBreFa] = useState(0)
-    const [mealCarbsBreFa, setMealCarbsBreFa] = useState(0)
-    const [mealFatBreFa, setMealFatBreFa] = useState(0)
+        const proteinLunch = dataShare.lunch.map(item => item.protein*item.quantityFood).reduce((pre,current) => {return pre + current}, 0)
+        const carbsLunch = dataShare.lunch.map(item => item.carbs*item.quantityFood).reduce((pre,current) => {return pre + current}, 0)
+        const fatLunch = dataShare.lunch.map(item => item.fat*item.quantityFood).reduce((pre,current) => {return pre + current}, 0)
+        setProteinLunch(proteinLunch)
+        setCarbsLunch(carbsLunch)
+        setFatLunch(fatLunch)
 
-     //Bữa trưa
-     const [mealCaloLunch, setMealCaloLunch] = useState(0)
-     const [mealProteinLunch, setMealProteinLunch] = useState(0)
-     const [mealCarbsLunch, setMealCarbsLunch] = useState(0)
-     const [mealFatLunch, setMealFatLunch] = useState(0)
+        const proteinDinner = dataShare.dinner.map(item => item.protein*item.quantityFood).reduce((pre,current) => {return pre + current}, 0)
+        const carbsDinner = dataShare.dinner.map(item => item.carbs*item.quantityFood).reduce((pre,current) => {return pre + current}, 0)
+        const fatDinner = dataShare.dinner.map(item => item.fat*item.quantityFood).reduce((pre,current) => {return pre + current}, 0)
+        setProteinDinner(proteinDinner)
+        setCarbsDinner(carbsDinner)
+        setFatDinner(fatDinner)
 
-      //Bữa tối
-    const [mealCaloDinner, setMealCaloDinner] = useState(0)
-    const [mealProteinDinner, setMealProteinDinner] = useState(0)
-    const [mealCarbsDinner, setMealCarbsDinner] = useState(0)
-    const [mealFatDinner, setMealFatDinner] = useState(0)
-
-     //Bữa phụ
-     const [mealCaloSnacks, setMealCaloSnacks] = useState(0)
-     const [mealProteinSnacks, setMealProteinSnacks] = useState(0)
-     const [mealCarbsSnacks, setMealCarbsSnacks] = useState(0)
-     const [mealFatSnacks, setMealFatSnacks] = useState(0)
+        const proteinSnacks = dataShare.snacks.map(item => item.protein*item.quantityFood).reduce((pre,current) => {return pre + current}, 0)
+        const carbsSnacks = dataShare.snacks.map(item => item.carbs*item.quantityFood).reduce((pre,current) => {return pre + current}, 0)
+        const fatSnacks = dataShare.snacks.map(item => item.fat*item.quantityFood).reduce((pre,current) => {return pre + current}, 0)
+        setProteinSnacks(proteinSnacks)
+        setCarbsSnacks(carbsSnacks)
+        setFatSnacks(fatSnacks)
+    }, [dataShare])
+   
 
     const [active, setActive] = useState('breakfast')
     const toggle = tab => {
@@ -194,91 +236,27 @@ const MealPill = () => {
             </Nav>
             <TabContent className='py-50' activeTab={active}>
                 <TabPane tabId='breakfast' className = 'breakfast-meal'>
-                    <p>Bữa sáng bạn đã nạp {mealCaloBreFa} calo trong đó có {mealProteinBreFa} (g) protein,
-                    {mealCarbsBreFa} (g) carbs và {mealFatBreFa} (g) fat</p>
-                    <MealTable 
-                    setMealCaloBreFa = {setMealCaloBreFa} 
-                    setMealProteinBreFa = {setMealProteinBreFa}
-                    setMealCarbsBreFa = {setMealCarbsBreFa}
-                    setMealFatBreFa = {setMealFatBreFa}
-                    setMealCaloLunch = {setMealCaloLunch}
-                    setMealProteinLunch = {setMealProteinLunch}
-                    setMealCarbsLunch = {setMealCarbsLunch}
-                    setMealFatLunch = {setMealFatLunch}
-                    setMealCaloDinner = {setMealCaloDinner}
-                    setMealProteinDinner = {setMealProteinDinner}
-                    setMealCarbsDinner = {setMealCarbsDinner}
-                    setMealFatDinner = {setMealFatDinner}
-                    setMealCaloSnacks = {setMealCaloSnacks}
-                    setMealProteinSnacks = {setMealProteinSnacks}
-                    setMealCarbsSnacks = {setMealCarbsSnacks}
-                    setMealFatSnacks = {setMealFatSnacks}
+                    <p>Bữa sáng bạn đã nạp {ProteinBreak * 4 + CarbsBreak * 4 + FatBreak * 9} calo trong đó có {ProteinBreak} (g) protein,
+                    {CarbsBreak} (g) carbs và {FatBreak} (g) fat</p>
+                    <MealTable data = {dataShare.breakfast}
                     />
                 </TabPane>
                 <TabPane tabId='lunch' className = 'lunch-meal'>
-                    <p>Bữa trưa bạn đã nạp {mealCaloLunch} calo trong đó có {mealProteinLunch} (g) protein,
-                    {mealCarbsLunch} (g) carbs và {mealFatLunch} (g) fat</p>
-                    <MealTable 
-                   setMealCaloBreFa = {setMealCaloBreFa} 
-                   setMealProteinBreFa = {setMealProteinBreFa}
-                   setMealCarbsBreFa = {setMealCarbsBreFa}
-                   setMealFatBreFa = {setMealFatBreFa}
-                   setMealCaloLunch = {setMealCaloLunch}
-                   setMealProteinLunch = {setMealProteinLunch}
-                   setMealCarbsLunch = {setMealCarbsLunch}
-                   setMealFatLunch = {setMealFatLunch}
-                   setMealCaloDinner = {setMealCaloDinner}
-                   setMealProteinDinner = {setMealProteinDinner}
-                   setMealCarbsDinner = {setMealCarbsDinner}
-                   setMealFatDinner = {setMealFatDinner}
-                   setMealCaloSnacks = {setMealCaloSnacks}
-                   setMealProteinSnacks = {setMealProteinSnacks}
-                   setMealCarbsSnacks = {setMealCarbsSnacks}
-                   setMealFatSnacks = {setMealFatSnacks}
+                    <p>Bữa trưa bạn đã nạp {ProteinLunch * 4 + CarbsLunch * 4 + FatLunch * 9} calo trong đó có {ProteinLunch} (g) protein,
+                    {CarbsLunch} (g) carbs và {FatLunch} (g) fat</p>
+                    <MealTable data = {dataShare.lunch}
                     />
                 </TabPane>
                 <TabPane tabId='dinner' className = 'dinner-meal'>
-                    <p>Bữa tối bạn đã nạp {mealCaloDinner} calo trong đó có {mealProteinDinner} (g) protein,
-                    {mealCarbsDinner} (g) carbs và {mealFatDinner} (g) fat</p>
-                    <MealTable 
-                   setMealCaloBreFa = {setMealCaloBreFa} 
-                   setMealProteinBreFa = {setMealProteinBreFa}
-                   setMealCarbsBreFa = {setMealCarbsBreFa}
-                   setMealFatBreFa = {setMealFatBreFa}
-                   setMealCaloLunch = {setMealCaloLunch}
-                   setMealProteinLunch = {setMealProteinLunch}
-                   setMealCarbsLunch = {setMealCarbsLunch}
-                   setMealFatLunch = {setMealFatLunch}
-                   setMealCaloDinner = {setMealCaloDinner}
-                   setMealProteinDinner = {setMealProteinDinner}
-                   setMealCarbsDinner = {setMealCarbsDinner}
-                   setMealFatDinner = {setMealFatDinner}
-                   setMealCaloSnacks = {setMealCaloSnacks}
-                   setMealProteinSnacks = {setMealProteinSnacks}
-                   setMealCarbsSnacks = {setMealCarbsSnacks}
-                   setMealFatSnacks = {setMealFatSnacks}
+                    <p>Bữa tối bạn đã nạp {ProteinDinner * 4 + CarbsDinner * 4 + FatDinner * 9} calo trong đó có {ProteinDinner} (g) protein,
+                    {CarbsDinner} (g) carbs và {FatDinner} (g) fat</p>
+                    <MealTable data = {dataShare.dinner}
                     />
                 </TabPane>
                 <TabPane tabId='snacks' className = 'snacks-meal'>
-                    <p>Bữa phụ bạn đã nạp {mealCaloSnacks} calo trong đó có {mealProteinSnacks} (g) protein,
-                    {mealCarbsSnacks} (g) carbs và {mealFatSnacks} (g) fat</p>
-                    <MealTable 
-                   setMealCaloBreFa = {setMealCaloBreFa} 
-                   setMealProteinBreFa = {setMealProteinBreFa}
-                   setMealCarbsBreFa = {setMealCarbsBreFa}
-                   setMealFatBreFa = {setMealFatBreFa}
-                   setMealCaloLunch = {setMealCaloLunch}
-                   setMealProteinLunch = {setMealProteinLunch}
-                   setMealCarbsLunch = {setMealCarbsLunch}
-                   setMealFatLunch = {setMealFatLunch}
-                   setMealCaloDinner = {setMealCaloDinner}
-                   setMealProteinDinner = {setMealProteinDinner}
-                   setMealCarbsDinner = {setMealCarbsDinner}
-                   setMealFatDinner = {setMealFatDinner}
-                   setMealCaloSnacks = {setMealCaloSnacks}
-                   setMealProteinSnacks = {setMealProteinSnacks}
-                   setMealCarbsSnacks = {setMealCarbsSnacks}
-                   setMealFatSnacks = {setMealFatSnacks}
+                    <p>Bữa phụ bạn đã nạp {ProteinSnacks * 4 + CarbsSnacks * 4 + FatSnacks * 9} calo trong đó có {ProteinSnacks} (g) protein,
+                    {CarbsSnacks} (g) carbs và {FatSnacks} (g) fat</p>
+                    <MealTable data = {dataShare.snacks}
                     />
                 </TabPane>
             </TabContent>
