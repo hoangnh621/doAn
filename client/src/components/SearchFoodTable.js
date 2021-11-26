@@ -135,8 +135,9 @@ function SearchFoodTable() {
         }))
         setDataRep(resetData)
     }
-    
 
+
+    
     return (
         <div className = "d-flex search-food-table">
             <div className = 'block-input-button'>

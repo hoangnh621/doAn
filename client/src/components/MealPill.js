@@ -1,8 +1,10 @@
 import '../scss/MealPill.scss'
 import MealTable from './MealTable'
 import { Context } from './MealItems'
-import { useState, useContext, useMemo, memo, useEffect } from 'react'
+import { useState, useContext, useMemo, memo, useEffect, createContext } from 'react'
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap'
+
+const MealPillContext = createContext()
 
 const MealPill = () => {
     //Lấy dữ liệu từ context 
@@ -41,6 +43,7 @@ const MealPill = () => {
     const [FatSnacks, setFatSnacks] = useState(0)
 
     useMemo(() => {
+        //Đảm bảo dataChecked không tồn tại đồng thời nhiều phần tử có cùng id và meal
         const computedFoodData = dataChecked
         for(let i = 0; i < computedFoodData.length; i++) {
             for(let j = i+ 1; j < computedFoodData.length; j++) {
@@ -52,24 +55,25 @@ const MealPill = () => {
                 }
             }
         }
-        computedFoodData.map( item => {
-            let newmap
-            switch(item.meal) {
+        //Phân chia dữ liệu vào 4 mảng tương ứng với 4 bữa ăn
+        for(let i = 0; i < computedFoodData.length; i++) {
+            switch(computedFoodData[i].meal) {
                 case 'breakfast': { 
+                    // eslint-disable-next-line no-loop-func
                     setDataShare(prevData => {
                         let newfood = []
                         //Kiểm tra trong bữa ăn đã có item của dataChecked chưa?
-                        const dataMatchId = prevData.breakfast.filter( data => data.id === item.id)
-                        const dataNotMatchId = prevData.breakfast.filter( data => data.id !== item.id)
+                        const dataMatchId = prevData.breakfast.filter( data => data.id === computedFoodData[i].id)
+                        const dataNotMatchId = prevData.breakfast.filter( data => data.id !== computedFoodData[i].id)
                         const isInto = dataMatchId.length
                         if(isInto) {
                             const idChecked = dataChecked.map(item => item.id)
-                            const allDataChecked = [...dataNotMatchId, item]
+                            const allDataChecked = [...dataNotMatchId, computedFoodData[i]]
                             newfood = allDataChecked.filter(data => idChecked.includes(data.id))
                         }
                         else 
                         {
-                            newfood = [...prevData.breakfast, item]
+                            newfood = [...prevData.breakfast, computedFoodData[i]]
                         }
                         return {
                             ...dataShare,
@@ -79,19 +83,21 @@ const MealPill = () => {
                     break
                 }
                 case 'lunch': { 
+                    // eslint-disable-next-line no-loop-func
                     setDataShare(prevData => {
                         let newfood = []
-                        const dataMatchId = prevData.lunch.filter( data => data.id === item.id)
-                        const dataNotMatchId = prevData.lunch.filter( data => data.id !== item.id)
+                        //Kiểm tra trong bữa ăn đã có item của dataChecked chưa?
+                        const dataMatchId = prevData.lunch.filter( data => data.id === computedFoodData[i].id)
+                        const dataNotMatchId = prevData.lunch.filter( data => data.id !== computedFoodData[i].id)
                         const isInto = dataMatchId.length
                         if(isInto) {
                             const idChecked = dataChecked.map(item => item.id)
-                            const allDataChecked = [...dataNotMatchId, item]
+                            const allDataChecked = [...dataNotMatchId, computedFoodData[i]]
                             newfood = allDataChecked.filter(data => idChecked.includes(data.id))
                         }
                         else 
                         {
-                            newfood = [...prevData.lunch, item]
+                            newfood = [...prevData.lunch, computedFoodData[i]]
                         }
                         return {
                             ...dataShare,
@@ -99,21 +105,23 @@ const MealPill = () => {
                         }
                     })
                     break
-                } 
+                }
                 case 'dinner': { 
+                    // eslint-disable-next-line no-loop-func
                     setDataShare(prevData => {
                         let newfood = []
-                        const dataMatchId = prevData.dinner.filter( data => data.id === item.id)
-                        const dataNotMatchId = prevData.dinner.filter( data => data.id !== item.id)
+                        //Kiểm tra trong bữa ăn đã có item của dataChecked chưa?
+                        const dataMatchId = prevData.dinner.filter( data => data.id === computedFoodData[i].id)
+                        const dataNotMatchId = prevData.dinner.filter( data => data.id !== computedFoodData[i].id)
                         const isInto = dataMatchId.length
                         if(isInto) {
                             const idChecked = dataChecked.map(item => item.id)
-                            const allDataChecked = [...dataNotMatchId, item]
+                            const allDataChecked = [...dataNotMatchId, computedFoodData[i]]
                             newfood = allDataChecked.filter(data => idChecked.includes(data.id))
                         }
                         else 
                         {
-                            newfood = [...prevData.dinner, item]
+                            newfood = [...prevData.dinner, computedFoodData[i]]
                         }
                         return {
                             ...dataShare,
@@ -121,21 +129,23 @@ const MealPill = () => {
                         }
                     })
                     break
-                } 
-                  case 'snacks': { 
+                }
+                case 'snacks': { 
+                    // eslint-disable-next-line no-loop-func
                     setDataShare(prevData => {
                         let newfood = []
-                        const dataMatchId = prevData.snacks.filter( data => data.id === item.id)
-                        const dataNotMatchId = prevData.snacks.filter( data => data.id !== item.id)
+                        //Kiểm tra trong bữa ăn đã có item của dataChecked chưa?
+                        const dataMatchId = prevData.snacks.filter( data => data.id === computedFoodData[i].id)
+                        const dataNotMatchId = prevData.snacks.filter( data => data.id !== computedFoodData[i].id)
                         const isInto = dataMatchId.length
                         if(isInto) {
                             const idChecked = dataChecked.map(item => item.id)
-                            const allDataChecked = [...dataNotMatchId, item]
+                            const allDataChecked = [...dataNotMatchId, computedFoodData[i]]
                             newfood = allDataChecked.filter(data => idChecked.includes(data.id))
                         }
                         else 
                         {
-                            newfood = [...prevData.snacks, item]
+                            newfood = [...prevData.snacks, computedFoodData[i]]
                         }
                         return {
                             ...dataShare,
@@ -143,13 +153,108 @@ const MealPill = () => {
                         }
                     })
                     break
-                }  
-               
-                default: 
-                return new Error('Invalid value')
+                }
+                default: return new Error('Invalid value')
             }
-            return newmap
-        } )
+        }
+        // computedFoodData.map( item => {
+        //     let newmap
+        //     switch(item.meal) {
+        //         case 'breakfast': { 
+        //             setDataShare(prevData => {
+        //                 let newfood = []
+        //                 //Kiểm tra trong bữa ăn đã có item của dataChecked chưa?
+        //                 const dataMatchId = prevData.breakfast.filter( data => data.id === item.id)
+        //                 const dataNotMatchId = prevData.breakfast.filter( data => data.id !== item.id)
+        //                 const isInto = dataMatchId.length
+        //                 if(isInto) {
+        //                     const idChecked = dataChecked.map(item => item.id)
+        //                     const allDataChecked = [...dataNotMatchId, item]
+        //                     newfood = allDataChecked.filter(data => idChecked.includes(data.id))
+        //                 }
+        //                 else 
+        //                 {
+        //                     newfood = [...prevData.breakfast, item]
+        //                 }
+        //                 return {
+        //                     ...dataShare,
+        //                     breakfast: newfood,
+        //                 }
+        //             })
+        //             break
+        //         }
+        //         case 'lunch': { 
+        //             setDataShare(prevData => {
+        //                 let newfood = []
+        //                 const dataMatchId = prevData.lunch.filter( data => data.id === item.id)
+        //                 const dataNotMatchId = prevData.lunch.filter( data => data.id !== item.id)
+        //                 const isInto = dataMatchId.length
+        //                 if(isInto) {
+        //                     const idChecked = dataChecked.map(item => item.id)
+        //                     const allDataChecked = [...dataNotMatchId, item]
+        //                     newfood = allDataChecked.filter(data => idChecked.includes(data.id))
+        //                 }
+        //                 else 
+        //                 {
+        //                     newfood = [...prevData.lunch, item]
+        //                 }
+        //                 return {
+        //                     ...dataShare,
+        //                     lunch: newfood,
+        //                 }
+        //             })
+        //             break
+        //         } 
+        //         case 'dinner': { 
+        //             setDataShare(prevData => {
+        //                 let newfood = []
+        //                 const dataMatchId = prevData.dinner.filter( data => data.id === item.id)
+        //                 const dataNotMatchId = prevData.dinner.filter( data => data.id !== item.id)
+        //                 const isInto = dataMatchId.length
+        //                 if(isInto) {
+        //                     const idChecked = dataChecked.map(item => item.id)
+        //                     const allDataChecked = [...dataNotMatchId, item]
+        //                     newfood = allDataChecked.filter(data => idChecked.includes(data.id))
+        //                 }
+        //                 else 
+        //                 {
+        //                     newfood = [...prevData.dinner, item]
+        //                 }
+        //                 return {
+        //                     ...dataShare,
+        //                     dinner: newfood,
+        //                 }
+        //             })
+        //             break
+        //         } 
+        //           case 'snacks': { 
+        //             setDataShare(prevData => {
+        //                 let newfood = []
+        //                 const dataMatchId = prevData.snacks.filter( data => data.id === item.id)
+        //                 const dataNotMatchId = prevData.snacks.filter( data => data.id !== item.id)
+        //                 const isInto = dataMatchId.length
+        //                 if(isInto) {
+        //                     const idChecked = dataChecked.map(item => item.id)
+        //                     const allDataChecked = [...dataNotMatchId, item]
+        //                     newfood = allDataChecked.filter(data => idChecked.includes(data.id))
+        //                 }
+        //                 else 
+        //                 {
+        //                     newfood = [...prevData.snacks, item]
+        //                 }
+        //                 return {
+        //                     ...dataShare,
+        //                     snacks: newfood,
+        //                 }
+        //             })
+        //             break
+        //         }  
+               
+        //         default: 
+        //         return new Error('Invalid value')
+        //     }
+        //     return newmap
+        // } )
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dataChecked])
 
@@ -191,7 +296,7 @@ const MealPill = () => {
         setActive(tab);
     }
     return (
-        <>
+        <MealPillContext.Provider value = {[dataShare, setDataShare]}>
             <Nav pills fill>
                 <NavItem>
                     <NavLink
@@ -236,31 +341,29 @@ const MealPill = () => {
             </Nav>
             <TabContent className='py-50' activeTab={active}>
                 <TabPane tabId='breakfast' className = 'breakfast-meal'>
-                    <p>Bữa sáng bạn đã nạp {ProteinBreak * 4 + CarbsBreak * 4 + FatBreak * 9} calo trong đó có {ProteinBreak} (g) protein,
-                    {CarbsBreak} (g) carbs và {FatBreak} (g) fat</p>
-                    <MealTable data = {dataShare.breakfast}
+                    <p>Bữa sáng bạn đã nạp {ProteinBreak * 4 + CarbsBreak * 4 + FatBreak * 9} calo trong đó có {ProteinBreak} (g) protein, {CarbsBreak} (g) carbs và {FatBreak} (g) fat</p>
+                    <MealTable dataArr = {dataShare.breakfast}
                     />
                 </TabPane>
                 <TabPane tabId='lunch' className = 'lunch-meal'>
-                    <p>Bữa trưa bạn đã nạp {ProteinLunch * 4 + CarbsLunch * 4 + FatLunch * 9} calo trong đó có {ProteinLunch} (g) protein,
-                    {CarbsLunch} (g) carbs và {FatLunch} (g) fat</p>
-                    <MealTable data = {dataShare.lunch}
+                    <p>Bữa trưa bạn đã nạp {ProteinLunch * 4 + CarbsLunch * 4 + FatLunch * 9} calo trong đó có {ProteinLunch} (g) protein, {CarbsLunch} (g) carbs và {FatLunch} (g) fat</p>
+                    <MealTable dataArr = {dataShare.lunch}
                     />
                 </TabPane>
                 <TabPane tabId='dinner' className = 'dinner-meal'>
-                    <p>Bữa tối bạn đã nạp {ProteinDinner * 4 + CarbsDinner * 4 + FatDinner * 9} calo trong đó có {ProteinDinner} (g) protein,
-                    {CarbsDinner} (g) carbs và {FatDinner} (g) fat</p>
-                    <MealTable data = {dataShare.dinner}
+                    <p>Bữa tối bạn đã nạp {ProteinDinner * 4 + CarbsDinner * 4 + FatDinner * 9} calo trong đó có {ProteinDinner} (g) protein, {CarbsDinner} (g) carbs và {FatDinner} (g) fat</p>
+                    <MealTable dataArr = {dataShare.dinner}
                     />
                 </TabPane>
                 <TabPane tabId='snacks' className = 'snacks-meal'>
-                    <p>Bữa phụ bạn đã nạp {ProteinSnacks * 4 + CarbsSnacks * 4 + FatSnacks * 9} calo trong đó có {ProteinSnacks} (g) protein,
-                    {CarbsSnacks} (g) carbs và {FatSnacks} (g) fat</p>
-                    <MealTable data = {dataShare.snacks}
+                    <p>Bữa phụ bạn đã nạp {ProteinSnacks * 4 + CarbsSnacks * 4 + FatSnacks * 9} calo trong đó có {ProteinSnacks} (g) protein, {CarbsSnacks} (g) carbs và {FatSnacks} (g) fat</p>
+                    <MealTable dataArr = {dataShare.snacks}
                     />
                 </TabPane>
             </TabContent>
-        </>
+        </MealPillContext.Provider>
     )
 }
+
+export { MealPillContext }
 export default memo(MealPill)

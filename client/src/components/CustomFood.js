@@ -14,7 +14,7 @@ const CustomFood = ({handleShowCustomFood, data, handleQuantityFood}) => {
     const [quantityFood, setQuantityFood] = useState(1)
 
 
-    //Cập nhật lượng thức ăn và bữa ăn chuyển sang component cha SearchFoodTable
+    //Cập nhật lượng thức ăn và bữa ăn 
     const handleCustomFood = () => {
         handleQuantityFood(quantityFood, checkedMeal.meal , data)
         handleShowCustomFood()
@@ -56,7 +56,7 @@ const CustomFood = ({handleShowCustomFood, data, handleQuantityFood}) => {
     },[handleShowCustomFood])
 
 
-    //Bữa ăn
+    //Ẩn hiện Dropdown bữa ăn
     const [dropdownOpenMeal, setDropdownOpenMeal] = useState(false)
     const toggleDropdownMeal = () => {
         setDropdownOpenMeal(!dropdownOpenMeal)
@@ -72,7 +72,7 @@ const CustomFood = ({handleShowCustomFood, data, handleQuantityFood}) => {
         })
     }
 
-
+    
     return (
         <form action="" onSubmit = {handleSubmit} className = "customFood">
             {/* Số lượng */}
