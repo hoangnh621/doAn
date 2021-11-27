@@ -1,13 +1,12 @@
 import { useState, useContext } from 'react'
 import CustomFood from './CustomFood'
-import { MealPillContext } from './MealPill'
 import { Context as MealItemContext } from './MealItems'
 import '../scss/ActionMealDropdown.scss'
 import {RiDeleteBinLine} from 'react-icons/ri'
 import {BsThreeDotsVertical, BsPen} from 'react-icons/bs'
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 
-const ActionMealDropdown = ({dataObj,dataArr}) => {
+const ActionMealDropdown = ({dataObj}) => {
     const [dropdownOpen, setDropdownOpen] = useState(false)
     const toggle = () => setDropdownOpen(prevState => !prevState)
 
@@ -16,61 +15,41 @@ const ActionMealDropdown = ({dataObj,dataArr}) => {
         setShowCustomFood(!showCustomFood)
     }
 
-    //Lấy dữ liệu từ MealPill
-    const [dataShare, setDataShare] = useContext(MealPillContext)
+    //Lấy dữ liệu từ MealItem
     const [dataChecked, setDataChecked] = useContext(MealItemContext)
+
+
+    //Không cho phép tồn tại nhiều thức ăn có id và meal trùng nhau
+    function filterDataChecked(data) {
+        const computedFoodData = data
+        for(let i = 0; i < computedFoodData.length; i++) {
+            for(let j = i+ 1; j < computedFoodData.length; j++) {
+                const isMatch = (computedFoodData[i].id === computedFoodData[j].id && computedFoodData[i].meal === computedFoodData[j].meal )
+                if(isMatch) {
+                    computedFoodData[i].quantityFood += computedFoodData[j].quantityFood
+                    computedFoodData.splice(j, 1)
+                    j--
+                }
+            }
+        }
+        return computedFoodData
+    }
 
 
     //Xóa một dòng dữ liệu
     const handleRemove = () => {
-        const filterData = dataChecked.filter(item => !(item.id === dataObj.id && item.meal === dataObj.meal))
-        setDataChecked(filterData)
-        // switch(dataObj.meal) {
-        //     case 'breakfast': { 
-        //         const filterData = dataShare.breakfast.filter(item => item.id !== dataObj.id)
-        //         setDataShare(prevData => ({
-        //             ...prevData,
-        //             breakfast: filterData
-        //         }))
-        //         break
-        //     }
-        //     case 'lunch': { 
-        //         const filterData = dataShare.lunch.filter(item => item.id !== dataObj.id)
-        //         setDataShare(prevData => ({
-        //             ...prevData,
-        //             lunch: filterData
-        //         }))
-        //         break
-        //     }
-        //     case 'dinner': { 
-        //         const filterData = dataShare.dinner.filter(item => item.id !== dataObj.id)
-        //         setDataShare(prevData => ({
-        //             ...prevData,
-        //             dinner: filterData
-        //         }))
-        //         break
-        //     }
-        //     case 'snacks': { 
-        //         const filterData = dataShare.snacks.filter(item => item.id !== dataObj.id)
-        //         setDataShare(prevData => ({
-        //             ...prevData,
-        //             snacks: filterData
-        //         }))
-        //         break
-        //     }
-        //     default:
-        //         return new Error('Invalid value')
-        // }
+        const computedFoodData = filterDataChecked(dataChecked)
+        const newData = computedFoodData.filter(item => !(item.id === dataObj.id && item.meal === dataObj.meal))
+        setDataChecked(newData)
     }
-    console.log(dataChecked)
-    console.log(dataShare)
 
 
     //Cập nhật dữ liệu
     const handleQuantityFood = (valueQuantityFood, valueMeal, dataObj) => {
+        const computedFoodData = filterDataChecked(dataChecked)
         if(valueMeal === dataObj.meal) {
-            const newData = dataArr.map(item => {
-                if(item.id === dataObj.id) {
+            const newDataChecked = computedFoodData.map(item => {
+                if(item.id === dataObj.id && item.meal === dataObj.meal) {
                     return {
                         ...item,
                         quantityFood: valueQuantityFood
@@ -78,58 +57,30 @@ const ActionMealDropdown = ({dataObj,dataArr}) => {
                 }
                 return item
             })
-            setDataShare(prevData => ({
-                ...prevData,
-                [dataObj.meal]: newData
-            }))
+            setDataChecked(newDataChecked)
         }
         else {
-            let dataValueMeal = []
-            switch(valueMeal) {
-                case 'breakfast': dataValueMeal =  dataShare.breakfast 
-                break
-                case 'lunch': dataValueMeal =  dataShare.lunch 
-                break
-                case 'dinner': dataValueMeal =  dataShare.dinner 
-                break
-                default: dataValueMeal = dataShare.snacks
-            }
-            console.log('dataValueMeal', dataValueMeal)
-            const isInto = dataValueMeal.filter(item => item.id === dataObj.id).length
-            console.log(isInto)
-            if(!isInto) {
-                dataValueMeal = [...dataValueMeal, dataObj]
-                setDataShare(prevData => ({
-                    ...prevData,
-                    [valueMeal]: dataValueMeal
-                }))
-                handleRemove()
-            }
-            else {
-                const updateData = dataValueMeal.map(item => {
-                    if(item.id === dataObj.id) {
-                        console.log(item.quantityFood + dataObj.quantityFood)
-                        return {
-                            ...item,
-                            quantityFood: item.quantityFood + dataObj.quantityFood
-                        }
+            let newDataChecked = computedFoodData.map(item => {
+                if(item.id === dataObj.id && item.meal === dataObj.meal) {
+                    return {
+                        ...item,
+                        quantityFood: valueQuantityFood,
+                        meal: valueMeal
                     }
-                    else return item
-                })
-                setDataShare(prevData => ({
-                    ...prevData,
-                    [valueMeal]: updateData
-                }))
-            }
-            handleRemove()
+                }
+                return item
+            })
+            newDataChecked = filterDataChecked(newDataChecked)
+            setDataChecked(newDataChecked)
         }
     }
+
 
 
     return (
     <Dropdown isOpen={dropdownOpen} toggle={toggle} >
         <DropdownToggle caret >
-            <BsThreeDotsVertical/>
+            <BsThreeDotsVertical className = 'BsThreeDotsVertical'/>
         </DropdownToggle>
         {showCustomFood 
         ? <CustomFood 

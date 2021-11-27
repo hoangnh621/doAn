@@ -50,6 +50,12 @@
 
     p {
         margin-bottom: 0.5rem;
+        margin-top: 0 !important;
+        padding-left: 0 !important;
+        
+        &:hover {
+            color: #fff !important;
+        }
     }
 
     .dropdowns-item-selected {
@@ -63,11 +69,23 @@
             .dropdown-toggle {
                 font-size: 0.815rem;
                 color: $text-main;
-
+                svg {
+                    height: 0.815rem !important;
+                    width: 0.815rem !important;
+                }
             }
             
             .dropdown-toggle:hover {
                 color: #fff ;
+            }
+
+            &:hover {
+                .dropdown-toggle {
+                    color: #fff;
+                    svg {
+                        color: #fff;
+                    }
+                }
             }
             
             .dropdown-menu {

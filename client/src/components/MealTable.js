@@ -32,7 +32,6 @@ function MealTable({dataArr}) {
                         <td>{dataObj.fat}</td>
                         <td>
                             <ActionMealDropdown
-                            dataArr = {dataArr}
                             dataObj = {dataObj}
                             />
                         </td>
