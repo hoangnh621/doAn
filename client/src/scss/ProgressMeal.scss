@@ -1,0 +1,20 @@
+@import 'color';
+
+.progressMeal {
+    span {
+        color: $text-main;
+        font-size: 1rem;
+        font-weight: 400;
+    }
+
+    .progress {
+        background-color: $primary-progress !important;
+        height: 0.75rem;
+        margin-bottom: 0.25rem;
+
+        .progress-bar {
+            border-radius: 5rem;
+            background-color: $primary !important;
+        }
+    }
+}

@@ -85,31 +85,37 @@ const arrItems = [
         id: 'meal',
         children: <GiHotMeal/>,
         text: 'Thực đơn',
+        to: '/meal',
     },
     {
         id: 'goal',
         children:  <RiLineChartLine/>,
         text: 'Mục tiêu',
+        to: '/goal',
     },
     {
         id: 'task',
         children:  <FiCheckSquare/>,
         text: 'Nhiệm vụ',
+        to: '/task',
     },
     {
         id: 'calendar',
         children:  <FiCalendar/>,
         text: 'Lịch',
+        to: '/calendar',
     },
     {
         id: 'user',
         children: <RiUserLine/>,
         text: 'Người dùng',
+        to: '/user',
     },
     {
         id: 'screen',
         children:   <CgScreen/>,
         text: 'Giao diện',
+        to: '/screen',
     },
 ]
 

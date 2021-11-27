@@ -3,6 +3,7 @@ import MealPill from './MealPill'
 import { Row, Col } from 'reactstrap'
 import { createContext, useState } from 'react'
 import SearchFoodTable from './SearchFoodTable'
+import ProgressMeal from './ProgressMeal'
 
 const Context = createContext()
 
@@ -26,7 +27,12 @@ const MealItems = () => {
                             <SearchFoodTable/>
                         </Col>
                         <Col className="col-sm-12">
-                        <div></div>
+                        <div>
+                            <ProgressMeal title = 'Protein' value = {25}/>
+                            <ProgressMeal title = 'Carbs' value = {50}/>
+                            <ProgressMeal title = 'Fat' value = {75}/>
+                            <ProgressMeal title = 'Calo' value = {100}/>
+                        </div>
                         </Col>
                     </Row>
                 </Col>
