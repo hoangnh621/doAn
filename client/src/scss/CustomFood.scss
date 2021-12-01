@@ -73,6 +73,10 @@
                     height: 0.815rem !important;
                     width: 0.815rem !important;
                 }
+
+                &::after {
+                    display: none;
+                }
             }
             
             .dropdown-toggle:hover {

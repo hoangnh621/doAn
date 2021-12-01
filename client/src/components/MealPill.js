@@ -44,7 +44,7 @@ const MealPill = () => {
         const computedFoodData = dataChecked
         for(let i = 0; i < computedFoodData.length; i++) {
             for(let j = i+ 1; j < computedFoodData.length; j++) {
-                const isMatch = (computedFoodData[i].id === computedFoodData[j].id && computedFoodData[i].meal === computedFoodData[j].meal )
+                const isMatch = (computedFoodData[i]._id === computedFoodData[j]._id && computedFoodData[i].meal === computedFoodData[j].meal )
                 if(isMatch) {
                     computedFoodData[i].quantityFood += computedFoodData[j].quantityFood
                     computedFoodData.splice(j, 1)
@@ -142,22 +142,22 @@ const MealPill = () => {
             </Nav>
             <TabContent className='py-50' activeTab={active}>
                 <TabPane tabId='breakfast' className = 'breakfast-meal'>
-                    <p>Bữa sáng bạn đã nạp {ProteinBreak * 4 + CarbsBreak * 4 + FatBreak * 9} calo trong đó có {ProteinBreak} (g) protein, {CarbsBreak} (g) carbs và {FatBreak} (g) fat</p>
+                    <p>Bữa sáng bạn đã nạp {Math.round(ProteinBreak * 4 + CarbsBreak * 4 + FatBreak * 9)} calo trong đó có {Math.round(ProteinBreak)} (g) protein, {Math.round(CarbsBreak)} (g) carbs và {Math.round(FatBreak)} (g) fat</p>
                     <MealTable dataArr = {breakfast.current}
                     />
                 </TabPane>
                 <TabPane tabId='lunch' className = 'lunch-meal'>
-                    <p>Bữa trưa bạn đã nạp {ProteinLunch * 4 + CarbsLunch * 4 + FatLunch * 9} calo trong đó có {ProteinLunch} (g) protein, {CarbsLunch} (g) carbs và {FatLunch} (g) fat</p>
+                    <p>Bữa trưa bạn đã nạp {Math.round(ProteinLunch * 4 + CarbsLunch * 4 + FatLunch * 9)} calo trong đó có {Math.round(ProteinLunch)} (g) protein, {Math.round(CarbsLunch)} (g) carbs và {Math.round(FatLunch)} (g) fat</p>
                     <MealTable dataArr = {lunch.current}
                     />
                 </TabPane>
                 <TabPane tabId='dinner' className = 'dinner-meal'>
-                    <p>Bữa tối bạn đã nạp {ProteinDinner * 4 + CarbsDinner * 4 + FatDinner * 9} calo trong đó có {ProteinDinner} (g) protein, {CarbsDinner} (g) carbs và {FatDinner} (g) fat</p>
+                    <p>Bữa tối bạn đã nạp {Math.round(ProteinDinner * 4 + CarbsDinner * 4 + FatDinner * 9)} calo trong đó có {Math.round(ProteinDinner)} (g) protein, {Math.round(CarbsDinner)} (g) carbs và {Math.round(FatDinner)} (g) fat</p>
                     <MealTable dataArr = {dinner.current}
                     />
                 </TabPane>
                 <TabPane tabId='snacks' className = 'snacks-meal'>
-                    <p>Bữa phụ bạn đã nạp {ProteinSnacks * 4 + CarbsSnacks * 4 + FatSnacks * 9} calo trong đó có {ProteinSnacks} (g) protein, {CarbsSnacks} (g) carbs và {FatSnacks} (g) fat</p>
+                    <p>Bữa phụ bạn đã nạp {Math.round(ProteinSnacks * 4 + CarbsSnacks * 4 + FatSnacks * 9)} calo trong đó có {Math.round(ProteinSnacks)} (g) protein, {Math.round(CarbsSnacks)} (g) carbs và {Math.round(FatSnacks)} (g) fat</p>
                     <MealTable dataArr = {snacks.current}
                     />
                 </TabPane>

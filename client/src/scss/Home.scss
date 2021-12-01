@@ -32,6 +32,7 @@
 
             .list-group-item:hover {
                 color: $text-main;
+                text-decoration: none;
                 background-color: $background-color-second;
 
                 animation-name: moveRightItem;

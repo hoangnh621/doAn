@@ -1,7 +1,7 @@
 @import 'color';
 
 .nav-pills {
-    padding: 0 0.75rem 0 0.75rem;
+    padding: 0 0.75rem 0 0.75rem !important;
     .nav-item {
         margin-top: 1.5rem;
         a {
@@ -13,7 +13,7 @@
             box-shadow: 0 0 10px 1px $primary-button;
         
             color: #fff;
-            background-color: $background-color-second;
+            background-color: $background-color-second !important;
         }
 
         .nav-link {

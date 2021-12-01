@@ -24,7 +24,7 @@ const ActionMealDropdown = ({dataObj}) => {
         const computedFoodData = data
         for(let i = 0; i < computedFoodData.length; i++) {
             for(let j = i+ 1; j < computedFoodData.length; j++) {
-                const isMatch = (computedFoodData[i].id === computedFoodData[j].id && computedFoodData[i].meal === computedFoodData[j].meal )
+                const isMatch = (computedFoodData[i]._id === computedFoodData[j]._id && computedFoodData[i].meal === computedFoodData[j].meal )
                 if(isMatch) {
                     computedFoodData[i].quantityFood += computedFoodData[j].quantityFood
                     computedFoodData.splice(j, 1)
@@ -39,7 +39,7 @@ const ActionMealDropdown = ({dataObj}) => {
     //Xóa một dòng dữ liệu
     const handleRemove = () => {
         const computedFoodData = filterDataChecked(dataChecked)
-        const newData = computedFoodData.filter(item => !(item.id === dataObj.id && item.meal === dataObj.meal))
+        const newData = computedFoodData.filter(item => !(item._id === dataObj._id && item.meal === dataObj.meal))
         setDataChecked(newData)
     }
 
@@ -49,7 +49,7 @@ const ActionMealDropdown = ({dataObj}) => {
         const computedFoodData = filterDataChecked(dataChecked)
         if(valueMeal === dataObj.meal) {
             const newDataChecked = computedFoodData.map(item => {
-                if(item.id === dataObj.id && item.meal === dataObj.meal) {
+                if(item._id === dataObj._id && item.meal === dataObj.meal) {
                     return {
                         ...item,
                         quantityFood: valueQuantityFood
@@ -61,7 +61,7 @@ const ActionMealDropdown = ({dataObj}) => {
         }
         else {
             let newDataChecked = computedFoodData.map(item => {
-                if(item.id === dataObj.id && item.meal === dataObj.meal) {
+                if(item._id === dataObj._id && item.meal === dataObj.meal) {
                     return {
                         ...item,
                         quantityFood: valueQuantityFood,

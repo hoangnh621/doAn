@@ -9,7 +9,7 @@ function CustomCheckbox({label, handleChecked, data, idChecked}) {
         <label className="container">{label}
             <input 
             type="checkbox"
-            checked = {idChecked.includes(data.id)}
+            checked = {idChecked.includes(data._id)}
             onChange = {() => handleChecked(data)}
             />
             <span className="checkmark"></span>

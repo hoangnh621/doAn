@@ -1,5 +1,4 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { foodData } from './Data'
 import '../scss/SearchFoodTable.scss'
 import CustomFood from './CustomFood'
 import { Context } from './MealItems'
@@ -8,10 +7,27 @@ import { BsPen, BsPlus } from 'react-icons/bs'
 import CustomCheckbox from './CustomCheckbox'
 import SearchInputFood from './SearchInputFood'
 import PaginationData from './PaginationData'
-import { useState, useMemo, useCallback, useContext, useRef } from 'react'
+import { useState, useMemo, useCallback, useContext, useRef, useEffect } from 'react'
+
+import * as api from '../api/index.js';
+
 
 
 function SearchFoodTable() {
+    const [dataFood, setDataFood] = useState([])    
+    useEffect(() => {
+        const getFoods =  async () => {
+            try {
+                const {data} = await api.fetchFoods()
+                setDataFood(data)
+            }
+            catch(err) {
+                console.log(err)
+            }
+        }
+        getFoods()
+    },[])
+
     //Mảng chứa dữ liệu của các row đã checked
     const [idChecked, setIdChecked] = useState([])
     const [dataSearchTable, setDataSearchTable] = useState([])
@@ -41,19 +57,21 @@ function SearchFoodTable() {
 
 
     //Số row của một trang pagination
-    const ITEMS_PER_PAGE = 3
+    const ITEMS_PER_PAGE = 8
 
     
     //Sao chép dữ liệu, và thêm các thuộc tính mới
-    const [dataRep, setDataRep] = useState(() => {
-        let computedFoodData = foodData
+    const [dataRep, setDataRep] = useState([])
+
+    useMemo(() => {
+        let computedFoodData = dataFood
         computedFoodData = computedFoodData.map(item => ({
             ...item,
             quantityFood: 1,
             meal: 'breakfast',
         }))
-        return computedFoodData
-    })
+        setDataRep(computedFoodData)
+    }, [dataFood])
 
 
     //Tìm kiếm và phân trang
@@ -78,7 +96,7 @@ function SearchFoodTable() {
     const handleQuantityFood = (valueQuantityFood, valueMeal, data) => {
         setDataRep(prev => {
             return prev.map(item => {
-                if(item.id === data.id)
+                if(item._id === data._id)
                 return {
                 ...item,
                 quantityFood: +valueQuantityFood,
@@ -92,14 +110,14 @@ function SearchFoodTable() {
 
     //Xử lý dữ liệu khi checked vào các checkbox
     const handleChecked = useCallback((data) => {
-       const isChecked = idChecked.includes(data.id)
+       const isChecked = idChecked.includes(data._id)
        if(isChecked) {
-            setIdChecked(idChecked.filter(id => id !== data.id))
+            setIdChecked(idChecked.filter(id => id !== data._id))
        }
        else {
-            setIdChecked(prevIdChecked => ([
-                ...prevIdChecked,
-                data.id,
+            setIdChecked(prev_IdChecked => ([
+                ...prev_IdChecked,
+                data._id,
             ]))
             setDataSearchTable (prevData => ([
                 ...prevData,
@@ -112,7 +130,7 @@ function SearchFoodTable() {
     //Ràng buộc dữ liệu với checkbox đang check
     useMemo(() => {
         setDataSearchTable(
-            dataRep.filter(item => idChecked.includes(item.id)
+            dataRep.filter(item => idChecked.includes(item._id)
         ))
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[computedFoodData, idChecked])
@@ -135,7 +153,6 @@ function SearchFoodTable() {
         }))
         setDataRep(resetData)
     }
-
 
     
     return (
@@ -171,9 +188,9 @@ function SearchFoodTable() {
                         </tr>
                     </thead>
                     <tbody>
-                        {computedFoodData.map((data) => {
+                        {computedFoodData.map((data,i) => {
                             return (
-                            <tr key = {data.id}>
+                            <tr key = {i}>
                                 <td><CustomCheckbox 
                                 data = {data}
                                 idChecked = {idChecked}
@@ -188,14 +205,14 @@ function SearchFoodTable() {
                                 <td className = "search-fat">{data.fat * data.quantityFood}</td>
                                 <td>
                                     <a 
-                                        id = {data.id}
+                                        id = {data._id}
                                         href = {null}
                                         onClick = {handleShowCustomFood}
                                     >
                                         <BsPen/>
                                     </a>
                                     {
-                                        currentCustomFood === data.id 
+                                        currentCustomFood === data._id
                                         ? <CustomFood 
                                             data = {data}
                                             handleQuantityFood = {handleQuantityFood}

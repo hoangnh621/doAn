@@ -3,7 +3,7 @@ import { useState, useEffect, useMemo } from 'react'
 import { BsChevronRight, BsChevronLeft } from 'react-icons/bs'
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap'
 
-function PaginationData({total , itemsPerPage , currentPage, onPageChange}) {
+function PaginationData({total , itemsPerPage , currentPage, onPageChange }) {
     const [totalPages, setTotalPages] = useState(0)
 
     useEffect(() => {
@@ -27,8 +27,7 @@ function PaginationData({total , itemsPerPage , currentPage, onPageChange}) {
             )
         }
         return pages
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [totalPages, currentPage])
+    }, [totalPages, currentPage, onPageChange])
 
     if(totalPages === 0) return null
 
