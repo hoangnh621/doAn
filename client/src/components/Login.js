@@ -11,7 +11,7 @@ function Login() {
             <Col  className = "d-none login-image d-lg-flex col-lg-8 " >
                 <div className="w-100 d-lg-flex">
                     <img 
-                    src="https://pixinvent.com/demo/vuexy-react-admin-dashboard-template/demo-4/static/media/login-v2-dark.b4685ad3.svg"
+                    src="https://pixinvent.com/demo/vuexy-react-admin-dashboard-template/demo-4/static/media/error-dark.9fb69437.svg"
                     alt="" 
                     />
                 </div>

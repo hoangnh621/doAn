@@ -17,9 +17,8 @@
         display: inline-block;
         margin-bottom: 0.125rem;
     }
+    &:hover {
+        text-decoration: none;
+    }
 
-}
-
-a:hover {
-    text-decoration: none;
 }

@@ -1,10 +1,10 @@
-import '../scss/SignIn.scss'
+import '../scss/Register.scss'
 import {Row, Col, Button} from 'reactstrap'
 import Logo from './Logo'
 import InputPassword from './InputPassword'
 import InputInformation from './InputInformation'
 
-function SignIn() {
+function Register() {
     return(
         <Row className="signIn m-0">
             <Logo/>
@@ -53,4 +53,4 @@ function SignIn() {
     )
 }
 
-export default SignIn;
+export default Register;

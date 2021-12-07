@@ -26,7 +26,7 @@ function ForgotPassword() {
                         content="Email"
                         placeholder="example@gmail.com.vn"
                         />
-                        <Button className="btn-forgotPassword w-100">Gửi email đặt lại</Button>
+                        <Button className="btn-forgotPassword w-100">Gửi</Button>
                         <div>
                             <Button outline color="primary"><FiChevronLeft/> Quay lại đăng nhập</Button>
                         </div>

@@ -11,7 +11,7 @@ function ResetPassword() {
             <Col  className = "d-none resetPassword-image d-lg-flex col-lg-8 " >
                 <div className="w-100 d-lg-flex">
                     <img 
-                    src="https://pixinvent.com/demo/vuexy-react-admin-dashboard-template/demo-4/static/media/reset-password-v2-dark.71a7ca42.svg"
+                    src="https://pixinvent.com/demo/vuexy-react-admin-dashboard-template/demo-4/static/media/login-v2-dark.e7fe27f6.svg"
                     alt="" 
                     />
                 </div>
