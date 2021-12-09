@@ -23,21 +23,21 @@ function Taskbar() {
             href: null,
             children: <FiCheckSquare/>,
             text: "Lời nhắc",
-            handler: null,
+            handler: () => {},
         },
         {
             id: 'nav-Calendar',
             href: null,
             children: <FiCalendar/>,
             text: "Lịch",
-            handler: null,
+            handler: () => {},
         },
         {
             id: 'nav-Bell',
             href: null,
             children: <FiBell/>,
             text: "Thông báo",
-            handler: null,
+            handler: () => {},
         },
     ]
     if(!openSearch)

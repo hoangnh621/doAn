@@ -20,7 +20,7 @@
 
         border: 0.0625rem solid $text-second;
         border-radius: 0.3125rem;
-        background-color: $background-color-second;
+        background-color: $background-color-second !important;
 
         font-size: 0.875rem;
         line-height: 2.375rem;

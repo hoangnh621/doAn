@@ -9,13 +9,23 @@ import TaskItems from './TaskItems'
 import CalendarItems from './CalendarItems'
 import UserItems from './UserItems'
 import ScreenItems from './ScreenItems'
-import { Routes, Route, NavLink } from 'react-router-dom'
+import { Routes, Route, NavLink, useNavigate } from 'react-router-dom'
 import { Row, Col, ListGroup } from 'reactstrap'
+import { useSelector } from 'react-redux'
+import { useEffect } from 'react'
 
 
 function Home() {
 
     // const [checkedMenu, setCheckedMenu] = useState('');
+    const user = useSelector( state => state.userSignin)
+    const { userInfo } = user
+    const navigate = useNavigate()
+    useEffect(() => {
+        if(!userInfo) {
+            navigate('/login')
+        }
+    })
 
     return (
         <>
@@ -47,9 +57,10 @@ function Home() {
                     <Routes>
                         <Route path = '/'element = {<MealItems/>}/>
                         <Route path = '/meal'element = {<MealItems/>}/>
+                        <Route path = '/menu'element = {<MealItems/>}/>
                         <Route path = '/goal'element = {<GoalItems/>}/>
-                        <Route path = '/task'element = {<TaskItems/>}/>
                         <Route path = '/calendar'element = {<CalendarItems/>}/>
+                        <Route path = '/task'element = {<TaskItems/>}/>
                         <Route path = '/user'element = {<UserItems/>}/>
                         <Route path = '/screen'element = {<ScreenItems/>}/>
                     </Routes>

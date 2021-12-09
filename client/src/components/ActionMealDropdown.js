@@ -78,7 +78,7 @@ const ActionMealDropdown = ({dataObj}) => {
 
 
     return (
-    <Dropdown isOpen={dropdownOpen} toggle={toggle} >
+    <Dropdown isOpen={dropdownOpen} toggle={toggle} className = 'actionMealDropdown' >
         <DropdownToggle caret >
             <BsThreeDotsVertical className = 'BsThreeDotsVertical'/>
         </DropdownToggle>

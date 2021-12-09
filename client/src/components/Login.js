@@ -3,10 +3,36 @@ import {Row, Col, Button} from 'reactstrap'
 import Logo from './Logo'
 import InputPassword from './InputPassword'
 import InputInformation from './InputInformation'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { useState, useEffect} from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { signin } from '../actions/userAction'
 
 function Login() {
+
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+
+    const userSignin = useSelector(state => state.userSignin)
+    const { userInfo, error } = userSignin
+    const dispatch = useDispatch()
+
+     //Xóa hành vi mặc đinh của form
+     const handleSubmit = (e) => {
+        e.preventDefault()
+        dispatch(signin(email, password))
+    }
+
+    const navigate = useNavigate()
+    useEffect(() => {
+        if(userInfo) {
+            navigate('/')
+        }
+    })
+   console.log(userInfo)
+
     return(
-        <Row className="login m-0">
+        <Row className="login m-0" >
             <Logo/>
             <Col  className = "d-none login-image d-lg-flex col-lg-8 " >
                 <div className="w-100 d-lg-flex">
@@ -20,26 +46,31 @@ function Login() {
                 <div className= "login-welcome h-100 d-sm-flex col-md-6 col-lg-12">
                     <h2>Chào mừng đến với 10FIT! &#128075;</h2>
                     <p>Vui lòng đăng nhập và bắt đầu thon gọn hơn nào!!!</p>
-                    <form className ="login-form" action="">
+                    {error &&  <p>Email hoặc mật khẩu không đúng!</p>}
+                    <form className ="login-form" onSubmit = {handleSubmit}>
                         <InputInformation 
                         id = "login-email" 
                         content="Email"
                         placeholder="example@gmail.com.vn"
+                        data = {email}
+                        setData = {setEmail}
                         />
                          <InputPassword
                         id = "login-password" 
                         content="Mật khẩu"
                         placeholder="Mật khẩu"
                         isForgotPassword = {true}
+                        data = {password}
+                        setData = {setPassword}
                         />
                         {/* ô checkbox chưa được custom để nhớ tài khoản */}
-                        {/* <div>
-                            <input type="checkbox" name="rememberMe" id="rememberMe" /> 
-                            <label htmlFor="rememberMe">Nhớ tài khoản</label>
-                        </div> */}
-                        <Button className="btn-login w-100">Đăng nhập</Button>
+                        <Button 
+                        className="btn-login w-100"
+                        >
+                            Đăng nhập
+                        </Button>
                     </form>
-                    <p>Bạn chưa có tài khoản? Hãy <a href="https://www.facebook.com/">đăng ký</a></p>
+                    <p className = 'toRegister'>Bạn chưa có tài khoản? Hãy <NavLink to = '/register' >đăng ký</NavLink></p>
                 </div>
             </Col>
         </Row> 

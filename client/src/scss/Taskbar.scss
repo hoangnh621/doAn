@@ -53,6 +53,16 @@
                 }
             }
 
+            .dropdown {
+                button {
+                    background-color: $background-color-second;
+
+                    &:focus {
+                        box-shadow: none;
+                    }
+                }
+            }
+
         }
 
     }

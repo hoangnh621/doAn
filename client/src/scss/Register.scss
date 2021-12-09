@@ -1,14 +1,14 @@
 @import 'color';
 
-.signIn {
+.register {
     min-height: 100vh;
 
-    .signIn-image {
+    .register-image {
         background-color: $background-color-main;
         padding: 3.5rem;
 
 
-        #logo-signIn:hover {
+        #logo-register:hover {
             text-decoration: none;
         }
 
@@ -20,12 +20,12 @@
         }
     }
 
-    .signIn-welcome-form {
+    .register-welcome-form {
         align-items: center;
         padding: 3.5rem;
         background-color: $background-color-second;
 
-        .signIn-welcome {
+        .register-welcome {
             padding: 1.3125rem;
 
             h2 {
@@ -39,31 +39,20 @@
                 margin-bottom: 1.3125rem;
             }
 
-            .signIn-form {
+            .register-form {
                 width: 100%;
-                // div:nth-child(3) {
-                //     display: flex;
-                //     align-items: center;
-                //     margin-bottom: 0.875rem;
 
-                //     input {
-                //         height: 1.125rem;
-                //         // width: 1.125rem;
-                //     }
-
-                //     label {
-                //         color: $text-main;
-                //         margin-left: 0.5rem;
-                //         margin-bottom: 0;
-                //     }
-                // }
-
-                .btn-signIn {
+                .btn-register {
                     margin-top: 1.3125rem;
                     background-color: $primary;
+
+                    &:focus {
+                        box-shadow: none;
+                        border-color: none;
+                    }
                 }
 
-                .btn-signIn:hover {
+                .btn-register:hover {
                     box-shadow: 0 8px 25px -8px $primary;
                 }
             }
@@ -75,7 +64,13 @@
                 margin-bottom: 0.875rem;
                 
                 a {
+                    padding: 0;
                     color: $primary;
+
+                    &:hover {
+                        text-decoration: none;
+                    }
+
                 }
             }
         }

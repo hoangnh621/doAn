@@ -23,7 +23,7 @@ function MealTable({dataArr}) {
             <tbody>
                 {dataArr.map((dataObj) => {
                     return (
-                    <tr key = {dataObj.id} >
+                    <tr key = {dataObj._id} >
                         <td>{dataObj.name}</td>
                         <td>{dataObj.quantity*dataObj.quantityFood} ({dataObj.unit})</td>
                         <td>{(dataObj.protein*4 + dataObj.carbs*4 + dataObj.fat*9)* dataObj.quantityFood}</td>

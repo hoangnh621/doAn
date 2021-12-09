@@ -3,6 +3,7 @@ import '../scss/ForgotPassword.scss'
 import {FiChevronLeft} from 'react-icons/fi'
 import {Row, Col, Button} from 'reactstrap'
 import InputInformation from './InputInformation'
+import { NavLink } from 'react-router-dom'
 
 function ForgotPassword() {
     return(
@@ -28,7 +29,7 @@ function ForgotPassword() {
                         />
                         <Button className="btn-forgotPassword w-100">Gửi</Button>
                         <div>
-                            <Button outline color="primary"><FiChevronLeft/> Quay lại đăng nhập</Button>
+                            <NavLink className = 'btn-outline-primary' to = '/login'><FiChevronLeft/> Quay lại đăng nhập</NavLink>
                         </div>
                     </form>
                 </div>
