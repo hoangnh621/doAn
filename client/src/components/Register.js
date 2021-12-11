@@ -1,12 +1,12 @@
 import '../scss/Register.scss'
 import {Row, Col, Button} from 'reactstrap'
 import Logo from './Logo'
-import { useState, useEffect } from 'react'
+import { useState,  } from 'react'
 import InputPassword from './InputPassword'
 import InputInformation from './InputInformation'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink,} from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { register } from '../actions/userAction'
+import { register,  } from '../actions/userAction'
 
 
 function Register() {
@@ -15,7 +15,7 @@ function Register() {
     const [password, setPassword] = useState('')
     const dispatch = useDispatch()
     const userRegister = useSelector( state => state.userRegister)
-    const { userInfo } = userRegister
+    const { userInfo, error } = userRegister
 
 
     const handleSubmit = (e) => {
@@ -23,14 +23,8 @@ function Register() {
         dispatch(register(name, email, password))
     } 
 
-    const navigate = useNavigate()
-    useEffect(() => {
-        if(userInfo) {
-            navigate('/')
-        }
-    })
-
-    console.log(userInfo)
+   
+  
     return(
         <Row className="register m-0">
             <Logo/>
@@ -46,6 +40,8 @@ function Register() {
                 <div className= "register-welcome h-100 d-sm-flex col-md-6 col-lg-12">
                     <h2>Hãy đăng ký tại đây &#128640;</h2>
                     <p>Và cùng bắt đầu một cuộc phiêu lưu nào!!!</p>
+                    {error && <p className = 'registerFalse'>Tên tài khoản hoặc email đã tồn tại!</p>}
+                    {userInfo && <p className = 'registerDone'>Đăng ký thành công!</p>}
                     <form className ="register-form" onSubmit = {handleSubmit}>
                         <InputInformation 
                         id = "register-username" 
@@ -72,7 +68,7 @@ function Register() {
                         {/* ô checkbox chưa được custom để nhớ tài khoản */}
                         <Button className="btn-register w-100">Đăng ký</Button>
                     </form>
-                    <p>Bạn đã có tài khoản? Hãy <NavLink to = '/login'>đăng nhập</NavLink></p>
+                    <p className = 'toLogin'>Bạn đã có tài khoản? Hãy <NavLink to = '/login'>đăng nhập</NavLink></p>
                 </div>
             </Col>
         </Row> 

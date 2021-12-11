@@ -26,6 +26,7 @@ function SearchFoodTable() {
             }
         }
         getFoods()
+        return () => setDataFood([])
     },[])
 
     //Mảng chứa dữ liệu của các row đã checked
@@ -161,7 +162,7 @@ function SearchFoodTable() {
                 <SearchInputFood 
                 ref = {searchRef}
                 id = 'search-food' 
-                content = 'Tìm kiếm'
+                content = 'Tìm kiếm thức ăn'
                 placeholder = 'Nhập tên thức ăn'
                 searchFood = {searchFood}
                 setSearchFood = {setSearchFood}

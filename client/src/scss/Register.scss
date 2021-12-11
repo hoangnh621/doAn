@@ -39,6 +39,16 @@
                 margin-bottom: 1.3125rem;
             }
 
+            .registerFalse {
+                color: $warning;
+                margin-bottom: 1.3125rem;
+            }
+
+            .registerDone {
+                color: $primary;
+                margin-bottom: 1.3125rem;
+            }
+
             .register-form {
                 width: 100%;
 
@@ -57,7 +67,7 @@
                 }
             }
 
-            p:nth-child(4) {
+            .toLogin {
                 color: $text-second;
                 text-align: center;
                 margin-top: 1.3125rem;

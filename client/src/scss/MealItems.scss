@@ -11,10 +11,32 @@
         padding: 0 1.75rem 0 0;
         //Bảng bữa ăn trong ngày
         .meal-table {
-            height: 100%;
+            height: 75%;
             border-radius: 0.428rem;
+            padding: 0 0 1.75rem 0;
+        }
 
-            background-color: $background-color-second;
+        .calendar-meal {
+            height: 25%;
+            border-radius: 0.428rem;
+            
+            .col {
+                border-radius: 0.428rem;
+                .progress-meal {
+                    display: grid;
+                    height: 100%;
+                    padding: 0 0.75rem 0 0.75rem;
+                    border-radius: 0.428rem;
+
+                    background-color: $background-color-second;
+                }
+
+                .calendaritem {
+                    height: 100%;
+                    background-color: $background-color-second;
+                    border-radius: 0.428rem;
+                }
+            }
         }
     }
 

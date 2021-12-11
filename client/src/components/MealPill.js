@@ -97,7 +97,7 @@ const MealPill = () => {
         setActive(tab);
     }
     return (
-        <>
+        <div className = 'mealPill'>
             <Nav pills fill>
                 <NavItem>
                     <NavLink
@@ -162,7 +162,7 @@ const MealPill = () => {
                     />
                 </TabPane>
             </TabContent>
-        </>
+        </div>
     )
 }
 

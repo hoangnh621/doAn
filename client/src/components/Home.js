@@ -1,6 +1,5 @@
 import Logo from './Logo'
 import '../scss/Home.scss'
-// import {useState} from 'react'
 import Taskbar from './Taskbar'
 import {arrItems} from './Data'
 import MealItems from './MealItems'
@@ -17,16 +16,15 @@ import { useEffect } from 'react'
 
 function Home() {
 
-    // const [checkedMenu, setCheckedMenu] = useState('');
-    const user = useSelector( state => state.userSignin)
-    const { userInfo } = user
+    const userSignin = useSelector( state => state.userSignin)
+    const { userInfo } = userSignin
     const navigate = useNavigate()
+
     useEffect(() => {
         if(!userInfo) {
             navigate('/login')
         }
     })
-
     return (
         <>
             <Row className = "wrapper m-0">

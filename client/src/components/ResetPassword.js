@@ -3,8 +3,33 @@ import '../scss/ResetPassword.scss'
 import {FiChevronLeft} from 'react-icons/fi'
 import {Row, Col, Button} from 'reactstrap'
 import InputPassword from './InputPassword'
+import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { resetpassword } from '../actions/userAction'
+import { useParams, NavLink } from 'react-router-dom'
 
 function ResetPassword() {
+    const [newPassword, setNewPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
+    const dispatch = useDispatch()
+    const { name } = useParams()
+    const user = useSelector( state => state.userResetPassword)
+    const { userInfo, error } = user
+    const [isCheckPass, setIsCheckPass] = useState(false)
+
+   
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        if(newPassword !== confirmPassword) {
+            setIsCheckPass(true)
+        }
+        else {
+            setIsCheckPass(false)
+            dispatch(resetpassword(newPassword, name ))
+        }
+    }
+
     return(
         <Row className="resetPassword m-0">
             <Logo/>
@@ -19,29 +44,30 @@ function ResetPassword() {
             <Col  className = "resetPassword-welcome-form d-lg-flex p-lg-5 col-lg-4 col-sm-12" >
                 <div className= "resetPassword-welcome h-100 d-sm-flex col-md-6 col-lg-12">
                     <h2>Thay đổi mật khẩu &#128273;</h2>
-                    <p>Mật khẩu mới của bạn phải khác với các mật khẩu đã thiết lập trước đây</p>
-                    <form className ="resetPassword-form" action="">
-                        <InputPassword 
-                        id = "resetPassword-now" 
-                        content="Mật khẩu hiện tại"
-                        placeholder="Nhập mật khẩu hiện tại"
-                        isForgotPassword = {false}
-                        />
+                    <p>Đặt lại mật khẩu của bạn tại đây!</p>
+                    {isCheckPass && <p className = 'resetPasswordFalse'>Mật khẩu mới và mật khẩu xác nhận không khớp!</p>}
+                    {error && <p className = 'resetPasswordFalse'>Thay đổi mật khẩu thất bại!</p>}
+                    {userInfo && <p className = 'resetPasswordTrue'>Thay đổi mật khẩu thành công!</p>}
+                    <form className ="resetPassword-form" onSubmit = {handleSubmit}>
                         <InputPassword 
                         id = "resetPassword-new" 
                         content="Mật khẩu mới"
                         placeholder="Nhập mật khẩu mới"
                         isForgotPassword = {false}
+                        data = {newPassword}
+                        setData = {setNewPassword}
                         />
                          <InputPassword 
                         id = "resetPassword-new-confirm" 
                         content="Xác nhận mật khẩu mới"
                         placeholder="Xác nhận mật khẩu"
                         isForgotPassword = {false}
+                        data = {confirmPassword}
+                        setData = {setConfirmPassword}
                         />
                         <Button className="btn-resetPassword w-100">Thay đổi</Button>
-                        <div>
-                            <Button outline color="primary"><FiChevronLeft/> Quay lại đăng nhập</Button>
+                        <div className = 'resetBackLogin'>
+                            <NavLink to = '/login' className = 'btn-outline-primary'><FiChevronLeft/> Quay lại đăng nhập</NavLink>
                         </div>
                     </form>
                 </div>

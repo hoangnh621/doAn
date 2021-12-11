@@ -4,6 +4,7 @@ import { Row, Col } from 'reactstrap'
 import { createContext, useState } from 'react'
 import SearchFoodTable from './SearchFoodTable'
 import ProgressMeal from './ProgressMeal'
+import CalendarMeal from './CalendarMeal'
 
 const Context = createContext()
 
@@ -20,6 +21,21 @@ const MealItems = () => {
                     <div className = "meal-table">
                         <MealPill/>
                     </div>
+                    <Row className = 'calendar-meal'>
+                        <Col>
+                            <div className = 'calendaritem'>
+                                <CalendarMeal/>
+                            </div>
+                        </Col>
+                        <Col>
+                            <div className = 'progress-meal'>
+                                <ProgressMeal title = 'Protein' value = {25}/>
+                                <ProgressMeal title = 'Carbs' value = {50}/>
+                                <ProgressMeal title = 'Fat' value = {75}/>
+                                <ProgressMeal title = 'Calo' value = {100}/>
+                            </div>
+                        </Col>
+                    </Row>
                 </Col>
                 <Col className="col-md-6">
                     <Row className = "search-chart-item">
@@ -28,10 +44,7 @@ const MealItems = () => {
                         </Col>
                         <Col className="col-sm-12">
                         <div>
-                            <ProgressMeal title = 'Protein' value = {25}/>
-                            <ProgressMeal title = 'Carbs' value = {50}/>
-                            <ProgressMeal title = 'Fat' value = {75}/>
-                            <ProgressMeal title = 'Calo' value = {100}/>
+                           
                         </div>
                         </Col>
                     </Row>

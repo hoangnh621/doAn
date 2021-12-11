@@ -6,6 +6,8 @@ import cors from 'cors';
 import mealRoutes from './routes/meal.js';
 import login from './routes/login.js';
 import register from './routes/register.js';
+import forgotpassword from './routes/forgotpassword.js';
+import resetpassword from './routes/resetpassword.js';
 
 const app = express();
 
@@ -22,6 +24,13 @@ app.use('/login', login)
 
 //Đăng ký
 app.use('/register', register)
+
+//Quên mật khẩu
+app.use('/forgotpassword', forgotpassword)
+
+//Thay đổi mật khẩu
+app.use('/resetpassword', resetpassword)
+
 
 const CONNECTION_STRING = 'mongodb://localhost:27017/DATN';
 const PORT = process.env.PORT|| 5000;

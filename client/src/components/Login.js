@@ -4,9 +4,9 @@ import Logo from './Logo'
 import InputPassword from './InputPassword'
 import InputInformation from './InputInformation'
 import { NavLink, useNavigate } from 'react-router-dom'
-import { useState, useEffect} from 'react'
+import { useState, useEffect, } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { signin } from '../actions/userAction'
+import { signin, logout } from '../actions/userAction'
 
 function Login() {
 
@@ -29,7 +29,12 @@ function Login() {
             navigate('/')
         }
     })
-   console.log(userInfo)
+
+    useEffect(() => {
+        dispatch(logout())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[])
+   
 
     return(
         <Row className="login m-0" >

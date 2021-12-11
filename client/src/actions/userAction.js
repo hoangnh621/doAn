@@ -5,6 +5,12 @@ import {
   USER_SIGNIN_FAIL, USER_LOGOUT,USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
   USER_REGISTER_FAIL,
+  USER_FORGOTPASSWORD_REQUEST,
+  USER_FORGOTPASSWORD_SUCCESS,
+  USER_FORGOTPASSWORD_FAIL,
+  USER_RESETPASSWORD_REQUEST,
+  USER_RESETPASSWORD_SUCCESS,
+  USER_RESETPASSWORD_FAIL,
 } from "../constants/userConstants";
 
 //Đăng nhập
@@ -37,4 +43,28 @@ const register = (name, email, password) => async (dispatch) => {
   }
 }
 
-export { signin, logout, register }
+//Quên mật khẩu
+const forgotpassword = (email) => async (dispatch) => {
+  dispatch({ type: USER_FORGOTPASSWORD_REQUEST, payload: { email} });
+  try {
+    const { data } = await Axios.post("http://localhost:5000/forgotpassword", {  email });
+    dispatch({ type: USER_FORGOTPASSWORD_SUCCESS, payload: data });
+    Cookie.set('userInfo', JSON.stringify(data));
+  } catch (error) {
+    dispatch({ type: USER_FORGOTPASSWORD_FAIL, payload: error.message });
+  }
+}
+
+//Thay đổi mật khẩu
+const resetpassword = (password, name) => async (dispatch) => {
+  dispatch({ type: USER_RESETPASSWORD_REQUEST, payload: { password, name} });
+  try {
+    const { data } = await Axios.post("http://localhost:5000/resetpassword/:name", {  password, name});
+    dispatch({ type: USER_RESETPASSWORD_SUCCESS, payload: data });
+    Cookie.set('userInfo', JSON.stringify(data));
+  } catch (error) {
+    dispatch({ type: USER_RESETPASSWORD_FAIL, payload: error.message });
+  }
+}
+
+export { signin, logout, register, forgotpassword, resetpassword }
