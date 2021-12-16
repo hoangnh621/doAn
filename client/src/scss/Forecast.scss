@@ -1,0 +1,18 @@
+@import 'color';
+
+.forecastItems {
+    .col-sm-12.col-md-3 {
+        .nav-pills {
+            .nav-item {
+                a {
+                    color: $text-main;
+                    text-align: center;
+                }
+
+                .active {
+                    @include buttonPrimary;
+                }
+            }
+        }
+    }
+}

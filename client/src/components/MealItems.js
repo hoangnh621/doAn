@@ -17,7 +17,7 @@ const MealItems = () => {
         <Context.Provider value = {[ checkedData, setCheckedData ]}>
             <Row className = "content-meal-items">
                 {/* bảng bữa ăn trong ngày */}
-                <Col className="col-md-6 p-0 ">
+                <Col className="meal-table-items col-md-6 p-0 ">
                     <div className = "meal-table">
                         <MealPill/>
                     </div>
@@ -37,7 +37,7 @@ const MealItems = () => {
                         </Col>
                     </Row>
                 </Col>
-                <Col className="col-md-6">
+                <Col className="search-meals-item col-md-6">
                     <Row className = "search-chart-item">
                         <Col className="col-sm-12">
                             <SearchFoodTable/>

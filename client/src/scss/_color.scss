@@ -15,3 +15,11 @@ $background-color-hoverTable: rgba(0,0,0,.075);
 $background-color-main: rgb(22, 29, 49);
 $background-color-second: rgb(40, 48, 70);
 $background-color-primary: rgba(115,103,240,.12);
+
+@mixin buttonPrimary {
+    background-image: linear-gradient(118deg, $primary,$primary-button);
+    box-shadow: 0 0 10px 1px $primary-button;
+  
+    color: #fff;
+    background-color: $background-color-second !important;
+  }

@@ -1,0 +1,132 @@
+@import 'color';
+
+.content-goal-items {
+    height: 100%;
+    width: 100%;
+    margin: 0 !important;
+    padding-top: 1.75rem;
+    padding-bottom: 1.75rem;
+
+    .goal-form-index {
+        padding: 0 1.75rem 0 0;
+        //Bảng bữa ăn trong ngày
+        .goal-form {
+            height: 50%;
+            border-radius: 0.428rem;
+            padding: 0 0 1.75rem 0;
+            
+            .goal-form-child {
+                position: relative;
+                height: 100%;
+                border-radius: 0.428rem;
+                height: 100%;
+                border-radius: 0.428rem;
+                background-color: $background-color-second;
+
+                .update-reset {
+                    position: absolute;
+                    bottom: 24px;
+                    right: 0;
+                
+                }
+            }
+        }
+
+        .frequency-form {
+            height: 50%;
+            border-radius: 0.428rem;
+
+            .frequency-form-child {
+                position: relative;
+                height: 100%;
+                border-radius: 0.428rem;
+                background-color: $background-color-second;
+
+                .row {
+                    .col {
+                        position:unset;
+                        .frequency-goal-header {
+                            padding: 1.5rem;
+        
+                            h4 {
+                                font-weight: 500;
+                                font-size: 1.285rem;
+                                margin-bottom: 0;
+                                color: $text-main;
+                            }
+                        }
+
+                        .frequency-goal-body {
+                            padding: 0 1.5rem 0 1.5rem;
+
+                            .update-reset {
+                                position: absolute;
+                                bottom: 24px;
+                                right: 0;
+                                display: flex;
+                                padding: 0 1.5rem 0 1.5rem;
+
+                                .btn:nth-child(1) {
+                                    @include buttonPrimary;
+                                    margin-right: 0.875rem;
+                                }
+                            }
+                        }
+                    }
+
+                    .col:nth-child(2) {
+                        .frequency-goal-body {
+                            padding: 0 1.5rem 0 0;
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+
+    .forecast-percentage {
+        padding: 0 0 0 1.75rem;
+        //Bảng bữa ăn trong ngày
+
+        .forecast-percentage-header {
+            padding: 1.5rem;
+        
+            h4 {
+                font-weight: 500;
+                font-size: 1.285rem;
+                margin-bottom: 0;
+                color: $text-main;
+            }
+        }
+        .forecast-form {
+            height: 50%;
+            border-radius: 0.428rem;
+            padding: 0 0 1.75rem 0;
+
+            .forecast-form-child {
+                height: 100%;
+                border-radius: 0.428rem;
+                background-color: $background-color-second;
+
+                .forecast-percentage-body {
+                    padding: 0 1.5rem 0 1.5rem;
+                }
+            }
+        }
+
+        .percentage-form {
+            height: 50%;
+            border-radius: 0.428rem;
+
+            .percentage-form-child {
+                height: 100%;
+                border-radius: 0.428rem;
+                background-color: $background-color-second;
+            }
+
+        }
+    }
+
+}

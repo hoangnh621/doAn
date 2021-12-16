@@ -7,7 +7,7 @@
     padding-top: 1.75rem;
     padding-bottom: 1.75rem;
 
-    .col-md-6:nth-child(1) {
+    .meal-table-items {
         padding: 0 1.75rem 0 0;
         //Bảng bữa ăn trong ngày
         .meal-table {
@@ -41,7 +41,7 @@
     }
 
 
-    .col-md-6:nth-child(2) {
+    .search-meals-item {
         padding: 0 0 0 1.75rem;
         background-color: $background-color-main;
         .search-chart-item {

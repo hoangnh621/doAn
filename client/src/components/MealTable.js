@@ -26,7 +26,6 @@ function MealTable({dataArr}) {
     useMemo(() => {
          totalPages.current = Math.ceil(dataArr.length / ITEMS_PER_PAGE)
     },[dataArr])
-    console.log(totalPages.current)
     return (
         <>
             <Table borderless hover className = "m-0 mealTable">
