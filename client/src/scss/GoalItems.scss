@@ -70,8 +70,21 @@
                                     @include buttonPrimary;
                                     margin-right: 0.875rem;
                                 }
+
+                                .btn-outline-secondary {
+                                    &:focus {
+                                        box-shadow: none;
+                                        border-color:none;
+                                    }
+                                }
+                            }
+
+                            p {
+                                color: $text-main;
                             }
                         }
+
+
                     }
 
                     .col:nth-child(2) {

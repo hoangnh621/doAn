@@ -15,4 +15,23 @@
             }
         }
     }
+
+    .col-sm-12.col-md-9 {
+        .tab-content {
+            .tab-pane {
+                .list-group {
+                    .list-group-item {
+                        color: $text-main;
+                        font-size:0.875rem;
+                        background-color: $background-color-second;
+
+                        &:hover {
+                            color: #fff;
+                            background-color: $primary;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

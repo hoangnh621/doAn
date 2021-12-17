@@ -6,9 +6,26 @@ import { useState, useRef, useMemo } from 'react'
 import InputInformation from './InputInformation'
 import CustomCheckbox from './CustomCheckbox'
 import Forecast from './Forecast'
+import ChartPercentage from './ChartPercentage'
 
 
 const GoalItems = () => {
+    //Các chỉ số cá nhân
+    const [bodyIndex, setBodyIndex] = useState({
+        height: '',
+        weight: '',
+        age: '',
+        bodyfat: '', 
+        sex: '', 
+        frequency: '',
+        goalWeight: '',
+        goalCalo: '',
+        goalCaloUp: '',
+        goalCaloDown: '',
+    })
+
+    const { goalWeight, goalCaloUp, goalCaloDown } = bodyIndex
+
     //Hiển thị mô tả từng loại tần suất hoạt động
     const descFrequency = useRef('')
     const [frequencyChecked, setFrequencyChecked] = useState()
@@ -16,65 +33,100 @@ const GoalItems = () => {
         setFrequencyChecked(e.target.id)
     }
 
+
     useMemo(() => {
         switch (frequencyChecked) {
             case 'frequency1': { 
                 descFrequency.current = 'Ít hoặc không hoạt động trong ngày, làm công việc văn phòng hoặc tượng tự.'
+                setBodyIndex(prev => ({
+                    ...prev,
+                    frequency: 1.2,
+                }))
                 break
             }
             case 'frequency2': { 
                 descFrequency.current = 'Hoạt động nhẹ trong ngày, tập thể dục/thể thao 1-3 lần/tuần.'
+                setBodyIndex(prev => ({
+                    ...prev,
+                    frequency: 1.375,
+                }))
                 break
             }
             case 'frequency3': { 
                 descFrequency.current = 'Hoạt động vừa phải trong ngày, tập thể dục/thể thao 4-5 ngày/tuần.'
+                setBodyIndex(prev => ({
+                    ...prev,
+                    frequency: 1.55,
+                }))
                 break
             }
             case 'frequency4': { 
                 descFrequency.current = 'Hoạt động rất tích cực trong ngày, tập thể dục chăm chỉ mỗi ngày hoặc tập thể dục 2 lần/ngày'
+                setBodyIndex(prev => ({
+                    ...prev,
+                    frequency: 1.725,
+                }))
                 break
             }
             case 'frequency5': { 
                 descFrequency.current = 'Tập thể dục chăm chỉ 2 lần trở lên mỗi ngày, tập luyện chạy marathon, ba môn phối hợp, vận động viên…'
+                setBodyIndex(prev => ({
+                    ...prev,
+                    frequency: 1.9,
+                }))
                 break
             }
             default: descFrequency.current = ""
         }
     }, [frequencyChecked])
-
+    console.log(bodyIndex)
 
     //Mục tiêu 
-    const descGoal = useRef('')
     const [goalChecked, setGoalChecked] = useState()
     const handleGoalChecked = (e) => {
         setGoalChecked(e.target.id)
     }
+
     useMemo(() => {
-        switch (goalChecked) {
-            case 'goal1': { 
-                descGoal.current = 'Tăng thêm 500 calo mỗi ngày vào TDEE.'
+        switch(goalChecked) {
+            case 'goal1': {
+                setBodyIndex(prev =>({
+                    ...prev,
+                    goalCalo: 500,
+                }))
                 break
-            }
-            case 'goal2': { 
-                descGoal.current = 'Tăng thêm 250 calo mỗi ngày vào TDEE.'
+             }
+             case 'goal2': {
+                setBodyIndex(prev =>({
+                    ...prev,
+                    goalCalo: 250,
+                }))
                 break
-            }
-            case 'goal3': { 
-                descGoal.current = 'TDEE không đổi.'
+             }
+             case 'goal4': {
+                setBodyIndex(prev =>({
+                    ...prev,
+                    goalCalo: -250,
+                }))
                 break
-            }
-            case 'goal4': { 
-                descGoal.current = 'Giảm TDEE đi 250 calo.'
+             }
+             case 'goal5': {
+                setBodyIndex(prev =>({
+                    ...prev,
+                    goalCalo: -500,
+                }))
                 break
+             }
+            default: { 
+                setBodyIndex(prev =>({
+                    ...prev,
+                    goalCalo: 0,
+                }))
             }
-            case 'goal5': { 
-                descGoal.current = 'Giảm TDEE đi 500 calo.'
-                break
-            }
-            default: descGoal.current = ""
         }
     }, [goalChecked])
 
+    //Thay đổi giao diện khi click vào checkbox
     const [controlCalo, setControlCalo] = useState({
         data: {},
         idChecked: []
@@ -85,13 +137,38 @@ const GoalItems = () => {
                data: { _id: data._id},
                idChecked: [data._id]
            })
-           setGoalChecked()
+           setBodyIndex(prev => ({
+               ...prev,
+               goalCaloUp: '',
+               goalCaloDown: '',
+           }))
        }
-       else setControlCalo({
-        data: {_id: ''},
-        idChecked: []
-        })
+       else {
+            
+            setControlCalo({
+            data: {_id: ''},
+            idChecked: []
+            })
+           setGoalChecked()
+
+       } 
     }
+
+    const handleReset = () => {
+        setBodyIndex(prev =>({
+            ...prev, 
+            frequency: '',
+            goalWeight: '',
+            goalCalo: '',
+            goalCaloUp: '',
+            goalCaloDown: '',
+        }))
+
+        setFrequencyChecked('')
+        setGoalChecked('')
+    }
+
+
 
 
     return (
@@ -100,7 +177,10 @@ const GoalItems = () => {
         <Col className=" goal-form-index col-md-6 p-0 ">
             <div className = "goal-form">
                 <div className = 'goal-form-child'>
-                    <GoalForm/>
+                    <GoalForm
+                    bodyIndex = {bodyIndex}
+                    setBodyIndex = {setBodyIndex}
+                    />
                 </div>
             </div>
             <div className = 'frequency-form'>
@@ -146,31 +226,31 @@ const GoalItems = () => {
                                 label = 'Hoạt động cường độ cao'
                                 onChange = {handleShowDesc}
                                 />
-                            </div>
                             {
                                 frequencyChecked && <p>Mô tả: {descFrequency.current}</p>
                             }
+                            </div>
                         </Col>
                         <Col>
                             <div className = 'frequency-goal-header'>
                                 <h4>Mục tiêu</h4>
                             </div>
                             <div className = 'frequency-goal-body'>
+                                <InputInformation
+                                    id = "goal-weight"
+                                    type = 'number'
+                                    content="Mục tiêu (kg)"
+                                    placeholder='Nhập cân nặng mong muốn (kg)'
+                                    data = {goalWeight}
+                                    setData = {(value) => {
+                                        setBodyIndex(prev => ({
+                                        ...prev,
+                                        goalWeight: +value, 
+                                    }))}
+                                    }
+                                    />
                             {
                                 controlCalo.idChecked.length ?
-                                <div  >
-                                    <InputInformation
-                                    id = "up-goal"
-                                    content="Tăng"
-                                    placeholder='Nhập lượng calo'
-                                    />
-                                    <InputInformation
-                                    id = "down-goal"
-                                    content="Giảm"
-                                    placeholder='Nhập lượng calo'
-                                    />
-                                </div>
-                                :
                                 <div >
                                     <CustomRadio
                                     isChecked = {goalChecked}
@@ -208,16 +288,43 @@ const GoalItems = () => {
                                     onChange = {handleGoalChecked}
                                     />
                                 </div>
+                                :
+                                <div  >
+                                <InputInformation
+                                type = 'number'
+                                id = "up-goal"
+                                content="Tăng (calo)"
+                                placeholder='Nhập lượng calo'
+                                data = {goalCaloUp}
+                                setData = {(value) => setBodyIndex(prev => ({
+                                    ...prev,
+                                    goalCaloUp: +value, 
+                                    goalCaloDown: '', 
+                                }))}
+                                />
+                                <InputInformation
+                                type = 'number'
+                                id = "down-goal"
+                                content="Giảm (calo)"
+                                placeholder='Nhập lượng calo'
+                                data = {goalCaloDown}
+                                setData = {(value) => setBodyIndex(prev => ({
+                                    ...prev,
+                                    goalCaloDown: +value, 
+                                    goalCaloUp: '', 
+                                }))}
+                                />
+                                </div>
                             }
                                 <CustomCheckbox
-                                label = 'Tôi muốn tự kiểm soát calo chênh lệch'
+                                label = 'Mục tiêu theo tuần'
                                 handleChecked = {handleControlCalo}
                                 data = {controlCalo.data}
                                 idChecked = {controlCalo.idChecked}
                                 />
                                 <div className="update-reset">
                                     <Button>Cập nhật</Button>
-                                    <Button outline>Reset</Button>
+                                    <Button outline onClick = {handleReset}>Reset</Button>
                                 </div>
                             </div>
                         </Col>
@@ -233,7 +340,7 @@ const GoalItems = () => {
                         <h4>Thông tin và Dự báo</h4>
                     </div>
                     <div className = 'forecast-percentage-body'>
-                        <Forecast/>
+                        <Forecast bodyIndex = {bodyIndex}/>
                     </div>
                 </div>
             </div>
@@ -241,6 +348,7 @@ const GoalItems = () => {
                 <div className = 'percentage-form-child'>
                     <div className="forecast-percentage-header">
                         <h4>Tỷ lệ chất dinh dưỡng</h4>
+                        <ChartPercentage/>
                     </div>
                 </div>
                
