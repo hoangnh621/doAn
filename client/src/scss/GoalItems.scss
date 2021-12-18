@@ -134,9 +134,69 @@
             border-radius: 0.428rem;
 
             .percentage-form-child {
+                position: relative;
                 height: 100%;
                 border-radius: 0.428rem;
                 background-color: $background-color-second;
+
+                .forecast-percentage-body {
+                    padding: 0 1.5rem 0 1.5rem;
+                    .col {
+                        position: unset;
+
+                        p {
+                            color: $text-main;
+                            font-size:0.875rem;
+                        }
+
+                        .selectedPercent {
+                            display: flex;
+                            justify-content:space-between;
+                            label {
+                                color: $text-main;
+                                font-size:0.875rem;
+                                input {
+                                    width:3rem;
+                                    margin-left: 0.3rem;
+                                    padding-left: 0.3rem;
+                                    border-radius: 0.428rem;
+                                    border: 0.0625rem solid $primary;
+                                    
+                                    background-color: $background-color-second;
+                                    color: $text-main;
+                                }
+                        
+                                input:focus-visible {
+                                    outline: none;
+                                }
+                            }
+                        
+                            label:hover {
+                                color: #fff !important;
+                            }
+                        }
+
+                        .update-reset {
+                            position: absolute;
+                            bottom: 24px;
+                            right: 0;
+                            display: flex;
+                            padding: 0 1.5rem 0 1.5rem;
+
+                            .btn:nth-child(1) {
+                                @include buttonPrimary;
+                                margin-right: 0.875rem;
+                            }
+
+                            .btn-outline-secondary {
+                                &:focus {
+                                    box-shadow: none;
+                                    border-color:none;
+                                }
+                            }
+                        }
+                    }
+                }
             }
 
         }

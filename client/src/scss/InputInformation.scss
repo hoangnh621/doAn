@@ -2,7 +2,7 @@
 
 .InputInformation {
     height: 3.810625rem;
-    margin-bottom: 0.875rem;
+    margin-bottom: 1.0625rem;
 
     label {
         height: 1.0625rem;
@@ -12,6 +12,10 @@
         font-weight: 400;
         
         color: $text-main;
+    }
+
+    .warning-lable {
+        color: red;
     }
 
     input {

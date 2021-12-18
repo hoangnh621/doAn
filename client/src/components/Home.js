@@ -12,6 +12,8 @@ import { Routes, Route, NavLink, useNavigate } from 'react-router-dom'
 import { Row, Col, ListGroup } from 'reactstrap'
 import { useSelector } from 'react-redux'
 import { useEffect } from 'react'
+import MenuItems from './MenuItems'
+
 
 
 function Home() {
@@ -53,9 +55,9 @@ function Home() {
                 <Col className = "content col-lg-10 ">
                     {/* Toàn bộ nội dung của phần thực đơn */}
                     <Routes>
-                        <Route path = '/'element = {<MealItems/>}/>
+                        <Route index element = {<MealItems/>}/>
                         <Route path = '/meal'element = {<MealItems/>}/>
-                        <Route path = '/menu'element = {<MealItems/>}/>
+                        <Route path = '/menu'element = {<MenuItems/>}/>
                         <Route path = '/goal'element = {<GoalItems/>}/>
                         <Route path = '/calendar'element = {<CalendarItems/>}/>
                         <Route path = '/task'element = {<TaskItems/>}/>

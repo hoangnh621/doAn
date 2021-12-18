@@ -1,6 +1,7 @@
 import express from 'express';
 import { getToken } from '../utils.js'
 import Users from '../models/users.js';
+import BodyIndex from '../models/bodyIndex.js';
 import nodemailer from 'nodemailer'
 
 const router = express.Router();
@@ -143,5 +144,40 @@ export const resetpassword = async (req, res) => {
         res.status(404).json({ message: error.message }); 
     }
 }
+
+export const addBodyIndex = async (req, res) => { 
+    try {
+        const isBodyIndex = await BodyIndex.findOne({
+            author: req.body.id,
+        })
+        if(!isBodyIndex) {
+
+            const bodyIndex = new BodyIndex({
+                author: req.body.id,
+                height: req.body.height,
+                weight: req.body.weight,
+                age: req.body.age,
+                sex: req.body.sex,
+                bodyfat: req.body.bodyfat,
+            })
+           const newBodyIndex = await bodyIndex.save()
+           res.send({ 
+                _id: newBodyIndex.id,
+                author: newBodyIndex.author,
+                height: newBodyIndex.height,
+                weight: newBodyIndex.weight,
+                age: newBodyIndex.age,
+                sex: newBodyIndex.sex,
+                bodyfat: newBodyIndex.bodyfat,
+           })
+        }
+        else res.status(401)
+        
+    } catch (error) {
+        res.status(404).json({ message: error.message }); 
+    }
+}
+
+
 
 export default router

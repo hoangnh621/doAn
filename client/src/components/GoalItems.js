@@ -24,6 +24,25 @@ const GoalItems = () => {
         goalCaloDown: '',
     })
 
+    const [infoBody, setInfoBody] = useState({
+        bmr: 0,
+        tdee: 0,
+        bmi: 0,
+        wIdeal: 0,
+        cGoal: 0,
+        forecastDay: 0,
+    })
+
+    const [persent, setPersent] = useState({
+        persentPro: 40,
+        persentCarbs: 40,
+        persentFat: 20,
+    })
+
+    const {persentPro, persentCarbs, persentFat} = persent
+
+    const { cGoal } = infoBody
+
     const { goalWeight, goalCaloUp, goalCaloDown } = bodyIndex
 
     //Hiển thị mô tả từng loại tần suất hoạt động
@@ -79,7 +98,6 @@ const GoalItems = () => {
             default: descFrequency.current = ""
         }
     }, [frequencyChecked])
-    console.log(bodyIndex)
 
     //Mục tiêu 
     const [goalChecked, setGoalChecked] = useState()
@@ -167,9 +185,32 @@ const GoalItems = () => {
         setFrequencyChecked('')
         setGoalChecked('')
     }
+    const [dataPersent, setDataPersent] = useState( [
+        { name: 'Protein', value: 40 },
+        { name: 'Carbs', value: 40 },
+        { name: 'Fat', value: 20 },
+      ])
+    //Cập nhật tỷ lệ 
+      const handlePersent = () => {
+          const total = +persentPro + persentCarbs + persentFat
+          console.log(persentPro)
+          if(total === 100) {
+              setDataPersent([
+                { name: 'Protein', value: +persentPro },
+                { name: 'Carbs', value: +persentCarbs },
+                { name: 'Fat', value: +persentFat },
+              ])
+          }
+      }
 
-
-
+    //Reset tỷ lệ
+    const handleResetPersent = () => {
+        setDataPersent([
+            { name: 'Protein', value: 40 },
+            { name: 'Carbs', value: 40 },
+            { name: 'Fat', value: 20 },
+          ])
+    }
 
     return (
         <Row className = "content-goal-items">
@@ -340,7 +381,11 @@ const GoalItems = () => {
                         <h4>Thông tin và Dự báo</h4>
                     </div>
                     <div className = 'forecast-percentage-body'>
-                        <Forecast bodyIndex = {bodyIndex}/>
+                        <Forecast 
+                        bodyIndex = {bodyIndex}
+                        infoBody = {infoBody}
+                        setInfoBody = {setInfoBody}
+                        />
                     </div>
                 </div>
             </div>
@@ -348,8 +393,65 @@ const GoalItems = () => {
                 <div className = 'percentage-form-child'>
                     <div className="forecast-percentage-header">
                         <h4>Tỷ lệ chất dinh dưỡng</h4>
-                        <ChartPercentage/>
                     </div>
+                    <Row className = 'forecast-percentage-body'>
+                        <Col>
+                            <ChartPercentage dataPersent = {dataPersent}/>
+                        </Col>
+                        <Col>
+                        <p>Calo: { cGoal } (calo)</p>
+                        <p>Protein: { Math.round((cGoal * persentPro/100)/4) } (g)</p>
+                        <p>Carbs: { Math.round((cGoal * persentCarbs/100)/4) } (g)</p>
+                        <p>Fat: { Math.round((cGoal * persentFat/100)/4) } (g)</p>
+                        <div className="selectedPercent">
+                            <label>
+                                Protein: 
+                                <input 
+                                type="number"
+                                min = '1'
+                                max = '100'
+                                value = {persentPro}
+                                onChange = {(e) =>{
+                                    setPersent(prev => ({
+                                        ...prev,
+                                        persentPro: +e.target.value
+                                    }))} 
+                                } 
+                                />
+                            </label>
+                            <label>
+                                Carbs: 
+                                <input 
+                                type="number"
+                                min = '1'
+                                max = '100'
+                                value = {persentCarbs}
+                                onChange = {(e) => setPersent(prev => ({
+                                    ...prev,
+                                    persentCarbs: +e.target.value
+                                }))} 
+                                />
+                            </label>
+                            <label>
+                                Fat: 
+                                <input 
+                                type="number"
+                                min = '1'
+                                max = '100'
+                                value = {persentFat}
+                                onChange = {(e) => setPersent(prev => ({
+                                    ...prev,
+                                    persentFat: +e.target.value
+                                }))} 
+                                />
+                            </label>
+                        </div>
+                        <div className="update-reset">
+                            <Button onClick = {handlePersent}>Cập nhật</Button>
+                            <Button outline onClick = {handleResetPersent}>Reset</Button>
+                        </div>
+                        </Col>
+                    </Row>
                 </div>
                
             </div>

@@ -11,6 +11,8 @@ import {
   USER_RESETPASSWORD_REQUEST,
   USER_RESETPASSWORD_SUCCESS,
   USER_RESETPASSWORD_FAIL,
+  USER_ADD_BODYINDEX,
+  ADD_BODYINDEX_FAIL
 } from "../constants/userConstants";
 
 //Đăng nhập
@@ -67,4 +69,26 @@ const resetpassword = (password, name) => async (dispatch) => {
   }
 }
 
-export { signin, logout, register, forgotpassword, resetpassword }
+//Cập nhật chỉ số cá nhân
+const addBodyIndex = (height, weight, age, bodyfat, sex) => async (dispatch, getState) => {
+  try {
+    const {userSignin: { userInfo }} = getState();
+    const id = userInfo.id
+    const { data } = await Axios.post("http://localhost:5000/goal",{ id,height, weight, age, bodyfat, sex},
+    {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+    )
+    dispatch({
+     type: USER_ADD_BODYINDEX, payload: data
+    });
+    const { bodyIndexState: { bodyIndex } } = getState();
+    Cookie.set("bodyIndex", JSON.stringify(bodyIndex));
+  } catch (error) {
+    dispatch({ type: ADD_BODYINDEX_FAIL, payload: error.message });
+  }
+}
+
+export { signin, logout, register, forgotpassword, resetpassword, addBodyIndex }

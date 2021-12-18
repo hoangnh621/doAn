@@ -3,6 +3,8 @@ import { Row, Col, Button} from 'reactstrap'
 import InputInformation from './InputInformation'
 import CustomRadio from './CustomRadio'
 import { memo } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { addBodyIndex } from '../actions/userAction'
 
 
 const GoalForm = ({bodyIndex, setBodyIndex}) => {
@@ -26,6 +28,13 @@ const GoalForm = ({bodyIndex, setBodyIndex}) => {
             sex: '',
         }})
     }
+    const dispatch = useDispatch()
+    const handleUpdate = () => {
+        dispatch(addBodyIndex(height, weight, age, bodyfat, sex))
+    }
+    const bodyIn = useSelector( state => state.bodyIndexState)
+    console.log(bodyIn)
+
     return (
         <div className = 'goalform'>
             <div className = 'goal-header'>
@@ -36,9 +45,13 @@ const GoalForm = ({bodyIndex, setBodyIndex}) => {
                     <InputInformation
                     type = 'number'
                     id = "index-height"
+                    min = {50}
+                    max = {300}
                     content="Chiều cao (cm)"
                     placeholder='Nhập chiều cao (cm)'
-                    data = {height}
+                    data = {height||''}
+                    warning = {  height > 300 }
+                    contentWarning= {'Chiều cao phải nhỏ 300cm'}
                     setData = {(value) => {
                         setBodyIndex(prev => ({
                         ...prev,
@@ -49,9 +62,13 @@ const GoalForm = ({bodyIndex, setBodyIndex}) => {
                      <InputInformation
                      type = 'number'
                     id = "index-weight"
+                    min = {10}
+                    max = {200}
                     content="Cân nặng (kg)"
                     placeholder='Nhập cân nặng (kg)'
-                    data = {weight}
+                    data = {weight || ''}
+                    warning = {  weight > 300 }
+                    contentWarning= {'Cân nặng phải nhỏ 300 kg'}
                     setData = {(value) => setBodyIndex(prev => ({
                         ...prev,
                         weight: +value, 
@@ -79,9 +96,13 @@ const GoalForm = ({bodyIndex, setBodyIndex}) => {
                     <InputInformation
                     type = 'number'
                     id = "index-age"
+                    min = {10}
+                    max = {80}
                     content="Tuổi (năm)"
                     placeholder='Nhập tuổi (năm)'
-                    data = {age}
+                    data = {age || ''}
+                    warning = {  age > 80 }
+                    contentWarning= {'Tuổi phải nhỏ hơn 80'}
                     setData = {(value) => setBodyIndex(prev => ({
                         ...prev,
                         age: +value, 
@@ -90,9 +111,13 @@ const GoalForm = ({bodyIndex, setBodyIndex}) => {
                     <InputInformation
                     type = 'number'
                     id = "index-bodyfat"
+                    min = {3}
+                    max = {99}
                     content="Bodyfat (%)"
                     placeholder='Bodyfat không bắt buộc (%)'
-                    data = {bodyfat}
+                    data = {bodyfat || ''}
+                    warning = {  bodyfat > 99 }
+                    contentWarning= {'Bodyfat phải nhỏ hơn 99%'}
                     setData = {(value) => setBodyIndex(prev => ({
                         ...prev,
                         bodyfat: +value, 
@@ -101,7 +126,7 @@ const GoalForm = ({bodyIndex, setBodyIndex}) => {
                 </Col>
             </Row>
             <div className="update-reset">
-                <Button>Cập nhật</Button>
+                <Button onClick = {handleUpdate}>Cập nhật</Button>
                 <Button outline onClick = {handleReset}>Reset</Button>
             </div>
         </div>

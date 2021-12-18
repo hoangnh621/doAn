@@ -5,6 +5,8 @@ import { USER_SIGNIN_REQUEST, USER_SIGNIN_SUCCESS, USER_SIGNIN_FAIL, USER_LOGOUT
     USER_RESETPASSWORD_REQUEST,
     USER_RESETPASSWORD_SUCCESS,
     USER_RESETPASSWORD_FAIL,
+    USER_ADD_BODYINDEX,
+    ADD_BODYINDEX_FAIL,
 } from "../constants/userConstants";
 
 function userSigninReducer(state = {}, action) {
@@ -63,4 +65,17 @@ function userResetPasswordReducer(state = {}, action) {
     }
 } 
 
-export { userSigninReducer, userRegisterReducer, userForgotPasswordReducer, userResetPasswordReducer }
+
+function userAddBodyIndexReducer(state = {}, action) {
+    switch (action.type) {
+        case USER_ADD_BODYINDEX:
+            return { bodyIndex: action.payload };
+        case ADD_BODYINDEX_FAIL: 
+            return { error: action.payload };
+        default: return state;
+    }
+} 
+
+export { userSigninReducer, userRegisterReducer, userForgotPasswordReducer, userResetPasswordReducer,
+    userAddBodyIndexReducer,
+ }

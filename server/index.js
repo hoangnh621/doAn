@@ -8,6 +8,7 @@ import login from './routes/login.js';
 import register from './routes/register.js';
 import forgotpassword from './routes/forgotpassword.js';
 import resetpassword from './routes/resetpassword.js';
+import goal from './routes/goal.js';
 
 const app = express();
 
@@ -30,6 +31,10 @@ app.use('/forgotpassword', forgotpassword)
 
 //Thay đổi mật khẩu
 app.use('/resetpassword', resetpassword)
+
+//Cập nhật bodyIndex
+app.use('/goal', goal)
+
 
 
 const CONNECTION_STRING = 'mongodb://localhost:27017/DATN';
