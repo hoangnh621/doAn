@@ -127,13 +127,7 @@ export const resetpassword = async (req, res) => {
             )
             
             if(updateUser) {
-
-                res.send({
-                    _id: isUserName.id,
-                    name: isUserName.name,
-                    email: isUserName.email,
-                    token: getToken(isUserName),
-                });
+            res.status(200)
             }
             else {
                 res.status(401)
@@ -147,6 +141,128 @@ export const resetpassword = async (req, res) => {
 
 export const addBodyIndex = async (req, res) => { 
     try {
+        if(req.body.type_update === 'bodyIndex') {
+            const isBodyIndex = await BodyIndex.findOne({
+                author: req.body.id,
+            })
+            if(!isBodyIndex) {
+    
+                const bodyIndex = new BodyIndex({
+                    author: req.body.id,
+                    height: req.body.height,
+                    weight: req.body.weight,
+                    age: req.body.age,
+                    sex: req.body.sex,
+                    bodyfat: req.body.bodyfat,
+                })
+               const newBodyIndex = await bodyIndex.save()
+               res.send({ 
+                    _id: newBodyIndex.id,
+                    author: newBodyIndex.author,
+                    height: newBodyIndex.height,
+                    weight: newBodyIndex.weight,
+                    age: newBodyIndex.age,
+                    sex: newBodyIndex.sex,
+                    bodyfat: newBodyIndex.bodyfat,
+               })
+            }
+            else {
+                const updateBodyIndex = await BodyIndex.updateOne(
+                    {author: isBodyIndex.author},
+                    {$set :{
+                        height: req.body.height,
+                        weight: req.body.weight,
+                        age: req.body.age,
+                        sex: req.body.sex,
+                        bodyfat: req.body.bodyfat,
+                    }}
+                )
+                if(updateBodyIndex) {
+                    res.status(200)
+                }
+                else res.status(401)
+            }
+        }
+        else if(req.body.type_update === 'goalFrequency') {
+            const isBodyIndex = await BodyIndex.findOne({
+                author: req.body.id,
+            })
+            if(!isBodyIndex) {
+    
+                const bodyIndex = new BodyIndex({
+                    author: req.body.id,
+                    calo_deviant: req.body.calo_deviant,
+                    goal_id: req.body.goal_id,
+                    frequency_id: req.body.frequency_id,
+                    goal_weight: req.body.goal_weight,
+                })
+               const newBodyIndex = await bodyIndex.save()
+               res.send({ 
+                    _id: newBodyIndex.id,
+                    author: newBodyIndex.author,
+                    calo_deviant: req.body.calo_deviant,
+                    goal_id: req.body.goal_id,
+                    frequency_id: req.body.frequency_id,
+                    goal_weight: req.body.goal_weight,
+               })
+            }
+            else {
+                const updateBodyIndex = await BodyIndex.updateOne(
+                    {author: isBodyIndex.author},
+                    {$set :{
+                        calo_deviant: req.body.calo_deviant,
+                        goal_id: req.body.goal_id,
+                        frequency_id: req.body.frequency_id,
+                        goal_weight: req.body.goal_weight,
+                    }}
+                )
+                if(updateBodyIndex) {
+                    res.status(200)
+                }
+                else res.status(401)
+            }
+        }
+        else if(req.body.type_update === 'percentFood') {
+            const isBodyIndex = await BodyIndex.findOne({
+                author: req.body.id,
+            })
+            if(!isBodyIndex) {
+    
+                const bodyIndex = new BodyIndex({
+                    author: req.body.id,
+                    protein_per: req.body.protein_per,
+                    carbs_per: req.body.carbs_per,
+                })
+               const newBodyIndex = await bodyIndex.save()
+               res.send({ 
+                    _id: newBodyIndex.id,
+                    author: newBodyIndex.author,
+                    protein_per: req.body.protein_per,
+                    carbs_per: req.body.carbs_per,
+               })
+            }
+            else {
+                const updateBodyIndex = await BodyIndex.updateOne(
+                    {author: isBodyIndex.author},
+                    {$set :{
+                        protein_per: req.body.protein_per,
+                        carbs_per: req.body.carbs_per,
+                    }}
+                )
+                if(updateBodyIndex) {
+                    res.status(200)
+                }
+                else res.status(401)
+            }
+        }
+        
+    } catch (error) {
+        res.status(404).json({ message: error.message }); 
+    }
+}
+
+export const getBodyIndex = async (req, res) => {
+    try {
         const isBodyIndex = await BodyIndex.findOne({
             author: req.body.id,
         })
@@ -154,26 +270,15 @@ export const addBodyIndex = async (req, res) => {
 
             const bodyIndex = new BodyIndex({
                 author: req.body.id,
-                height: req.body.height,
-                weight: req.body.weight,
-                age: req.body.age,
-                sex: req.body.sex,
-                bodyfat: req.body.bodyfat,
             })
            const newBodyIndex = await bodyIndex.save()
-           res.send({ 
-                _id: newBodyIndex.id,
-                author: newBodyIndex.author,
-                height: newBodyIndex.height,
-                weight: newBodyIndex.weight,
-                age: newBodyIndex.age,
-                sex: newBodyIndex.sex,
-                bodyfat: newBodyIndex.bodyfat,
-           })
+           res.status(200).json(bodyIndex)
         }
-        else res.status(401)
-        
-    } catch (error) {
+        else {
+           res.status(200).json(isBodyIndex)
+        }
+    }
+    catch(error) {
         res.status(404).json({ message: error.message }); 
     }
 }

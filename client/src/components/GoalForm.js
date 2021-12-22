@@ -3,13 +3,13 @@ import { Row, Col, Button} from 'reactstrap'
 import InputInformation from './InputInformation'
 import CustomRadio from './CustomRadio'
 import { memo } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { addBodyIndex } from '../actions/userAction'
 
 
-const GoalForm = ({bodyIndex, setBodyIndex}) => {
+const GoalForm = ({bodyIndexC, setBodyIndex}) => {
   
-    const {  height, weight, age, bodyfat, sex} = bodyIndex
+    const {  height, weight, age, bodyfat, sex} = bodyIndexC
     const handleSex = (e) => {
         setBodyIndex(prev => ({
             ...prev,
@@ -32,8 +32,7 @@ const GoalForm = ({bodyIndex, setBodyIndex}) => {
     const handleUpdate = () => {
         dispatch(addBodyIndex(height, weight, age, bodyfat, sex))
     }
-    const bodyIn = useSelector( state => state.bodyIndexState)
-    console.log(bodyIn)
+    
 
     return (
         <div className = 'goalform'>

@@ -1,6 +1,7 @@
 import '../scss/CustomRadio.scss'
 
-function CustomRadio({label, name, id, isChecked, onChange}) {
+//Component CustomRadio
+function CustomRadio ({label, name, id, isChecked, onChange}) {
     return (
         <div className = 'container-radio'>
             <label className="container">{label}

@@ -58,7 +58,7 @@ function Home() {
                         <Route index element = {<MealItems/>}/>
                         <Route path = '/meal'element = {<MealItems/>}/>
                         <Route path = '/menu'element = {<MenuItems/>}/>
-                        <Route path = '/goal'element = {<GoalItems/>}/>
+                        <Route path = '/goal/*'element = {<GoalItems/>}/>
                         <Route path = '/calendar'element = {<CalendarItems/>}/>
                         <Route path = '/task'element = {<TaskItems/>}/>
                         <Route path = '/user'element = {<UserItems/>}/>

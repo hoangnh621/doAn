@@ -2,16 +2,34 @@ import { Row, Col, Button} from 'reactstrap'
 import '../scss/GoalItems.scss'
 import GoalForm from './GoalForm'
 import CustomRadio from './CustomRadio'
-import { useState, useRef, useMemo } from 'react'
+import { useState, useRef, useMemo, useEffect } from 'react'
 import InputInformation from './InputInformation'
 import CustomCheckbox from './CustomCheckbox'
 import Forecast from './Forecast'
 import ChartPercentage from './ChartPercentage'
+import { useDispatch, useSelector} from 'react-redux'
+import { addGoalFrequency, updatePercentFood, getBodyIndex } from '../actions/userAction'
 
 
 const GoalItems = () => {
+    //Lấy dữ liệu được trả về từ server
+    useEffect(() => {
+        dispatch(getBodyIndex())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[])
+    const bodyis = useSelector( state => {
+        console.log(state)
+        return state.bodyIndexServer
+    })
+    const { bodyIndexSv } = bodyis
+    const {height,
+        weight,
+        age,
+        sex,
+        bodyfat} = bodyIndexSv
+    console.log(bodyIndexSv)
     //Các chỉ số cá nhân
-    const [bodyIndex, setBodyIndex] = useState({
+    const [bodyIndexC, setBodyIndex] = useState({
         height: '',
         weight: '',
         age: '',
@@ -43,11 +61,12 @@ const GoalItems = () => {
 
     const { cGoal } = infoBody
 
-    const { goalWeight, goalCaloUp, goalCaloDown } = bodyIndex
+    const { goalWeight, goalCalo, goalCaloUp, goalCaloDown } = bodyIndexC
 
     //Hiển thị mô tả từng loại tần suất hoạt động
     const descFrequency = useRef('')
     const [frequencyChecked, setFrequencyChecked] = useState()
+    const [frequencyID, setFrequencyID] = useState()
     const handleShowDesc = (e) => {
         setFrequencyChecked(e.target.id)
     }
@@ -56,6 +75,7 @@ const GoalItems = () => {
     useMemo(() => {
         switch (frequencyChecked) {
             case 'frequency1': { 
+                setFrequencyID('61bdc97c46e2ce99d3deb68a')
                 descFrequency.current = 'Ít hoặc không hoạt động trong ngày, làm công việc văn phòng hoặc tượng tự.'
                 setBodyIndex(prev => ({
                     ...prev,
@@ -64,6 +84,7 @@ const GoalItems = () => {
                 break
             }
             case 'frequency2': { 
+                setFrequencyID('61bdc97c46e2ce99d3deb68b')
                 descFrequency.current = 'Hoạt động nhẹ trong ngày, tập thể dục/thể thao 1-3 lần/tuần.'
                 setBodyIndex(prev => ({
                     ...prev,
@@ -72,6 +93,7 @@ const GoalItems = () => {
                 break
             }
             case 'frequency3': { 
+                setFrequencyID('61bdc97c46e2ce99d3deb68c')
                 descFrequency.current = 'Hoạt động vừa phải trong ngày, tập thể dục/thể thao 4-5 ngày/tuần.'
                 setBodyIndex(prev => ({
                     ...prev,
@@ -80,6 +102,7 @@ const GoalItems = () => {
                 break
             }
             case 'frequency4': { 
+                setFrequencyID('61bdc97c46e2ce99d3deb68d')
                 descFrequency.current = 'Hoạt động rất tích cực trong ngày, tập thể dục chăm chỉ mỗi ngày hoặc tập thể dục 2 lần/ngày'
                 setBodyIndex(prev => ({
                     ...prev,
@@ -88,6 +111,7 @@ const GoalItems = () => {
                 break
             }
             case 'frequency5': { 
+                setFrequencyID('61bdc97c46e2ce99d3deb68e')
                 descFrequency.current = 'Tập thể dục chăm chỉ 2 lần trở lên mỗi ngày, tập luyện chạy marathon, ba môn phối hợp, vận động viên…'
                 setBodyIndex(prev => ({
                     ...prev,
@@ -101,6 +125,7 @@ const GoalItems = () => {
 
     //Mục tiêu 
     const [goalChecked, setGoalChecked] = useState()
+    const [goalID, setGoalID] = useState()
     const handleGoalChecked = (e) => {
         setGoalChecked(e.target.id)
     }
@@ -108,6 +133,7 @@ const GoalItems = () => {
     useMemo(() => {
         switch(goalChecked) {
             case 'goal1': {
+                setGoalID('61bdca5246e2ce99d3deb691')
                 setBodyIndex(prev =>({
                     ...prev,
                     goalCalo: 500,
@@ -115,6 +141,7 @@ const GoalItems = () => {
                 break
              }
              case 'goal2': {
+                setGoalID('61bdca5246e2ce99d3deb691')
                 setBodyIndex(prev =>({
                     ...prev,
                     goalCalo: 250,
@@ -122,6 +149,7 @@ const GoalItems = () => {
                 break
              }
              case 'goal4': {
+                 setGoalID('61bdca5246e2ce99d3deb692')
                 setBodyIndex(prev =>({
                     ...prev,
                     goalCalo: -250,
@@ -129,6 +157,7 @@ const GoalItems = () => {
                 break
              }
              case 'goal5': {
+                setGoalID('61bdca5246e2ce99d3deb692')
                 setBodyIndex(prev =>({
                     ...prev,
                     goalCalo: -500,
@@ -136,6 +165,7 @@ const GoalItems = () => {
                 break
              }
             default: { 
+                setGoalID('61bdca5246e2ce99d3deb693')
                 setBodyIndex(prev =>({
                     ...prev,
                     goalCalo: 0,
@@ -193,13 +223,13 @@ const GoalItems = () => {
     //Cập nhật tỷ lệ 
       const handlePersent = () => {
           const total = +persentPro + persentCarbs + persentFat
-          console.log(persentPro)
           if(total === 100) {
               setDataPersent([
                 { name: 'Protein', value: +persentPro },
                 { name: 'Carbs', value: +persentCarbs },
                 { name: 'Fat', value: +persentFat },
               ])
+              dispatch(updatePercentFood(persentPro, persentCarbs))
           }
       }
 
@@ -212,6 +242,21 @@ const GoalItems = () => {
           ])
     }
 
+    //Cập nhật tần suất hoạt động và mục tiêu
+    const dispatch = useDispatch()
+    const caloDeviant = goalCalo + goalCaloUp - goalCaloDown
+    useMemo(() => {
+        if(goalCaloDown !== '') {
+            setGoalID('61bdca5246e2ce99d3deb695')
+        }
+        if (goalCaloUp)
+        setGoalID('61bdca5246e2ce99d3deb695')
+    }, [goalCaloDown, goalCaloUp])
+    const handleGoalFrequency = () => {
+        dispatch(addGoalFrequency(caloDeviant, goalID, frequencyID, goalWeight ))
+    }
+
+
     return (
         <Row className = "content-goal-items">
         {/* bảng bữa ăn trong ngày */}
@@ -219,7 +264,7 @@ const GoalItems = () => {
             <div className = "goal-form">
                 <div className = 'goal-form-child'>
                     <GoalForm
-                    bodyIndex = {bodyIndex}
+                    bodyIndexC = {bodyIndexC}
                     setBodyIndex = {setBodyIndex}
                     />
                 </div>
@@ -364,7 +409,7 @@ const GoalItems = () => {
                                 idChecked = {controlCalo.idChecked}
                                 />
                                 <div className="update-reset">
-                                    <Button>Cập nhật</Button>
+                                    <Button onClick = {handleGoalFrequency}>Cập nhật</Button>
                                     <Button outline onClick = {handleReset}>Reset</Button>
                                 </div>
                             </div>
@@ -382,7 +427,7 @@ const GoalItems = () => {
                     </div>
                     <div className = 'forecast-percentage-body'>
                         <Forecast 
-                        bodyIndex = {bodyIndex}
+                        bodyIndexC = {bodyIndexC}
                         infoBody = {infoBody}
                         setInfoBody = {setInfoBody}
                         />

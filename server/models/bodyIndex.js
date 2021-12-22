@@ -2,14 +2,38 @@ import mongoose from 'mongoose';
 
 const bodyIndex = mongoose.Schema({
     author: String,
-    height: Number,
-    weight: Number,
-    age: Number,
-    sex: String,
-    bodyfat: Number,
+    height: {
+        type: Number,
+         default: 0,
+    },
+    weight: {
+        type: Number,
+         default: 0,
+    },
+    goal_weight: Number,
+    age: {
+        type: Number,
+        default: 0,
+    },
+    sex: {
+        type: String, 
+        default: 'male'
+    },
+    bodyfat: {
+        type: Number, 
+        default: 0,
+    },
     calo_deviant: {
         type: Number,
         default: 0,
+    },
+    protein_per: {
+        type: Number,
+        default: 40,
+    },
+    carbs_per: {
+        type: Number,
+        default: 40,
     },
     goal_id: {
         type: String, 
@@ -24,7 +48,9 @@ const bodyIndex = mongoose.Schema({
         type: Date,
         default: Date.now,
     },
-})
+}, 
+{ collection: 'body_index'}
+)
 
 var BodyIndex = mongoose.model('body_index', bodyIndex);
 

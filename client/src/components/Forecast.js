@@ -2,13 +2,13 @@ import '../scss/Forecast.scss'
 import { useState, useEffect } from 'react'
 import { TabContent, TabPane, Nav, NavItem, NavLink, Row, Col, ListGroup, ListGroupItem } from 'reactstrap'
 
-const Forecast = ({bodyIndex, infoBody, setInfoBody}) => {
+const Forecast = ({bodyIndexC, infoBody, setInfoBody}) => {
     const [active, setActive] = useState('1')
     const toggle = tab => {
         setActive(tab)
     }
 
-    const { height, weight, age, bodyfat,  sex,  frequency, goalWeight, goalCalo, goalCaloUp, goalCaloDown,} = bodyIndex
+    const { height, weight, age, bodyfat,  sex,  frequency, goalWeight, goalCalo, goalCaloUp, goalCaloDown,} = bodyIndexC
     const {bmr, tdee, bmi, wIdeal, cGoal, forecastDay} = infoBody
     
     //Tính toán các chỉ số như BMI, BMR...
@@ -61,7 +61,7 @@ const Forecast = ({bodyIndex, infoBody, setInfoBody}) => {
              forecastDay: forecastDayIndex,
          })
        }
-    }, [age, bodyfat, frequency, goalCalo, goalCaloDown, goalCaloUp, height, sex, weight, bodyIndex, goalWeight, setInfoBody])
+    }, [age, bodyfat, frequency, goalCalo, goalCaloDown, goalCaloUp, height, sex, weight, bodyIndexC, goalWeight, setInfoBody])
 
 
     return (
