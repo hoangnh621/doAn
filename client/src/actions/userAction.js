@@ -41,6 +41,10 @@ const signin = (email, password) => async (dispatch) => {
 //Đăng xuất
 const logout = () => (dispatch) => {
     Cookie.remove("userInfo");
+    localStorage.removeItem('bodyIndex')
+    localStorage.removeItem('goalFrequency')
+    localStorage.removeItem('percentFood')
+    localStorage.removeItem('bodyIndexSv')
     dispatch({ type: USER_LOGOUT })
 }
 
@@ -165,7 +169,6 @@ const getBodyIndex = () => async (dispatch, getState) => {
     dispatch({
      type: USER_GETBODYINDEX, payload: data
     });
-    console.log(data)
     localStorage.setItem('bodyIndexSv', JSON.stringify(data))
   } catch (error) {
     dispatch({ type: GETBODYINDEX_FAIL, payload: error.message });

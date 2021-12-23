@@ -1,1 +1,72 @@
 @import 'color';
+
+
+.content-menu-items {
+    height: 100%;
+    width: 100%;
+    margin: 0 !important;
+    padding-top: 1.75rem;
+    padding-bottom: 1.75rem;
+
+    .menu-table-items {
+        padding: 0 1.75rem 0 0;
+        //Bảng thực đơn chứa các thức ăn ăn trong ngày
+        .menu-table {
+            height: 65%;
+            border-radius: 0.428rem;
+            padding: 0 0 1.75rem 0;
+        }
+
+        .calendar-menu {
+            height: 35%;
+            border-radius: 0.428rem;
+            
+            .col {
+                border-radius: 0.428rem;
+                .progress-menu {
+                    display: grid;
+                    height: 100%;
+                    padding: 0 0.75rem 0 0.75rem;
+                    border-radius: 0.428rem;
+
+                    background-color: $background-color-second;
+                }
+
+                .calendaritem {
+                    height: 100%;
+                    background-color: $background-color-second;
+                    border-radius: 0.428rem;
+                }
+            }
+        }
+    }
+
+
+    .search-menus-item {
+        padding: 0 0 0 1.75rem;
+        background-color: $background-color-main;
+        .search-chart-item {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+
+            .col:nth-child(1) {
+                height: 65%;
+                padding: 0 0 1.75rem 0;
+            }
+
+            .col:nth-child(2) {
+                height: 35%;
+                border-radius: 0.428rem;
+                padding: 1.75rem 0.75rem 0 0.75rem;
+
+                background-color: $background-color-second;
+                div {
+
+                    background-color: $background-color-second;
+                }
+            }
+        }
+    }
+
+}

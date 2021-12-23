@@ -1,0 +1,24 @@
+@import 'color';
+
+.menuTable {
+    position: relative;
+    height: 100%;
+    border-radius: 0.428rem;
+    background-color: $background-color-second;
+
+    .menuTable-header {
+        padding: 0 0.75rem 0 0.75rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.875rem;
+
+        .menuButton {
+            margin-top: 0.5625rem;
+            .btn {
+                @include buttonPrimary;
+                margin-left: 1rem;
+            }
+        }
+    }
+}

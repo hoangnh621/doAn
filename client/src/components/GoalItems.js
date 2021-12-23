@@ -22,12 +22,6 @@ const GoalItems = () => {
         return state.bodyIndexServer
     })
     const { bodyIndexSv } = bodyis
-    const {height,
-        weight,
-        age,
-        sex,
-        bodyfat} = bodyIndexSv
-    console.log(bodyIndexSv)
     //Các chỉ số cá nhân
     const [bodyIndexC, setBodyIndex] = useState({
         height: '',
@@ -215,11 +209,26 @@ const GoalItems = () => {
         setFrequencyChecked('')
         setGoalChecked('')
     }
-    const [dataPersent, setDataPersent] = useState( [
-        { name: 'Protein', value: 40 },
-        { name: 'Carbs', value: 40 },
-        { name: 'Fat', value: 20 },
-      ])
+    const [dataPersent, setDataPersent] = useState( 
+        () => {
+            const fat_per = 100 - bodyIndexSv.protein_per - bodyIndexSv.carbs_per
+            if(bodyIndexSv)
+            return [
+                { name: 'Protein', value: bodyIndexSv.protein_per },
+                { name: 'Carbs', value: bodyIndexSv.carbs_per },
+                { name: 'Fat', value: fat_per },
+              ]
+            else return (
+
+                [
+                    { name: 'Protein', value: 40  },
+                    { name: 'Carbs', value: 40 },
+                    { name: 'Fat', value: 20 },
+                ]
+            )
+        }   
+        )
+    console.log(dataPersent)
     //Cập nhật tỷ lệ 
       const handlePersent = () => {
           const total = +persentPro + persentCarbs + persentFat
@@ -249,13 +258,106 @@ const GoalItems = () => {
         if(goalCaloDown !== '') {
             setGoalID('61bdca5246e2ce99d3deb695')
         }
-        if (goalCaloUp)
-        setGoalID('61bdca5246e2ce99d3deb695')
+        if (goalCaloUp !== '')
+        setGoalID('61bdca5246e2ce99d3deb694')
     }, [goalCaloDown, goalCaloUp])
     const handleGoalFrequency = () => {
         dispatch(addGoalFrequency(caloDeviant, goalID, frequencyID, goalWeight ))
     }
 
+    //Cập nhật giao diện khi dữ liệu được lấy từ server về
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => {
+        if(bodyIndexSv) {
+            //Mục tiêu và chỉ số cơ thể
+            setBodyIndex(prev => ({ 
+                ...prev,
+                height: bodyIndexSv.height,
+                weight: bodyIndexSv.weight,
+                age: bodyIndexSv.age,
+                bodyfat: bodyIndexSv.bodyfat, 
+                sex: bodyIndexSv.sex, 
+                frequency: bodyIndexSv.frequency,
+                goalWeight: bodyIndexSv.goal_weight,
+            }))
+            if(bodyIndexSv.goal_id === '61bdca5246e2ce99d3deb694') {
+                setBodyIndex(prev => ({
+                    ...prev,
+                    goalCaloUp: bodyIndexSv.calo_deviant
+                }))
+            }
+            else if(bodyIndexSv.goal_id === '61bdca5246e2ce99d3deb695') {
+                setBodyIndex(prev => ({
+                    ...prev,
+                    goalCaloDown: bodyIndexSv.calo_deviant
+                }))
+            }
+            else {
+                handleControlCalo(controlCalo.data)
+                setBodyIndex(prev => ({
+                    ...prev,
+                    goalCalo: bodyIndexSv.calo_deviant
+                }))
+                if(bodyIndexSv.goal_id === '61bdca5246e2ce99d3deb691' && bodyIndexSv.calo_deviant === 500)
+                { 
+                    setGoalChecked('goal1')
+                }
+                else if (bodyIndexSv.goal_id === '61bdca5246e2ce99d3deb691' && bodyIndexSv.calo_deviant === 250 ) {
+                    setGoalChecked('goal2')
+                }
+                else if (bodyIndexSv.goal_id === '61bdca5246e2ce99d3deb692' && bodyIndexSv.calo_deviant === -250 ) {
+                    setGoalChecked('goal4')
+                }
+                else if (bodyIndexSv.goal_id === '61bdca5246e2ce99d3deb692' && bodyIndexSv.calo_deviant === -500 ) {
+                    setGoalChecked('goal5')
+                }
+                else {
+                    setGoalChecked('goal3')
+                }
+            }
+            //Tần suất hoạt động
+            switch (bodyIndexSv.frequency_id) {
+                case '61bdc97c46e2ce99d3deb68a':
+                    setFrequencyChecked('frequency1')
+                    break;
+                case '61bdc97c46e2ce99d3deb68b':
+                    setFrequencyChecked('frequency2')
+                    break;
+                case '61bdc97c46e2ce99d3deb68c':
+                    setFrequencyChecked('frequency3')
+                break;
+                case '61bdc97c46e2ce99d3deb68d':
+                    setFrequencyChecked('frequency4')
+                    break;
+                case '61bdc97c46e2ce99d3deb68e':
+                    setFrequencyChecked('frequency5')
+                break;
+                default:
+                    setFrequencyChecked('')
+                    break;
+            }
+
+            //Tỷ lệ các chất
+            const fat_per = 100 - bodyIndexSv.protein_per - bodyIndexSv.carbs_per
+            // setDataPersent([
+            //     { name: 'Protein', value: bodyIndexSv.protein_per },
+            //     { name: 'Carbs', value: bodyIndexSv.carbs_per },
+            //     { name: 'Fat', value: fat_per },
+            //   ])
+            setPersent({
+                persentPro: bodyIndexSv.protein_per,
+                persentCarbs: bodyIndexSv.carbs_per,
+                persentFat: fat_per,
+            })
+            // setDataPersent([
+            //     { name: 'Protein', value: +persentPro },
+            //     { name: 'Carbs', value: +persentCarbs },
+            //     { name: 'Fat', value: +persentFat },
+            //   ])
+
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[])
 
     return (
         <Row className = "content-goal-items">
