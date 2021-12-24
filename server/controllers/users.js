@@ -2,6 +2,9 @@ import express from 'express';
 import { getToken } from '../utils.js'
 import Users from '../models/users.js';
 import BodyIndex from '../models/bodyIndex.js';
+import Menu from '../models/menu.js';
+import Foods from '../models/foods.js';
+import MenuFood from '../models/menu_food.js';
 import nodemailer from 'nodemailer'
 
 const router = express.Router();
@@ -283,6 +286,115 @@ export const getBodyIndex = async (req, res) => {
     }
 }
 
+export const addMenu = async (req, res) => { 
+    try {
+        if(req.body.type_update === 'createMenu') {
+            const isBodyIndex = await Menu.findOne({
+                author: req.body.id,
+                name: req.body.nameMenu
+            })
+            if(!isBodyIndex) {
+                const newMenu = new Menu({
+                    author: req.body.id,
+                    name: req.body.nameMenu,
+                })
+               const isNewMenu = await newMenu.save()
+                const dataFood = req.body.dataFood
+                const newArr = dataFood.map((food) => {
+                    return {
+                        menu_id: newMenu._id,
+                        food_id: food._id,
+                        qty: food.quantityFood,
+                    }
+                })
+                const isNewMenuFood = await MenuFood.insertMany(newArr)
+                
+               if(isNewMenu && isNewMenuFood) {
+                   res.status(200).json(newMenu)
+               }
+               else res.status(401)
+            }
+            else {
+               res.send({error: 'Đã tồn tại tên thực đơn'})
+            }
+        }
+        else if(req.body.type_update === 'updateMenu') {
+            const isBodyIndex = await Menu.findOne({
+                author: req.body.id,
+                name: req.body.nameMenu
+            }) 
+            if(isBodyIndex) {
+               const isDeleteMany = await MenuFood.deleteMany({
+                   menu_id: isBodyIndex._id
+               })
+                const dataFood = req.body.dataFood
+                const newArr = dataFood.map((food) => {
+                    return {
+                        menu_id: isBodyIndex._id,
+                        food_id: food._id,
+                        qty: food.quantityFood,
+                    }
+                })
+                const isNewMenuFood = await MenuFood.insertMany(newArr)
+                
+               if(isDeleteMany && isNewMenuFood) {
+                   res.status(200).json(isBodyIndex)
+               }
+               else res.status(401)
+            }
+            else {
+               res.send({error: 'Thực đơn không tồn tại'})
+            }
+        }
+        else if(req.body.type_update === 'deleteMenu') {
+            const isBodyIndex = await Menu.findOne({
+                author: req.body.id,
+                name: req.body.nameMenu
+            }) 
+            if(isBodyIndex) {
+               const isDeleteMenuFood = await MenuFood.deleteMany({
+                   menu_id: isBodyIndex._id
+               })
+                const isDeleteMenu = await Menu.deleteOne({
+                    _id: isBodyIndex._id,
+                })
+                
+               if(isDeleteMenuFood && isDeleteMenu) {
+                   res.status(200).json(isBodyIndex)
+               }
+               else res.status(401)
+            }
+            else {
+               res.send({error: 'Thực đơn không tồn tại'})
+            }
+        }
+        
+    } catch (error) {
+        res.status(404).json({ message: error.message }); 
+    }
+}
 
+export const getMenu = async (req, res) => {
+    try {
+        const isMenu = await Menu.find({
+            author: req.body.id,
+        })
+        const allMenuFood = await MenuFood.find({
+        })
+        const allFood = await Foods.find({
+        })
+        if(isMenu) {
+            res.status(200).json({ 
+                allMenu: isMenu,
+                allMenuFood: allMenuFood,
+                allFood: allFood,
+            })
+        }
+        else res.status(401)
+    }
+    catch(error) {
+        res.status(404).json({ message: error.message }); 
+    }
+}
 
 export default router

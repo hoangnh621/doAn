@@ -17,6 +17,18 @@ import { USER_SIGNIN_REQUEST, USER_SIGNIN_SUCCESS, USER_SIGNIN_FAIL, USER_LOGOUT
     USER_GETBODYINDEX_REQUEST,
     USER_GETBODYINDEX,
     GETBODYINDEX_FAIL,
+    USER_CREATEMENU_REQUEST,
+    USER_CREATEMENU,
+    CREATEMENU_FAIL,
+    USER_UPDATEMENU_REQUEST,
+    USER_UPDATEMENU,
+    UPDATEMENU_FAIL,
+    USER_DELETEMENU_REQUEST,
+    USER_DELETEMENU,
+    DELETEMENU_FAIL,
+    USER_GETMENU_REQUEST,
+    USER_GETMENU,
+    GETMENU_FAIL,
 
 } from "../constants/userConstants";
 
@@ -122,7 +134,53 @@ function userGetBodyIndexReducer(state = {}, action) {
     }
 } 
 
+function userAddMenuReducer(state = {}, action) {
+    switch (action.type) {
+        case USER_CREATEMENU_REQUEST:
+            return { ...state,loading: true };
+        case USER_CREATEMENU:
+            return {
+                ...state,
+                loading: false ,
+                createMenu: action.payload
+             };
+        case CREATEMENU_FAIL: 
+            return { ...state,loading: false, error: action.payload };
+        case USER_UPDATEMENU_REQUEST:
+            return { ...state,loading: true };
+        case USER_UPDATEMENU:
+            return { 
+                ...state,
+                loading: false ,
+                updateMenu: action.payload 
+            };
+        case UPDATEMENU_FAIL: 
+            return { ...state, loading: false, error: action.payload };
+        case USER_DELETEMENU_REQUEST:
+            return { ...state,loading: true };
+        case USER_DELETEMENU:
+            return { ...state,loading: false , deleteMenu: action.payload };
+        case DELETEMENU_FAIL: 
+            return { ...state,loading: false, error: action.payload };
+        default: return state;
+    }
+} 
+
+function userGetMenuReducer(state = {}, action) {
+    switch (action.type) {
+        case USER_GETMENU_REQUEST:
+            return { loading: true };
+        case USER_GETMENU:
+            return { loading: false ,getMenu: action.payload };
+        case GETMENU_FAIL: 
+            return { loading: false, error: action.payload };
+        default: return state;
+    }
+} 
+
 export { userSigninReducer, userRegisterReducer, userForgotPasswordReducer, userResetPasswordReducer,
     userAddBodyIndexReducer,
-    userGetBodyIndexReducer
- }
+    userGetBodyIndexReducer,
+    userAddMenuReducer,
+    userGetMenuReducer,
+}

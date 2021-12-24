@@ -9,6 +9,7 @@ import register from './routes/register.js';
 import forgotpassword from './routes/forgotpassword.js';
 import resetpassword from './routes/resetpassword.js';
 import goal from './routes/goal.js';
+import menu from './routes/menu.js';
 
 const app = express();
 
@@ -34,6 +35,9 @@ app.use('/resetpassword', resetpassword)
 
 //Cập nhật bodyIndex
 app.use('/goal', goal)
+
+//Thực đơn
+app.use('/menu', menu)
 
 
 

@@ -23,6 +23,19 @@ import {
   USER_GETBODYINDEX_REQUEST,
   USER_GETBODYINDEX,
   GETBODYINDEX_FAIL,
+  USER_CREATEMENU_REQUEST,
+  USER_CREATEMENU,
+  CREATEMENU_FAIL,
+  USER_UPDATEMENU_REQUEST,
+  USER_UPDATEMENU,
+  UPDATEMENU_FAIL,
+  USER_DELETEMENU_REQUEST,
+  USER_DELETEMENU,
+  DELETEMENU_FAIL,
+  USER_GETMENU_REQUEST,
+  USER_GETMENU,
+  GETMENU_FAIL
+
 
 } from "../constants/userConstants";
 
@@ -45,6 +58,10 @@ const logout = () => (dispatch) => {
     localStorage.removeItem('goalFrequency')
     localStorage.removeItem('percentFood')
     localStorage.removeItem('bodyIndexSv')
+    localStorage.removeItem('createMenu')
+    localStorage.removeItem('updateMenu')
+    localStorage.removeItem('deleteMenu')
+    localStorage.removeItem('getMenu')
     dispatch({ type: USER_LOGOUT })
 }
 
@@ -101,7 +118,7 @@ const addBodyIndex = (height, weight, age, bodyfat, sex) => async (dispatch, get
     dispatch({
      type: USER_ADD_BODYINDEX, payload: data
     });
-    localStorage.setItem('bodyIndex', JSON.stringify(data))
+    // localStorage.setItem('bodyIndex', JSON.stringify(data))
   } catch (error) {
     dispatch({ type: ADD_BODYINDEX_FAIL, payload: error.message });
   }
@@ -124,7 +141,7 @@ const addGoalFrequency = (calo_deviant, goal_id, frequency_id, goal_weight) => a
     dispatch({
      type: USER_ADD_GOALFREQUENCY, payload: data
     });
-    localStorage.setItem('goalFrequency', JSON.stringify(data))
+    // localStorage.setItem('goalFrequency', JSON.stringify(data))
   } catch (error) {
     dispatch({ type: ADD_GOALFREQUENCY_FAIL, payload: error.message });
   }
@@ -147,7 +164,7 @@ const updatePercentFood = (protein_per, carbs_per) => async (dispatch, getState)
     dispatch({
      type: USER_UPDATEPERCENT, payload: data
     });
-    localStorage.setItem('percentFood', JSON.stringify(data))
+    // localStorage.setItem('percentFood', JSON.stringify(data))
   } catch (error) {
     dispatch({ type: UPDATEPERCENT_FAIL, payload: error.message });
   }
@@ -175,7 +192,102 @@ const getBodyIndex = () => async (dispatch, getState) => {
   }
 }
 
+//Tạo thực đơn mới
+const createMenu = (nameMenu, dataFood ) => async (dispatch, getState) => {
+  dispatch({ type:USER_CREATEMENU_REQUEST, payload: {nameMenu, dataFood }})
+  try {
+    const {userSignin: { userInfo }} = getState();
+    const id = userInfo._id
+    const type_update = 'createMenu'
+    const { data } = await Axios.post("http://localhost:5000/menu",{type_update, id, nameMenu, dataFood},
+    {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+    )
+    dispatch({
+     type: USER_CREATEMENU, payload: data
+    });
+    // localStorage.setItem('createMenu', JSON.stringify(data))
+  } catch (error) {
+    dispatch({ type: CREATEMENU_FAIL, payload: error.message });
+  }
+}
+
+//Cập nhật thực đơn
+const updateMenu = (nameMenu, dataFood ) => async (dispatch, getState) => {
+  dispatch({ type:USER_UPDATEMENU_REQUEST, payload: {nameMenu, dataFood }})
+  try {
+    const {userSignin: { userInfo }} = getState();
+    const id = userInfo._id
+    const type_update = 'updateMenu'
+    const { data } = await Axios.post("http://localhost:5000/menu",{type_update, id, nameMenu, dataFood},
+    {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+    )
+    dispatch({
+     type: USER_UPDATEMENU, payload: data
+    });
+    // localStorage.setItem('updateMenu', JSON.stringify(data))
+  } catch (error) {
+    dispatch({ type: UPDATEMENU_FAIL, payload: error.message });
+  }
+}
+
+//Xóa thực đơn
+const deleteMenu = (nameMenu ) => async (dispatch, getState) => {
+  dispatch({ type:USER_DELETEMENU_REQUEST, payload: {nameMenu }})
+  try {
+    const {userSignin: { userInfo }} = getState();
+    const id = userInfo._id
+    const type_update = 'deleteMenu'
+    const { data } = await Axios.post("http://localhost:5000/menu",{type_update, id, nameMenu},
+    {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+    )
+    dispatch({
+     type: USER_DELETEMENU, payload: data
+    });
+    // localStorage.setItem('deleteMenu', JSON.stringify(data))
+  } catch (error) {
+    dispatch({ type: DELETEMENU_FAIL, payload: error.message });
+  }
+}
+
+//Lấy thực đơn của user
+const getMenuUser = () => async (dispatch, getState) => {
+  dispatch({ type:USER_GETMENU_REQUEST})
+  try {
+    const {userSignin: { userInfo }} = getState();
+    const id = userInfo._id
+    const { data } = await Axios.put("http://localhost:5000/menu",{id},
+    {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+    )
+    dispatch({
+     type: USER_GETMENU, payload: data
+    });
+    localStorage.setItem('getMenu', JSON.stringify(data))
+  } catch (error) {
+    dispatch({ type: GETMENU_FAIL, payload: error.message });
+  }
+}
+
 export { signin, logout, register, forgotpassword, resetpassword, addBodyIndex, addGoalFrequency,
   updatePercentFood,
-  getBodyIndex
+  getBodyIndex,
+  createMenu,
+  updateMenu,
+  deleteMenu,
+  getMenuUser,
 }
