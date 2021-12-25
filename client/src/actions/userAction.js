@@ -255,6 +255,10 @@ const deleteMenu = (nameMenu ) => async (dispatch, getState) => {
     dispatch({
      type: USER_DELETEMENU, payload: data
     });
+    console.log('data', data)
+    localStorage.removeItem('getMenu')
+    localStorage.setItem('getMenu', JSON.stringify(data))
+
     // localStorage.setItem('deleteMenu', JSON.stringify(data))
   } catch (error) {
     dispatch({ type: DELETEMENU_FAIL, payload: error.message });

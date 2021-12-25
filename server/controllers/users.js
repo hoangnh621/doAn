@@ -308,9 +308,19 @@ export const addMenu = async (req, res) => {
                     }
                 })
                 const isNewMenuFood = await MenuFood.insertMany(newArr)
-                
+                const isMenu = await Menu.find({
+                    author: req.body.id,
+                })
+                const allMenuFood = await MenuFood.find({
+                })
+                const allFood = await Foods.find({
+                })
                if(isNewMenu && isNewMenuFood) {
-                   res.status(200).json(newMenu)
+                   res.status(200).json({ 
+                    allMenu: isMenu,
+                    allMenuFood: allMenuFood,
+                    allFood: allFood,
+                })
                }
                else res.status(401)
             }
@@ -336,9 +346,20 @@ export const addMenu = async (req, res) => {
                     }
                 })
                 const isNewMenuFood = await MenuFood.insertMany(newArr)
+                const isMenu = await Menu.find({
+                    author: req.body.id,
+                })
+                const allMenuFood = await MenuFood.find({
+                })
+                const allFood = await Foods.find({
+                })
                 
                if(isDeleteMany && isNewMenuFood) {
-                   res.status(200).json(isBodyIndex)
+                   res.status(200).json({ 
+                    allMenu: isMenu,
+                    allMenuFood: allMenuFood,
+                    allFood: allFood,
+                })
                }
                else res.status(401)
             }
@@ -358,9 +379,20 @@ export const addMenu = async (req, res) => {
                 const isDeleteMenu = await Menu.deleteOne({
                     _id: isBodyIndex._id,
                 })
+                const isMenu = await Menu.find({
+                    author: req.body.id,
+                })
+                const allMenuFood = await MenuFood.find({
+                })
+                const allFood = await Foods.find({
+                })
                 
                if(isDeleteMenuFood && isDeleteMenu) {
-                   res.status(200).json(isBodyIndex)
+                   res.status(200).json({ 
+                    allMenu: isMenu,
+                    allMenuFood: allMenuFood,
+                    allFood: allFood,
+                })
                }
                else res.status(401)
             }

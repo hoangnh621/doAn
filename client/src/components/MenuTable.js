@@ -3,13 +3,13 @@ import { Button, Table } from 'reactstrap'
 import PaginationData from './PaginationData'
 import InputInformation from './InputInformation'
 import ActionMenuDropdown from './ActionMenuDropdown'
-import { useState, useMemo, useRef, useContext, useEffect } from 'react'
+import { useState, useMemo, useRef, useContext} from 'react'
 import { ContextMenu } from './MenuItems'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch,  } from 'react-redux'
 import { createMenu, updateMenu, deleteMenu, getMenuUser } from '../actions/userAction'
 
 
-const MenuTable = () => {
+const MenuTable = ({nameMenu, setNameMenu}) => {
     const [dataChecked, setDataChecked] = useContext(ContextMenu)
     const handleDataChecked = (dataChecked) => {
         //Đảm bảo dataChecked không tồn tại đồng thời nhiều phần tử có cùng id và meal
@@ -52,34 +52,29 @@ const MenuTable = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[dataFromTable.current])
 
-    const [nameMenu, setNameMenu] = useState('')
-    const allState = useSelector( state => {
-        console.log('allState',state)
-        return state.userMenu
-    })
-    const { getMenu } = allState
-    console.log('userMenu', getMenu)
+    
 
     //Tạo menu mới
     const dispatch = useDispatch()
     const handleCreateMenu = () => {
         dispatch(createMenu(nameMenu, dataFromTable.current))
+        dispatch(getMenuUser())
+
     }
     //Cập nhật menu
     const handleUpdateMenu = () => {
         dispatch(updateMenu(nameMenu, dataFromTable.current))
+        dispatch(getMenuUser())
+
     }
     //Xóa thực đơn
     const handleDeteleMenu = () => {
         dispatch(deleteMenu(nameMenu))
+        dispatch(getMenuUser())
         setDataChecked([])
         setNameMenu('') 
     }
-    console.log('computedFoodData', computedFoodData)
-    useEffect(() => {
-        dispatch(getMenuUser())
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[])
+    
 
     return (
         <div className = 'menuTable'>

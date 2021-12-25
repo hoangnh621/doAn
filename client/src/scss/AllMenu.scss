@@ -1,0 +1,41 @@
+@import 'color';
+
+.allMenu{
+    // position: relative;
+    .header-allMenu {
+        padding: 0.625rem 0.75rem;
+        color: $text-main;
+        h3 {
+            margin-bottom: 0;
+            font-size: 1rem;
+            font-weight: 400;
+        }
+    }
+
+    .table-allMenu  {
+        color: $text-main;
+    
+        tr:hover {
+            color: #fff!important;
+            
+            td {
+                cursor: pointer;
+               
+                p {
+                    color: $text-main;
+                }
+            }
+        }
+    
+        th {
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+    
+        td {
+            position: relative;
+            font-size: 0.815rem;
+            font-weight: 400;
+        }
+    }
+}

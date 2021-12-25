@@ -23,7 +23,7 @@
             
             .col {
                 border-radius: 0.428rem;
-                .progress-menu {
+                .custom-food-menu {
                     display: grid;
                     height: 100%;
                     padding: 0 0.75rem 0 0.75rem;
@@ -32,7 +32,8 @@
                     background-color: $background-color-second;
                 }
 
-                .calendaritem {
+                .all-menu-item {
+                    position: relative;
                     height: 100%;
                     background-color: $background-color-second;
                     border-radius: 0.428rem;
