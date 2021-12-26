@@ -1,8 +1,14 @@
 import mongoose from 'mongoose';
 
 const menu_food = mongoose.Schema({
-    menu_id: String,
-    food_id: String,
+    menu_id: { 
+        type: String, 
+        require: true,
+    },
+    food_id: { 
+        type: String, 
+        require: true,
+    },
     qty: Number,
     created_at: {
         type: Date,

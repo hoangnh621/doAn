@@ -7,15 +7,12 @@ import PaginationData from './PaginationData'
 
 
 const AllMenu = ({ setNameMenu }) => {
-    const [dataChecked, setDataChecked] = useContext(ContextMenu)
-    console.log(dataChecked)
+    const [setDataChecked] = useContext(ContextMenu)
     const userMenu = useSelector( state => 
         {
-            console.log(state)
             return state.userMenu
         }
     )
-    
 
     const { getMenu  } = userMenu
 
@@ -31,7 +28,6 @@ const AllMenu = ({ setNameMenu }) => {
             setAllFoodState(getMenu.allFood)
         }
     },[getMenu])
-    console.log("getMenu", getMenu)
 
     //Thiết lập các thực đơn từ dữ liệu được trả về
     const handleMenu = useMemo(() => {
@@ -87,7 +83,6 @@ const AllMenu = ({ setNameMenu }) => {
         }
     },[allFoodState, allMenuFoodState, allMenuState])
 
-    console.log(handleMenu)
 
 
     const [totalItems, setTotalItems] = useState(0)
@@ -121,7 +116,6 @@ const AllMenu = ({ setNameMenu }) => {
         setNameMenu(name)
         const newMenuData =  handleMenu.filter((menu) => menu.name === name)
         setDataChecked(newMenuData[0].arrFoodOfMenu)
-        console.log('newMenuData', newMenuData[0].arrFoodOfMenu)
     }
     
         

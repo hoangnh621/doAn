@@ -34,9 +34,19 @@ import {
   DELETEMENU_FAIL,
   USER_GETMENU_REQUEST,
   USER_GETMENU,
-  GETMENU_FAIL
-
-
+  GETMENU_FAIL,
+  USER_CREATEFOOD_REQUEST,
+  USER_CREATEFOOD,
+  CREATEFOOD_FAIL,
+  USER_GETTYPEFOOD_REQUEST,
+  USER_GETTYPEFOOD,
+  GETTYPEFOOD_FAIL,
+  USER_UPDATEFOOD_REQUEST,
+  USER_UPDATEFOOD,
+  UPDATEFOOD_FAIL,
+  USER_DELETEFOOD_REQUEST,
+  USER_DELETEFOOD,
+  DELETEFOOD_FAIL,
 } from "../constants/userConstants";
 
 //Đăng nhập
@@ -58,10 +68,8 @@ const logout = () => (dispatch) => {
     localStorage.removeItem('goalFrequency')
     localStorage.removeItem('percentFood')
     localStorage.removeItem('bodyIndexSv')
-    localStorage.removeItem('createMenu')
-    localStorage.removeItem('updateMenu')
-    localStorage.removeItem('deleteMenu')
     localStorage.removeItem('getMenu')
+    localStorage.removeItem('getTypeFood')
     dispatch({ type: USER_LOGOUT })
 }
 
@@ -209,7 +217,8 @@ const createMenu = (nameMenu, dataFood ) => async (dispatch, getState) => {
     dispatch({
      type: USER_CREATEMENU, payload: data
     });
-    // localStorage.setItem('createMenu', JSON.stringify(data))
+   
+    localStorage.setItem('getMenu', JSON.stringify(data))
   } catch (error) {
     dispatch({ type: CREATEMENU_FAIL, payload: error.message });
   }
@@ -255,11 +264,8 @@ const deleteMenu = (nameMenu ) => async (dispatch, getState) => {
     dispatch({
      type: USER_DELETEMENU, payload: data
     });
-    console.log('data', data)
-    localStorage.removeItem('getMenu')
+   
     localStorage.setItem('getMenu', JSON.stringify(data))
-
-    // localStorage.setItem('deleteMenu', JSON.stringify(data))
   } catch (error) {
     dispatch({ type: DELETEMENU_FAIL, payload: error.message });
   }
@@ -287,6 +293,97 @@ const getMenuUser = () => async (dispatch, getState) => {
   }
 }
 
+//Lấy các loại thức ăn
+const getTypeFood = ( ) => async (dispatch, getState) => {
+  dispatch({ type:USER_GETTYPEFOOD_REQUEST, payload: { }})
+  try {
+    const {userSignin: { userInfo }} = getState();
+    
+    const { data } = await Axios.get("http://localhost:5000/menu",
+    {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+    )
+    dispatch({
+     type: USER_GETTYPEFOOD, payload: data
+    });
+    localStorage.setItem('getTypeFood', JSON.stringify(data))
+  } catch (error) {
+    dispatch({ type: GETTYPEFOOD_FAIL, payload: error.message });
+  }
+}
+
+//Tạo thức ăn mới
+const createFood = (name, type, protein, carbs, fat ) => async (dispatch, getState) => {
+  dispatch({ type:USER_CREATEFOOD_REQUEST, payload: {name, type, protein, carbs, fat }})
+  try {
+    const {userSignin: { userInfo }} = getState();
+    const id = userInfo._id
+    const type_update = 'createFood'
+    const { data } = await Axios.post("http://localhost:5000/menu",{type_update, id, name, type, protein, carbs, fat},
+    {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+    )
+    dispatch({
+     type: USER_CREATEFOOD, payload: data
+    });
+    localStorage.setItem('setFood', JSON.stringify(data))
+  } catch (error) {
+    dispatch({ type: CREATEFOOD_FAIL, payload: error.message });
+  }
+}
+//Cập nhật thức ăn
+const updateFood = (name, type, protein, carbs, fat ) => async (dispatch, getState) => {
+  dispatch({ type:USER_UPDATEFOOD_REQUEST, payload: {name, type, protein, carbs, fat }})
+  try {
+    const {userSignin: { userInfo }} = getState();
+    const id = userInfo._id
+    const type_update = 'updateFood'
+    const { data } = await Axios.post("http://localhost:5000/menu",{type_update, id, name, type, protein, carbs, fat},
+    {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+    )
+    dispatch({
+     type: USER_UPDATEFOOD, payload: data
+    });
+    localStorage.setItem('setFood', JSON.stringify(data))
+  } catch (error) {
+    dispatch({ type: UPDATEFOOD_FAIL, payload: error.message });
+  }
+}
+
+//Xóa thức ăn
+const deleteFood = (name ) => async (dispatch, getState) => {
+  dispatch({ type:USER_DELETEFOOD_REQUEST, payload: {name }})
+  try {
+    const {userSignin: { userInfo }} = getState();
+    const id = userInfo._id
+    const type_update = 'deleteFood'
+    const { data } = await Axios.post("http://localhost:5000/menu",{type_update, id, name},
+    {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+    )
+    dispatch({
+     type: USER_DELETEFOOD, payload: data
+    });
+   console.log('data',data)
+    localStorage.setItem('setFood', JSON.stringify(data))
+  } catch (error) {
+    dispatch({ type: DELETEFOOD_FAIL, payload: error.message });
+  }
+}
+
 export { signin, logout, register, forgotpassword, resetpassword, addBodyIndex, addGoalFrequency,
   updatePercentFood,
   getBodyIndex,
@@ -294,4 +391,8 @@ export { signin, logout, register, forgotpassword, resetpassword, addBodyIndex, 
   updateMenu,
   deleteMenu,
   getMenuUser,
+  createFood,
+  getTypeFood,
+  updateFood,
+  deleteFood
 }

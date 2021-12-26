@@ -1,12 +1,21 @@
 import mongoose from 'mongoose';
 
 const users = mongoose.Schema({
-    name: String,
-    email: String,
-    password: String,
-    role_id: {
-        type: String,
-        default: '61ad5547298209b78d60dae2',
+    name: { 
+        type: String, 
+        require: true,
+    },
+    email: { 
+        type: String, 
+        require: true,
+    },
+    password: { 
+        type: String, 
+        require: true,
+    },
+    isAdmin: {
+        type: Boolean,
+        default: false,
     },
     img: String,
     created_at: {

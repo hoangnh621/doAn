@@ -1,8 +1,14 @@
 import mongoose from 'mongoose';
 
 const menu = mongoose.Schema({
-    name: String,
-    author: String,
+    name: { 
+        type: String, 
+        require: true,
+    },
+    author: { 
+        type: String, 
+        require: true,
+    },
     created_at: {
         type: Date,
         default: Date.now,

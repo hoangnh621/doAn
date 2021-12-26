@@ -1,7 +1,10 @@
 import mongoose from 'mongoose';
 
 const bodyIndex = mongoose.Schema({
-    author: String,
+    author: { 
+        type: String, 
+        require: true,
+    },
     height: {
         type: Number,
          default: 0,

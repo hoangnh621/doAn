@@ -4,6 +4,7 @@ import Users from '../models/users.js';
 import BodyIndex from '../models/bodyIndex.js';
 import Menu from '../models/menu.js';
 import Foods from '../models/foods.js';
+import TypeFoods from '../models/typeFood.js';
 import MenuFood from '../models/menu_food.js';
 import nodemailer from 'nodemailer'
 
@@ -286,7 +287,7 @@ export const getBodyIndex = async (req, res) => {
     }
 }
 
-export const addMenu = async (req, res) => { 
+export const addMenuFood = async (req, res) => { 
     try {
         if(req.body.type_update === 'createMenu') {
             const isBodyIndex = await Menu.findOne({
@@ -400,12 +401,96 @@ export const addMenu = async (req, res) => {
                res.send({error: 'Thực đơn không tồn tại'})
             }
         }
+
+        else if(req.body.type_update === 'createFood') {
+            const isFood = await Foods.findOne({
+                author: req.body.id,
+                name: req.body.name
+            }) 
+            if(!isFood) {
+                const newSlug = req.body.name.replace(/ +/g, "")
+               const newFood = new Foods({
+                   name: req.body.name,
+                   author: req.body.id,
+                   protein: req.body.protein,
+                   carbs: req.body.carbs,
+                   fat: req.body.fat,
+                   type: req.body.type,
+                   slug: newSlug
+               })
+                const isSaveFood = await newFood.save()
+                const foodOfUser = await Foods.find({
+                    author: req.body.id,
+                })
+               if(isSaveFood && foodOfUser) {
+                   res.status(200).json(foodOfUser)
+               }
+               else if(isSaveFood && !foodOfUser) {
+                    res.status(200).json(newFood)
+               }
+               else res.status(401)
+            }
+            else {
+               res.send({error: 'Thức ăn đã tồn tại'})
+            }
+        }
+
+        else if(req.body.type_update === 'updateFood') {
+            const isFood = await Foods.findOne({
+                author: req.body.id,
+                name: req.body.name
+            }) 
+            if(isFood) {
+                const updateFood = await Foods.updateOne(
+                    {author: isFood.author, name: isFood.name},
+                    {$set :{
+                        protein: req.body.protein,
+                        carbs: req.body.carbs,
+                        fat: req.body.fat,
+                        type: req.body.type,
+                    }}
+                )
+                const foodOfUser = await Foods.find({
+                    author: req.body.id,
+                })
+               if(updateFood && foodOfUser) {
+                   res.status(200).json(foodOfUser)
+               }
+               else res.status(401)
+            }
+            else {
+               res.send({error: 'Thức ăn không tồn tại'})
+            }
+        }
+
+        else if(req.body.type_update === 'deleteFood') {
+            const isFood = await Foods.findOne({
+                author: req.body.id,
+                name: req.body.name
+            }) 
+            if(isFood) {
+                const updateFood = await Foods.deleteOne(
+                    {author: isFood.author, name: isFood.name},
+                )
+                const foodOfUser = await Foods.find({
+                    author: req.body.id,
+                })
+               if(updateFood && foodOfUser) {
+                   res.status(200).json(foodOfUser)
+               }
+               else res.status(401)
+            }
+            else {
+               res.send({error: 'Thức ăn không tồn tại'})
+            }
+        }
         
     } catch (error) {
         res.status(404).json({ message: error.message }); 
     }
 }
 
+//Lấy thực đơn
 export const getMenu = async (req, res) => {
     try {
         const isMenu = await Menu.find({
@@ -421,6 +506,21 @@ export const getMenu = async (req, res) => {
                 allMenuFood: allMenuFood,
                 allFood: allFood,
             })
+        }
+        else res.status(401)
+    }
+    catch(error) {
+        res.status(404).json({ message: error.message }); 
+    }
+}
+
+//Lấy loại thức ăn
+export const getTypeFood = async (req, res) => {
+    try {
+        const isTypeFood = await TypeFoods.find()
+       
+        if(isTypeFood) {
+            res.status(200).json(isTypeFood)
         }
         else res.status(401)
     }

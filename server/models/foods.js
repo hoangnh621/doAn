@@ -1,13 +1,23 @@
 import mongoose from 'mongoose';
 
 const foodSchema = mongoose.Schema({
-    name: String,
-    unit: String,
-    quantity: Number,
-    // protein: Number,
-    // carbs: Number,
-    // fat: Number,
-    // author: String,
+    name: { 
+        type: String, 
+        require: true,
+    },
+    type: { 
+        type: String, 
+        require: true,
+        default: '61ad74f1298209b78d60daf8'
+    },
+    unit: { 
+        type: String, 
+        default: 'g',
+    },
+    quantity: { 
+        type: Number, 
+        default: 100,
+    },
     protein: {
         type: Number,
         default: 0,
@@ -22,8 +32,10 @@ const foodSchema = mongoose.Schema({
     },
     author: {
         type: String, 
-        default: 'system'
+        default: 'system',
+        require: true,
     },
+    slug: String,
 })
 
 var Foods = mongoose.model('Foods', foodSchema);

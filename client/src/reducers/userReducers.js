@@ -29,7 +29,18 @@ import { USER_SIGNIN_REQUEST, USER_SIGNIN_SUCCESS, USER_SIGNIN_FAIL, USER_LOGOUT
     USER_GETMENU_REQUEST,
     USER_GETMENU,
     GETMENU_FAIL,
-
+    USER_CREATEFOOD_REQUEST,
+    USER_CREATEFOOD,
+    CREATEFOOD_FAIL,
+    USER_GETTYPEFOOD_REQUEST,
+    USER_GETTYPEFOOD,
+    GETTYPEFOOD_FAIL,
+    USER_UPDATEFOOD_REQUEST,
+    USER_UPDATEFOOD,
+    UPDATEFOOD_FAIL,
+    USER_DELETEFOOD_REQUEST,
+    USER_DELETEFOOD,
+    DELETEFOOD_FAIL,
 } from "../constants/userConstants";
 
 function userSigninReducer(state = {}, action) {
@@ -137,50 +148,90 @@ function userGetBodyIndexReducer(state = {}, action) {
 function userAddMenuReducer(state = {}, action) {
     switch (action.type) {
         case USER_CREATEMENU_REQUEST:
-            return { ...state,loading: true };
+            return { loading: true };
         case USER_CREATEMENU:
             return {
-                ...state,
+                
                 loading: false ,
-                createMenu: action.payload
+                getMenu: action.payload
              };
         case CREATEMENU_FAIL: 
-            return { ...state,loading: false, error: action.payload };
+            return { loading: false, error: action.payload };
         case USER_UPDATEMENU_REQUEST:
-            return { ...state,loading: true };
+            return { loading: true };
         case USER_UPDATEMENU:
             return { 
-                ...state,
+                
                 loading: false ,
-                updateMenu: action.payload 
+                getMenu: action.payload 
             };
         case UPDATEMENU_FAIL: 
-            return { ...state, loading: false, error: action.payload };
+            return {  loading: false, error: action.payload };
         case USER_DELETEMENU_REQUEST:
-            return { ...state,loading: true };
+            return { loading: true };
         case USER_DELETEMENU:
-            return { ...state,loading: false , deleteMenu: action.payload };
+            return { loading: false , getMenu: action.payload };
         case DELETEMENU_FAIL: 
-            return { ...state,loading: false, error: action.payload };
+            return { loading: false, error: action.payload };
+            case USER_GETMENU_REQUEST:
+                return { loading: true };
+            case USER_GETMENU:
+                return { loading: false ,getMenu: action.payload };
+            case GETMENU_FAIL: 
+                return { loading: false, error: action.payload };
         default: return state;
     }
 } 
 
-function userGetMenuReducer(state = {}, action) {
+function userSetFoodReducer(state = {}, action) {
     switch (action.type) {
-        case USER_GETMENU_REQUEST:
-            return { loading: true };
-        case USER_GETMENU:
-            return { loading: false ,getMenu: action.payload };
-        case GETMENU_FAIL: 
-            return { loading: false, error: action.payload };
+        case USER_CREATEFOOD_REQUEST:
+            return { ...state,loading: true };
+        case USER_CREATEFOOD:
+            return {
+                ...state,
+                loading: false ,
+                userSetFood: action.payload
+             };
+        case CREATEFOOD_FAIL: 
+            return { ...state,loading: false, error: action.payload };
+        case USER_UPDATEFOOD_REQUEST:
+            return { ...state,loading: true };
+        case USER_UPDATEFOOD:
+            return { 
+                ...state,
+                loading: false ,
+                userSetFood: action.payload 
+            };
+        case UPDATEFOOD_FAIL: 
+            return { ...state, loading: false, error: action.payload };
+        case USER_DELETEFOOD_REQUEST:
+            return {  ...state,loading: true };
+        case USER_DELETEFOOD:
+            return {  ...state,loading: false , userSetFood: action.payload };
+        case DELETEFOOD_FAIL: 
+            return {  ...state,loading: false, error: action.payload };
+        //     case USER_GETMENU_REQUEST:
+        //         return { loading: true };
+        //     case USER_GETMENU:
+        //         return { loading: false ,getMenu: action.payload };
+        //     case GETMENU_FAIL: 
+        //         return { loading: false, error: action.payload };
+        case USER_GETTYPEFOOD_REQUEST:
+                    return { ...state,loading: true };
+            case USER_GETTYPEFOOD:
+                return { ...state,loading: false , userGetTypeFood: action.payload };
+            case GETTYPEFOOD_FAIL: 
+                return { ...state,loading: false, error: action.payload };
         default: return state;
     }
 } 
+
+
 
 export { userSigninReducer, userRegisterReducer, userForgotPasswordReducer, userResetPasswordReducer,
     userAddBodyIndexReducer,
     userGetBodyIndexReducer,
     userAddMenuReducer,
-    userGetMenuReducer,
+    userSetFoodReducer
 }
