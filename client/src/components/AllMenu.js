@@ -7,7 +7,8 @@ import PaginationData from './PaginationData'
 
 
 const AllMenu = ({ setNameMenu }) => {
-    const [setDataChecked] = useContext(ContextMenu)
+    // eslint-disable-next-line no-unused-vars
+    const [dataChecked,setDataChecked] = useContext(ContextMenu)
     const userMenu = useSelector( state => 
         {
             return state.userMenu

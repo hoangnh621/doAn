@@ -11,13 +11,13 @@
         padding: 0 1.75rem 0 0;
         //Bảng bữa ăn trong ngày
         .meal-table {
-            height: 75%;
+            height: 74%;
             border-radius: 0.428rem;
             padding: 0 0 1.75rem 0;
         }
 
         .calendar-meal {
-            height: 25%;
+            height: 26%;
             border-radius: 0.428rem;
             
             .col {
@@ -50,19 +50,22 @@
             margin: 0;
 
             .col:nth-child(1) {
-                height: 75%;
+                height: 74%;
                 padding: 0 0 1.75rem 0;
             }
 
             .col:nth-child(2) {
-                height: 25%;
+                height: 26%;
                 border-radius: 0.428rem;
-                padding: 1.75rem 0.75rem 0 0.75rem;
+                // padding: 1.75rem 0.75rem 0 0.75rem;
 
                 background-color: $background-color-second;
-                div {
-
+                .allMenu {
                     background-color: $background-color-second;
+
+                    // .header-allMenu {
+
+                    // }
                 }
             }
         }

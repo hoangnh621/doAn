@@ -47,6 +47,9 @@ import {
   USER_DELETEFOOD_REQUEST,
   USER_DELETEFOOD,
   DELETEFOOD_FAIL,
+  USER_GETFOOD_REQUEST,
+  USER_GETFOOD,
+  GETFOOD_FAIL,
 } from "../constants/userConstants";
 
 //Đăng nhập
@@ -64,12 +67,12 @@ const signin = (email, password) => async (dispatch) => {
 //Đăng xuất
 const logout = () => (dispatch) => {
     Cookie.remove("userInfo");
-    localStorage.removeItem('bodyIndex')
-    localStorage.removeItem('goalFrequency')
-    localStorage.removeItem('percentFood')
     localStorage.removeItem('bodyIndexSv')
     localStorage.removeItem('getMenu')
     localStorage.removeItem('getTypeFood')
+    localStorage.removeItem('setFood')
+    localStorage.removeItem('setMeal')
+    localStorage.removeItem('indexGoal')
     dispatch({ type: USER_LOGOUT })
 }
 
@@ -384,6 +387,29 @@ const deleteFood = (name ) => async (dispatch, getState) => {
   }
 }
 
+//Lấy thức ăn
+const getFood = ( ) => async (dispatch, getState) => {
+  dispatch({ type:USER_GETFOOD_REQUEST, payload: { }})
+  try {
+    const {userSignin: { userInfo }} = getState();
+    const id = userInfo._id
+    const type_update = 'getFood'
+    const { data } = await Axios.post("http://localhost:5000/menu",{type_update, id },
+    {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+    )
+    dispatch({
+     type: USER_GETFOOD, payload: data
+    });
+    localStorage.setItem('setFood', JSON.stringify(data))
+  } catch (error) {
+    dispatch({ type: GETFOOD_FAIL, payload: error.message });
+  }
+}
+
 export { signin, logout, register, forgotpassword, resetpassword, addBodyIndex, addGoalFrequency,
   updatePercentFood,
   getBodyIndex,
@@ -394,5 +420,6 @@ export { signin, logout, register, forgotpassword, resetpassword, addBodyIndex, 
   createFood,
   getTypeFood,
   updateFood,
-  deleteFood
+  deleteFood,
+  getFood
 }

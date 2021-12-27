@@ -10,9 +10,11 @@ import UserItems from './UserItems'
 import ScreenItems from './ScreenItems'
 import { Routes, Route, NavLink, useNavigate } from 'react-router-dom'
 import { Row, Col, ListGroup } from 'reactstrap'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch} from 'react-redux'
 import { useEffect } from 'react'
 import MenuItems from './MenuItems'
+import { getBodyIndex, getMenuUser, getFood } from '../actions/userAction'
+
 
 
 
@@ -21,10 +23,16 @@ function Home() {
     const userSignin = useSelector( state => state.userSignin)
     const { userInfo } = userSignin
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     useEffect(() => {
         if(!userInfo) {
             navigate('/login')
+        }
+        else {
+            dispatch(getBodyIndex())
+            dispatch(getMenuUser())
+            dispatch(getFood())
         }
     })
     return (

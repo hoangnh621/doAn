@@ -5,6 +5,7 @@ import cors from 'cors';
 
 import mealRoutes from './routes/meal.js';
 import login from './routes/login.js';
+import home from './routes/home.js';
 import register from './routes/register.js';
 import forgotpassword from './routes/forgotpassword.js';
 import resetpassword from './routes/resetpassword.js';
@@ -18,7 +19,8 @@ app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }))
 app.use(cors());
 
 //Lấy dữ liệu thức ăn
-app.use('/', mealRoutes);
+app.use('/', home);
+//Bữa ăn
 app.use('/meal', mealRoutes);
 
 //Đăng nhập

@@ -4,7 +4,7 @@ import { createContext, useState, useEffect, useMemo, useRef } from 'react'
 import MenuTable from './MenuTable'
 import SearchMenuTable from './SearchMenuTable'
 import { useDispatch, useSelector, } from 'react-redux'
-import { getMenuUser, getTypeFood, createFood, updateFood, deleteFood } from '../actions/userAction'
+import { getMenuUser, getTypeFood, createFood, updateFood, deleteFood, getFood } from '../actions/userAction'
 import AllMenu from './AllMenu'
 import { BsChevronDown } from 'react-icons/bs'
 import InputInformation from './InputInformation'
@@ -24,6 +24,7 @@ const MenuItems = () => {
     useEffect(() => {
         dispatch(getMenuUser())
         dispatch(getTypeFood())
+        dispatch(getFood())
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
     //Lấy ra loại thức ăn
@@ -75,7 +76,7 @@ const MenuItems = () => {
 
      //Tìm kiếm và phân trang
      let computedFoodData = useMemo(() => {
-         if(userSetFood) {
+         if(userSetFood !== [] && userSetFood !== undefined) {
 
              let computedFoodData = userSetFood
              setTotalItems(computedFoodData.length)
@@ -89,9 +90,10 @@ const MenuItems = () => {
 
     const totalPages = useRef(0)
     useMemo(() => {
+        if(userSetFood !== [] && userSetFood !== undefined)
          totalPages.current = Math.ceil(userSetFood.length / ITEMS_PER_PAGE)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[userSetFood.current])
+    },[userSetFood])
 
     //Ràng buộc dữ liệu thức ăn vào các input tương ứng
     const handleBindFood = (food) => {
@@ -179,7 +181,7 @@ const MenuItems = () => {
                                         </DropdownToggle>
                                         <DropdownMenu >
                                             {
-                                                userGetTypeFood ?
+                                                userSetFood !== [] && userSetFood !== undefined ?
                                                 userGetTypeFood.map((typefood) => {
                                                     return  (
                                                     <DropdownItem 
@@ -254,18 +256,18 @@ const MenuItems = () => {
                             </div>
                         </div>
                         <div className = 'pagination-data d-flex '>
-                {
-                    totalPages.current > 1 
-                    ?
-                    <PaginationData
-                    total = {totalItems}
-                    itemsPerPage = {ITEMS_PER_PAGE}
-                    currentPage = {currentPage}
-                    onPageChange = {page => setCurrentPage(page)}
-                    />
-                    : true
-                }
-            </div>
+                            {
+                                totalPages.current > 1 
+                                ?
+                                <PaginationData
+                                total = {totalItems}
+                                itemsPerPage = {ITEMS_PER_PAGE}
+                                currentPage = {currentPage}
+                                onPageChange = {page => setCurrentPage(page)}
+                                />
+                                : true
+                            }
+                        </div>
                     </Col>
                 </Row>
             </Col>

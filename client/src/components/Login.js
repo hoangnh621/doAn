@@ -13,7 +13,10 @@ function Login() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    const userSignin = useSelector(state => state.userSignin)
+    const userSignin = useSelector(state => {
+        console.log(state)
+        return state.userSignin
+    })
     const { userInfo, error } = userSignin
     const dispatch = useDispatch()
 

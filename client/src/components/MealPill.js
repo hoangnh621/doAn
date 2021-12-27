@@ -1,14 +1,18 @@
 import '../scss/MealPill.scss'
 import MealTable from './MealTable'
-import { Context } from './MealItems'
-import { useState, useContext, useMemo, memo, useEffect, createContext, useRef } from 'react'
-import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap'
+import { useState, useMemo, memo, useEffect, useRef } from 'react'
+import { TabContent, TabPane, Nav, NavItem, NavLink, Button } from 'reactstrap'
+import { useSelector, useDispatch } from 'react-redux'
+import { createMeal, deleteMeal } from '../actions/mealAction'
 
-const MealPillContext = createContext()
 
-const MealPill = () => {
-    //Lấy dữ liệu từ context 
-    const [dataChecked, ] = useContext(Context)
+const MealPill = ({checkedData,setCheckedData, setProgressValue,active, toggle, date}) => {
+    
+    const userIndexGoal = useSelector( state => {
+        console.log('state',state)
+        return state.userIndexGoal
+    })
+    const { indexGoal } = userIndexGoal
 
 
     //Phân chia dữ liệu thành từng Mảng tương ứng với các bữa ăn
@@ -40,8 +44,8 @@ const MealPill = () => {
     const [FatSnacks, setFatSnacks] = useState(0)
 
     useMemo(() => {
-        //Đảm bảo dataChecked không tồn tại đồng thời nhiều phần tử có cùng id và meal
-        const computedFoodData = dataChecked
+        //Đảm bảo checkedData không tồn tại đồng thời nhiều phần tử có cùng id và meal
+        let computedFoodData = checkedData
         for(let i = 0; i < computedFoodData.length; i++) {
             for(let j = i+ 1; j < computedFoodData.length; j++) {
                 const isMatch = (computedFoodData[i]._id === computedFoodData[j]._id && computedFoodData[i].meal === computedFoodData[j].meal )
@@ -57,8 +61,8 @@ const MealPill = () => {
        lunch.current = computedFoodData.filter(item => item.meal === 'lunch')
        dinner.current = computedFoodData.filter(item => item.meal === 'dinner')
        snacks.current = computedFoodData.filter(item => item.meal === 'snacks')
-    }, [dataChecked])
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [ checkedData])
     
     //Hiện thị lượng chất của từng bữa ăn
     useEffect(() => {
@@ -89,13 +93,42 @@ const MealPill = () => {
         setProteinSnacks(proteinSnacks)
         setCarbsSnacks(carbsSnacks)
         setFatSnacks(fatSnacks)
-    }, [dataChecked])
-   
+    }, [checkedData])
 
-    const [active, setActive] = useState('breakfast')
-    const toggle = tab => {
-        setActive(tab);
+    useEffect(() => {
+        if(indexGoal) {
+            const perPro = Math.round( (ProteinBreak + ProteinLunch + ProteinDinner + ProteinSnacks)/indexGoal.protein * 100)
+            const carbsPro = Math.round( (CarbsBreak + CarbsLunch + CarbsDinner + CarbsSnacks)/indexGoal.carbs * 100)
+            const fatPro = Math.round( (FatBreak + FatLunch + FatDinner + FatSnacks)/indexGoal.fat * 100)
+            const caloPro = Math.round( ((ProteinBreak + ProteinLunch + ProteinDinner + ProteinSnacks + CarbsBreak + CarbsLunch + CarbsDinner + CarbsSnacks)*4 + (FatBreak + FatLunch + FatDinner + FatSnacks)*9 )/indexGoal.calo * 100)
+            setProgressValue({ 
+                proProgress: perPro,
+                carbsProgress: carbsPro,
+                fatProgress: fatPro,
+                caloProgress: caloPro,
+            })
+        }
+    },[CarbsBreak, CarbsDinner, CarbsLunch, CarbsSnacks, FatBreak, FatDinner, FatLunch, FatSnacks, ProteinBreak, ProteinDinner, ProteinLunch, ProteinSnacks, indexGoal, setProgressValue])
+   
+    //Lưu bữa ăn
+    const createdAt = ''+date.getDate()+''+ date.getMonth()+''+ date.getFullYear()
+    const dispatch = useDispatch()
+    const handleSetMeal = () => {
+        console.log('dispath')
+        console.log(breakfast.current)
+        dispatch(createMeal(breakfast.current,
+            lunch.current,
+            dinner.current,
+            snacks.current,
+            createdAt
+        ))
     }
+    //Xóa bữa ăn
+    const handleDeleteMeal = () => {
+        setCheckedData([])
+        dispatch(deleteMeal(createdAt))
+    }
+
     return (
         <div className = 'mealPill'>
             <Nav pills fill>
@@ -162,9 +195,12 @@ const MealPill = () => {
                     />
                 </TabPane>
             </TabContent>
+            <div className="save-meal">
+                <Button onClick = {handleSetMeal}>Lưu</Button>
+                <Button onClick = {handleDeleteMeal}>Xóa</Button>
+            </div>
         </div>
     )
 }
 
-export { MealPillContext }
 export default memo(MealPill)

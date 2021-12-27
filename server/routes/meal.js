@@ -1,11 +1,12 @@
 import express from 'express';
 
-import { getFoods } from '../controllers/foods.js';
+import { setMeal } from '../controllers/meal.js';
+import { isAuth } from '../utils.js'
+
 
 const router = express.Router();
 
-router.get('/', getFoods);
-router.get('/meal', getFoods);
+router.post('/', isAuth, setMeal);
 
 
 export default router;

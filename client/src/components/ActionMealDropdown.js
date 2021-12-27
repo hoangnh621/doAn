@@ -17,6 +17,7 @@ const ActionMealDropdown = ({dataObj}) => {
 
     //Lấy dữ liệu từ MealItem
     const [dataChecked, setDataChecked] = useContext(MealItemContext)
+    // console.log(dataChecked, setDataChecked)
 
 
     //Không cho phép tồn tại nhiều thức ăn có id và meal trùng nhau
@@ -52,7 +53,7 @@ const ActionMealDropdown = ({dataObj}) => {
                 if(item._id === dataObj._id && item.meal === dataObj.meal) {
                     return {
                         ...item,
-                        quantityFood: valueQuantityFood
+                        quantityFood: +valueQuantityFood
                     }
                 }
                 return item

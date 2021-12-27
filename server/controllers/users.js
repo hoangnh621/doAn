@@ -484,6 +484,18 @@ export const addMenuFood = async (req, res) => {
                res.send({error: 'Thức ăn không tồn tại'})
             }
         }
+
+        else if(req.body.type_update === 'getFood') {
+            const isFood = await Foods.find({
+                author: req.body.id,
+            }) 
+            if(isFood) {
+                   res.status(200).json(isFood)
+            }
+            else {
+               res.send({error: 'Người dùng chưa tạo thức ăn'})
+            }
+        }
         
     } catch (error) {
         res.status(404).json({ message: error.message }); 

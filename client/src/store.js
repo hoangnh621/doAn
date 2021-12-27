@@ -7,6 +7,9 @@ userAddMenuReducer,
 userSetFoodReducer,
 } from './reducers/userReducers';
 
+import { setNutriReducer } from './reducers/nutriReducer'
+import { userSetMealReducer } from './reducers/mealReducer'
+
 const userInfo = Cookie.getJSON('userInfo') || null
 const initialState = {
     userSignin: { userInfo },
@@ -21,14 +24,25 @@ const initialState = {
       ? JSON.parse(localStorage.getItem('getMenu'))
       : {},
     },
+    userMeal: { 
+      userSetMeal: localStorage.getItem('setMeal')
+      ? JSON.parse(localStorage.getItem('setMeal'))
+      : {},
+    },
     
     userFood: {
         userSetFood: localStorage.getItem('setFood')
         ? JSON.parse(localStorage.getItem('setFood'))
-        : {},
+        : [],
         userGetTypeFood: localStorage.getItem('getTypeFood')
         ? JSON.parse(localStorage.getItem('getTypeFood'))
-        : {},
+        : [],
+    },
+
+    userIndexGoal: {
+      indexGoal: localStorage.getItem('indexGoal')
+      ? JSON.parse(localStorage.getItem('indexGoal'))
+      : {},
     }
     
 };
@@ -41,6 +55,8 @@ const reducer = combineReducers({
     bodyIndexServer: userGetBodyIndexReducer,
     userMenu: userAddMenuReducer, 
     userFood: userSetFoodReducer,
+    userIndexGoal: setNutriReducer,
+    userMeal: userSetMealReducer
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

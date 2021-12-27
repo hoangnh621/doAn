@@ -40,4 +40,17 @@
             }
         }
     }
+
+    .save-meal {
+        position: absolute;
+        bottom: 0.625rem;
+        right: 0;
+        display: flex;
+        padding-right: 9rem;
+        justify-content: flex-end;
+        .btn {
+            @include buttonPrimary;
+            margin-left: 1.1875rem;
+        }
+    }
 }

@@ -1,6 +1,7 @@
 @import 'color';
 
 .customFood {
+    z-index: 4;
     animation-duration: 0.25s;
     animation-name: slideInForm;
 
@@ -22,7 +23,6 @@
 
     position: absolute;
     left: -6.2rem;
-    z-index: 1;
     display: flex;
     flex-direction: column;
 

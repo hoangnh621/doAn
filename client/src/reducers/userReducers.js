@@ -41,6 +41,10 @@ import { USER_SIGNIN_REQUEST, USER_SIGNIN_SUCCESS, USER_SIGNIN_FAIL, USER_LOGOUT
     USER_DELETEFOOD_REQUEST,
     USER_DELETEFOOD,
     DELETEFOOD_FAIL,
+    USER_GETFOOD_REQUEST,
+    USER_GETFOOD,
+    GETFOOD_FAIL,
+
 } from "../constants/userConstants";
 
 function userSigninReducer(state = {}, action) {
@@ -211,12 +215,12 @@ function userSetFoodReducer(state = {}, action) {
             return {  ...state,loading: false , userSetFood: action.payload };
         case DELETEFOOD_FAIL: 
             return {  ...state,loading: false, error: action.payload };
-        //     case USER_GETMENU_REQUEST:
-        //         return { loading: true };
-        //     case USER_GETMENU:
-        //         return { loading: false ,getMenu: action.payload };
-        //     case GETMENU_FAIL: 
-        //         return { loading: false, error: action.payload };
+            case USER_GETFOOD_REQUEST:
+                return {  ...state,loading: true };
+            case USER_GETFOOD:
+                return {  ...state,loading: false ,userSetFood: action.payload };
+            case GETFOOD_FAIL: 
+                return {  ...state,loading: false, error: action.payload };
         case USER_GETTYPEFOOD_REQUEST:
                     return { ...state,loading: true };
             case USER_GETTYPEFOOD:

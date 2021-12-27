@@ -9,6 +9,7 @@ import Forecast from './Forecast'
 import ChartPercentage from './ChartPercentage'
 import { useDispatch, useSelector} from 'react-redux'
 import { addGoalFrequency, updatePercentFood, getBodyIndex } from '../actions/userAction'
+import { setNutri } from '../actions/nutri'
 
 
 const GoalItems = () => {
@@ -18,7 +19,6 @@ const GoalItems = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
     const bodyis = useSelector( state => {
-        console.log(state)
         return state.bodyIndexServer
     })
     const { bodyIndexSv } = bodyis
@@ -228,7 +228,6 @@ const GoalItems = () => {
             )
         }   
         )
-    console.log(dataPersent)
     //Cập nhật tỷ lệ 
       const handlePersent = () => {
           const total = +persentPro + persentCarbs + persentFat
@@ -264,6 +263,15 @@ const GoalItems = () => {
     const handleGoalFrequency = () => {
         dispatch(addGoalFrequency(caloDeviant, goalID, frequencyID, goalWeight ))
     }
+   
+    useEffect(() => {
+        const pro = Math.round((cGoal * persentPro/100)/4)
+        const carbs = Math.round((cGoal * persentCarbs/100)/4)
+        const fat = Math.round((cGoal * persentPro/100)/9)
+        dispatch(setNutri(cGoal, pro, carbs, fat))
+    },[cGoal, dispatch, persentCarbs, persentPro] )
+    const allState = useSelector( state => state)
+    console.log(allState)
 
     //Cập nhật giao diện khi dữ liệu được lấy từ server về
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -339,22 +347,11 @@ const GoalItems = () => {
 
             //Tỷ lệ các chất
             const fat_per = 100 - bodyIndexSv.protein_per - bodyIndexSv.carbs_per
-            // setDataPersent([
-            //     { name: 'Protein', value: bodyIndexSv.protein_per },
-            //     { name: 'Carbs', value: bodyIndexSv.carbs_per },
-            //     { name: 'Fat', value: fat_per },
-            //   ])
             setPersent({
                 persentPro: bodyIndexSv.protein_per,
                 persentCarbs: bodyIndexSv.carbs_per,
                 persentFat: fat_per,
             })
-            // setDataPersent([
-            //     { name: 'Protein', value: +persentPro },
-            //     { name: 'Carbs', value: +persentCarbs },
-            //     { name: 'Fat', value: +persentFat },
-            //   ])
-
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
@@ -549,7 +546,7 @@ const GoalItems = () => {
                         <p>Calo: { cGoal } (calo)</p>
                         <p>Protein: { Math.round((cGoal * persentPro/100)/4) } (g)</p>
                         <p>Carbs: { Math.round((cGoal * persentCarbs/100)/4) } (g)</p>
-                        <p>Fat: { Math.round((cGoal * persentFat/100)/4) } (g)</p>
+                        <p>Fat: { Math.round((cGoal * persentFat/100)/9) } (g)</p>
                         <div className="selectedPercent">
                             <label>
                                 Protein: 
