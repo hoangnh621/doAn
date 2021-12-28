@@ -9,7 +9,6 @@ import { createMeal, deleteMeal } from '../actions/mealAction'
 const MealPill = ({checkedData,setCheckedData, setProgressValue,active, toggle, date}) => {
     
     const userIndexGoal = useSelector( state => {
-        console.log('state',state)
         return state.userIndexGoal
     })
     const { indexGoal } = userIndexGoal
@@ -100,6 +99,7 @@ const MealPill = ({checkedData,setCheckedData, setProgressValue,active, toggle, 
             const perPro = Math.round( (ProteinBreak + ProteinLunch + ProteinDinner + ProteinSnacks)/indexGoal.protein * 100)
             const carbsPro = Math.round( (CarbsBreak + CarbsLunch + CarbsDinner + CarbsSnacks)/indexGoal.carbs * 100)
             const fatPro = Math.round( (FatBreak + FatLunch + FatDinner + FatSnacks)/indexGoal.fat * 100)
+            console.log(FatBreak)
             const caloPro = Math.round( ((ProteinBreak + ProteinLunch + ProteinDinner + ProteinSnacks + CarbsBreak + CarbsLunch + CarbsDinner + CarbsSnacks)*4 + (FatBreak + FatLunch + FatDinner + FatSnacks)*9 )/indexGoal.calo * 100)
             setProgressValue({ 
                 proProgress: perPro,

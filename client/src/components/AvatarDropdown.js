@@ -34,7 +34,7 @@ const AvatarDropdown = () => {
     })
 
     return (
-    <Dropdown isOpen={dropdownOpen} toggle={toggle}>
+    <Dropdown isOpen={dropdownOpen} toggle={toggle} >
         <DropdownToggle caret >
             <a href = {null} className = "avatar d-flex">
                 <div className = "d-flex">

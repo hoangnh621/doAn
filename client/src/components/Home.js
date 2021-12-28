@@ -5,7 +5,7 @@ import {arrItems} from './Data'
 import MealItems from './MealItems'
 import GoalItems from './GoalItems' 
 import TaskItems from './TaskItems'
-import CalendarItems from './CalendarItems'
+import HistoryItems from './HistoryItems'
 import UserItems from './UserItems'
 import ScreenItems from './ScreenItems'
 import { Routes, Route, NavLink, useNavigate } from 'react-router-dom'
@@ -67,7 +67,7 @@ function Home() {
                         <Route path = '/meal'element = {<MealItems/>}/>
                         <Route path = '/menu'element = {<MenuItems/>}/>
                         <Route path = '/goal/*'element = {<GoalItems/>}/>
-                        <Route path = '/calendar'element = {<CalendarItems/>}/>
+                        <Route path = '/history'element = {<HistoryItems/>}/>
                         <Route path = '/task'element = {<TaskItems/>}/>
                         <Route path = '/user'element = {<UserItems/>}/>
                         <Route path = '/screen'element = {<ScreenItems/>}/>

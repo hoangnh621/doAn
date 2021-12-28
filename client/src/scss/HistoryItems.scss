@@ -1,0 +1,151 @@
+@import 'color';
+
+@import 'color';
+
+.history-items {
+    height: 100%;
+    width: 100%;
+    margin: 0 !important;
+    padding-top: 1.75rem;
+    padding-bottom: 1.75rem;
+
+    .today-history-weight {
+        padding: 0 1.75rem 0 0;
+
+        .today-history-header {
+            padding: 1.5rem;
+        
+            h4 {
+                font-weight: 500;
+                font-size: 1.285rem;
+                margin-bottom: 0;
+                color: $text-main;
+            }
+        }
+        .today-chart {
+            height: 50%;
+            border-radius: 0.428rem;
+            padding: 0 0 1.75rem 0;
+            
+            .today-chart-child {
+                position: relative;
+                height: 100%;
+                border-radius: 0.428rem;
+                height: 100%;
+                border-radius: 0.428rem;
+                background-color: $background-color-second;
+
+                .today-history-body {
+                        .col:nth-child(2) {
+                            padding-top: 2rem;
+                            p {
+                                color: $text-main;
+                            }
+                        }
+                }
+
+            }
+        }
+
+        .history-weight {
+            height: 50%;
+            border-radius: 0.428rem;
+
+            .history-weight-child {
+                position: relative;
+                height: 100%;
+                border-radius: 0.428rem;
+                background-color: $background-color-second;
+
+                
+            }
+
+        }
+    }
+
+
+    .percentage-history-calo {
+        padding: 0 0 0 1.75rem;
+        //Bảng bữa ăn trong ngày
+
+        .percentage-history-header {
+            padding: 1.5rem;
+        
+            h4 {
+                font-weight: 500;
+                font-size: 1.285rem;
+                margin-bottom: 0;
+                color: $text-main;
+            }
+        }
+        .percentage-calo {
+            height: 50%;
+            border-radius: 0.428rem;
+            padding: 0 0 1.75rem 0;
+
+            .percentage-calo-child {
+                height: 100%;
+                border-radius: 0.428rem;
+                background-color: $background-color-second;
+
+                .percentage-history-body {
+                        .col:nth-child(1) {
+                            .recharts-wrapper {
+                                position: absolute;
+                                top: -2.125rem;
+                            }
+                           
+                        }
+                        .col:nth-child(2) {
+                            padding-top: 2rem;
+                            p {
+                                color: $text-main;
+                            }
+                        }
+                }
+            }
+        }
+
+        .history-calo {
+            height: 50%;
+            border-radius: 0.428rem;
+
+            .history-calo-child {
+                position: relative;
+                height: 100%;
+                border-radius: 0.428rem;
+                background-color: $background-color-second;
+
+                .percentage-history-header { 
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: flex-start;
+
+                    .dropdown {
+                        border-radius: 0.428rem;
+
+                        .dropdown-toggle {
+                            height: 2.375rem;
+                            width: 11.25rem;
+                            color: $text-main;
+                            border: 0.0625rem solid #ccc;
+
+                            &:active {
+                                background-color: $background-color-second;
+                                box-shadow:none;
+                            }
+                        }
+                    }
+                }
+
+               .recharts-wrapper {
+                    .recharts-legend-wrapper {
+                        bottom: -1rem !important;
+                    }
+               }
+            }
+
+        }
+    }
+
+}

@@ -26,10 +26,10 @@ const arrItems = [
         to: '/goal',
     },
     {
-        id: 'calendar',
+        id: 'history',
         children:  <FiCalendar/>,
         text: 'Lịch sử',
-        to: '/calendar',
+        to: '/history',
     },
     {
         id: 'task',

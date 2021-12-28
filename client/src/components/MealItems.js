@@ -8,6 +8,7 @@ import CalendarMeal from './CalendarMeal'
 import { useSelector, useDispatch } from 'react-redux'
 import PaginationData from './PaginationData'
 import { getMeal } from '../actions/mealAction'
+import { setNutriToday, setNutriTypeMeal } from '../actions/nutri'
 
 const Context = createContext()
 
@@ -138,9 +139,40 @@ const MealItems = () => {
                         meal: meal.type
                     }
                 })
+
+                //Tổng calo
+                const reduceFunctionCalo = (prev, currentValue) => {
+                    const calo = (currentValue.protein * 4 + currentValue.carbs*4 + currentValue.fat*9)*currentValue.quantityFood
+                    return prev + calo
+                }
+                const totalCalo = arrFoodOfMeal.reduce(reduceFunctionCalo, 0)
+                //Tổng protein
+                const reduceFunctionPro = (prev, currentValue) => {
+                    const pro = (currentValue.protein )*currentValue.quantityFood
+                    return prev + pro
+                }
+                const totalPro = arrFoodOfMeal.reduce(reduceFunctionPro, 0)
+                 //Tổng carbs
+                 const reduceFunctionCarbs = (prev, currentValue) => {
+                    const carbs = (currentValue.carbs )*currentValue.quantityFood
+                    return prev + carbs
+                }
+                const totalCarbs = arrFoodOfMeal.reduce(reduceFunctionCarbs, 0)
+                 //Tổng carbs
+                 const reduceFunctionFat = (prev, currentValue) => {
+                    const fat = (currentValue.fat )*currentValue.quantityFood
+                    return prev + fat
+                }
+                const totalFat = arrFoodOfMeal.reduce(reduceFunctionFat, 0)
+
                 return {
                     arrFoodOfMeal,
-                    createdAt: meal.created_at
+                    createdAt: meal.created_at, 
+                    totalCalo,
+                    totalPro,
+                    totalCarbs,
+                    totalFat, 
+                    type: meal.type
                 }
             })
     
@@ -169,10 +201,65 @@ const MealItems = () => {
             if(newMealData.length === 0) {
                 setCheckedData([])
             }
-            else
-            setCheckedData(newMealData[0].arrFoodOfMeal)
+            else {
+                const mealToday = []
+                newMealData.map(item => {
+                    mealToday.push(...item.arrFoodOfMeal)
+                    return item
+                })
+                setCheckedData(mealToday)
+            }
         }
     },[createdAt, handleMeal])
+
+    useEffect(() => {
+        if(handleMeal) {
+
+            const newMealData =  handleMeal.filter((meal) => meal.createdAt === createdAt)
+            if(newMealData.length !== 0) {
+                //Tổng calo
+                const reduceFunctionCalo = (prev, currentValue) => {
+                    const calo = (currentValue.totalPro * 4 + currentValue.totalCarbs*4 + currentValue.totalFat*9)
+                    return prev + calo
+                }
+                const todayCalo = newMealData.reduce(reduceFunctionCalo, 0)
+                //Tổng totalPro
+                const reduceFunctionPro = (prev, currentValue) => {
+                    const pro = (currentValue.totalPro )
+                    return prev + pro
+                }
+                const todayPro = newMealData.reduce(reduceFunctionPro, 0)
+                 //Tổng carbs
+                 const reduceFunctionCarbs = (prev, currentValue) => {
+                    const carbs = (currentValue.totalCarbs )
+                    return prev + carbs
+                }
+                const todayCarbs = newMealData.reduce(reduceFunctionCarbs, 0)
+                 //Tổng carbs
+                 const reduceFunctionFat = (prev, currentValue) => {
+                    const fat = (currentValue.totalFat )
+                    return prev + fat
+                }
+                const todayFat = newMealData.reduce(reduceFunctionFat, 0)
+
+                //Lấy calo từng loại bữa ăn
+                let caloBreak = 0
+                let caloLunch = 0
+                let caloDinner = 0
+                let caloSnacks = 0
+                newMealData.map(item => {
+                    if(item.type === 'breakfast') caloBreak = item.totalCalo
+                    else if(item.type === 'lunch') caloLunch = item.totalCalo
+                    else if(item.type === 'dinner') caloDinner = item.totalCalo
+                    else caloSnacks = item.totalCalo
+                    return item
+                })
+            
+                dispatch(setNutriToday(todayCalo, todayPro, todayCarbs, todayFat))
+                dispatch(setNutriTypeMeal(caloBreak, caloLunch, caloDinner, caloSnacks,))
+            }
+        }
+    },[createdAt, dispatch, handleMeal])
 
     //Tìm kiếm và phân trang
     const [totalItems, setTotalItems] = useState(0)
@@ -190,7 +277,7 @@ const MealItems = () => {
                 (currentPage - 1) * ITEMS_PER_PAGE + ITEMS_PER_PAGE
             )
         }
-   }, [allMenuState, handleMenu, currentPage])
+   }, [allMenuState, currentPage, handleMenu])
 
    const totalPages = useRef(0)
    useMemo(() => {
@@ -198,7 +285,6 @@ const MealItems = () => {
 
            totalPages.current = Math.ceil(allMenuState.length / ITEMS_PER_PAGE)
        }
-   // eslint-disable-next-line react-hooks/exhaustive-deps
    },[allMenuState])
 
    const handleUpdateMenuTable = ( name) => {

@@ -267,9 +267,9 @@ const GoalItems = () => {
     useEffect(() => {
         const pro = Math.round((cGoal * persentPro/100)/4)
         const carbs = Math.round((cGoal * persentCarbs/100)/4)
-        const fat = Math.round((cGoal * persentPro/100)/9)
+        const fat = Math.round((cGoal * persentFat/100)/9)
         dispatch(setNutri(cGoal, pro, carbs, fat))
-    },[cGoal, dispatch, persentCarbs, persentPro] )
+    },[cGoal, dispatch, persentCarbs, persentFat, persentPro] )
     const allState = useSelector( state => state)
     console.log(allState)
 

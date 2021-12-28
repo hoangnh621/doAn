@@ -43,6 +43,12 @@ const initialState = {
       indexGoal: localStorage.getItem('indexGoal')
       ? JSON.parse(localStorage.getItem('indexGoal'))
       : {},
+      nutriToday: localStorage.getItem('nutriToday')
+      ? JSON.parse(localStorage.getItem('nutriToday'))
+      : {},
+      nutriTypeMeal: localStorage.getItem('nutriTypeMeal')
+      ? JSON.parse(localStorage.getItem('nutriTypeMeal'))
+      : {},
     }
     
 };
