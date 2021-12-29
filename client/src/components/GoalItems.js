@@ -211,13 +211,16 @@ const GoalItems = () => {
     }
     const [dataPersent, setDataPersent] = useState( 
         () => {
-            const fat_per = 100 - bodyIndexSv.protein_per - bodyIndexSv.carbs_per
             if(bodyIndexSv)
-            return [
-                { name: 'Protein', value: bodyIndexSv.protein_per },
-                { name: 'Carbs', value: bodyIndexSv.carbs_per },
-                { name: 'Fat', value: fat_per },
-              ]
+            {
+                const fat_per = 100 - bodyIndexSv.protein_per - bodyIndexSv.carbs_per
+
+                return [
+                    { name: 'Protein', value: bodyIndexSv.protein_per },
+                    { name: 'Carbs', value: bodyIndexSv.carbs_per },
+                    { name: 'Fat', value: fat_per },
+                  ]
+            }
             else return (
 
                 [

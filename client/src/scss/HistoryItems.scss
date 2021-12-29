@@ -1,6 +1,5 @@
 @import 'color';
 
-@import 'color';
 
 .history-items {
     height: 100%;
@@ -14,12 +13,31 @@
 
         .today-history-header {
             padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
         
             h4 {
                 font-weight: 500;
                 font-size: 1.285rem;
                 margin-bottom: 0;
                 color: $text-main;
+            }
+
+            .dropdown {
+                border-radius: 0.428rem;
+
+                .dropdown-toggle {
+                    height: 2.375rem;
+                    width: 11.25rem;
+                    color: $text-main;
+                    border: 0.0625rem solid #ccc;
+
+                    &:active {
+                        background-color: $background-color-second;
+                        box-shadow:none;
+                    }
+                }
             }
         }
         .today-chart {
@@ -57,7 +75,13 @@
                 border-radius: 0.428rem;
                 background-color: $background-color-second;
 
-                
+                .recharts-wrapper {
+                    margin-top: 2.4rem;
+
+                    .recharts-legend-wrapper {
+                        bottom: 0.5rem !important;
+                    }
+                }
             }
 
         }
@@ -77,6 +101,8 @@
                 margin-bottom: 0;
                 color: $text-main;
             }
+
+            
         }
         .percentage-calo {
             height: 50%;

@@ -5,6 +5,7 @@ import { userSigninReducer, userRegisterReducer, userForgotPasswordReducer, user
 userGetBodyIndexReducer,
 userAddMenuReducer,
 userSetFoodReducer,
+getHistoryWeightReducer
 } from './reducers/userReducers';
 
 import { setNutriReducer } from './reducers/nutriReducer'
@@ -49,6 +50,11 @@ const initialState = {
       nutriTypeMeal: localStorage.getItem('nutriTypeMeal')
       ? JSON.parse(localStorage.getItem('nutriTypeMeal'))
       : {},
+    },
+    userWeight: {
+      getHistoryWeight: localStorage.getItem('getHistoryWeight')
+      ? JSON.parse(localStorage.getItem('getHistoryWeight'))
+      : {},
     }
     
 };
@@ -62,7 +68,8 @@ const reducer = combineReducers({
     userMenu: userAddMenuReducer, 
     userFood: userSetFoodReducer,
     userIndexGoal: setNutriReducer,
-    userMeal: userSetMealReducer
+    userMeal: userSetMealReducer,
+    userWeight: getHistoryWeightReducer,
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

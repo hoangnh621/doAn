@@ -20,7 +20,7 @@ const createMeal = ( breakfast, lunch, dinner, snacks, createdAt ) => async (dis
       dispatch({
        type: USER_CREATEMEAL, payload: data
       });
-     console.log('data',data)
+     
       localStorage.setItem('setMeal', JSON.stringify(data))
     } catch (error) {
       dispatch({ type: CREATEMEAL_FAIL, payload: error.message });
@@ -43,7 +43,7 @@ const deleteMeal = ( createdAt ) => async (dispatch, getState) => {
     dispatch({
      type: USER_DELETEMEAL, payload: data
     });
-   console.log('data',data)
+   
     localStorage.setItem('setMeal', JSON.stringify(data))
   } catch (error) {
     dispatch({ type: DELETEMEAL_FAIL, payload: error.message });
@@ -67,7 +67,7 @@ const getMeal = (  ) => async (dispatch, getState) => {
     dispatch({
      type: USER_GETMEAL, payload: data
     });
-   console.log('data',data)
+   
     localStorage.setItem('setMeal', JSON.stringify(data))
   } catch (error) {
     dispatch({ type: GETMEAL_FAIL, payload: error.message });

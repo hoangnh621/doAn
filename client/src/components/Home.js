@@ -13,7 +13,7 @@ import { Row, Col, ListGroup } from 'reactstrap'
 import { useSelector, useDispatch} from 'react-redux'
 import { useEffect } from 'react'
 import MenuItems from './MenuItems'
-import { getBodyIndex, getMenuUser, getFood } from '../actions/userAction'
+import { getBodyIndex, getMenuUser, getFood, getHistoryWeightAction } from '../actions/userAction'
 
 
 
@@ -33,6 +33,7 @@ function Home() {
             dispatch(getBodyIndex())
             dispatch(getMenuUser())
             dispatch(getFood())
+            dispatch(getHistoryWeightAction())
         }
     })
     return (

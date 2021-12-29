@@ -5,6 +5,7 @@ import CustomRadio from './CustomRadio'
 import { memo } from 'react'
 import { useDispatch } from 'react-redux'
 import { addBodyIndex } from '../actions/userAction'
+import moment from 'moment'
 
 
 const GoalForm = ({bodyIndexC, setBodyIndex}) => {
@@ -30,7 +31,8 @@ const GoalForm = ({bodyIndexC, setBodyIndex}) => {
     }
     const dispatch = useDispatch()
     const handleUpdate = () => {
-        dispatch(addBodyIndex(height, weight, age, bodyfat, sex))
+        const createdAt = moment().month(10).format('DDMMYYYY')
+        dispatch(addBodyIndex(height, weight, age, bodyfat, sex, createdAt))
     }
     
 

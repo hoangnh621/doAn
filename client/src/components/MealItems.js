@@ -105,13 +105,12 @@ const MealItems = () => {
      //Lấy state bữa ăn
      const userMeal = useSelector( state => 
         {
+            console.log('state', state)
             return state.userMeal
         }
     )
 
     const { userSetMeal  } = userMeal
-    console.log('userSetMeal', userSetMeal)
-
     const [allMealState, setAllMealState] = useState()
     const [allMealFoodState, setAllMealFoodState] = useState()
 
@@ -193,7 +192,6 @@ const MealItems = () => {
             setCheckedData(newMealData[0].arrFoodOfMeal)
         }
     }
-    console.log('handleMeal',handleMeal)
     useMemo(() => {
         if(handleMeal) {
 
@@ -301,7 +299,6 @@ const MealItems = () => {
         fatProgress: 0,
         caloProgress: 0,
     })
-    console.log('dataChecked', checkedData)
     
     return (
         <Context.Provider value = {[ checkedData, setCheckedData ]}>

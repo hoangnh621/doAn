@@ -50,6 +50,9 @@ import {
   USER_GETFOOD_REQUEST,
   USER_GETFOOD,
   GETFOOD_FAIL,
+  USER_GETHISTORYWEIGHT, 
+  USER_GETHISTORYWEIGHT_REQUEST,
+  GETHISTORYWEIGHT_FAIL
 } from "../constants/userConstants";
 
 //Đăng nhập
@@ -73,6 +76,9 @@ const logout = () => (dispatch) => {
     localStorage.removeItem('setFood')
     localStorage.removeItem('setMeal')
     localStorage.removeItem('indexGoal')
+    localStorage.removeItem('nutriToday')
+    localStorage.removeItem('nutriTypeMeal')
+    localStorage.removeItem('getHistoryWeight')
     dispatch({ type: USER_LOGOUT })
 }
 
@@ -113,13 +119,13 @@ const resetpassword = (password, name) => async (dispatch) => {
 }
 
 //Cập nhật chỉ số cá nhân
-const addBodyIndex = (height, weight, age, bodyfat, sex) => async (dispatch, getState) => {
-  dispatch({ type:USER_ADD_BODYINDEX_REQUEST, payload : {height, weight, age, bodyfat, sex}})
+const addBodyIndex = (height, weight, age, bodyfat, sex, createdAt) => async (dispatch, getState) => {
+  dispatch({ type:USER_ADD_BODYINDEX_REQUEST, payload : {height, weight, age, bodyfat, sex, createdAt}})
   try {
     const {userSignin: { userInfo }} = getState();
     const id = userInfo._id
     const type_update = 'bodyIndex'
-    const { data } = await Axios.post("http://localhost:5000/goal",{type_update, id,height, weight, age, bodyfat, sex},
+    const { data } = await Axios.post("http://localhost:5000/goal",{type_update, id,height, weight, age, bodyfat, sex,createdAt},
     {
       headers: {
         Authorization: `Bearer ${userInfo.token}`,
@@ -410,6 +416,28 @@ const getFood = ( ) => async (dispatch, getState) => {
   }
 }
 
+//Lấy dữ liệu cân nặng
+const getHistoryWeightAction = ( ) => async (dispatch, getState) => {
+  dispatch({ type:USER_GETHISTORYWEIGHT_REQUEST, payload: { }})
+  try {
+    const {userSignin: { userInfo }} = getState();
+    const id = userInfo._id
+    const { data } = await Axios.post("http://localhost:5000/history",{ id },
+    {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+    )
+    dispatch({
+     type: USER_GETHISTORYWEIGHT, payload: data
+    });
+    localStorage.setItem('getHistoryWeight', JSON.stringify(data))
+  } catch (error) {
+    dispatch({ type: GETHISTORYWEIGHT_FAIL, payload: error.message });
+  }
+}
+
 export { signin, logout, register, forgotpassword, resetpassword, addBodyIndex, addGoalFrequency,
   updatePercentFood,
   getBodyIndex,
@@ -421,5 +449,6 @@ export { signin, logout, register, forgotpassword, resetpassword, addBodyIndex, 
   getTypeFood,
   updateFood,
   deleteFood,
-  getFood
+  getFood,
+  getHistoryWeightAction
 }

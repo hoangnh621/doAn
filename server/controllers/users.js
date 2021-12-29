@@ -6,6 +6,8 @@ import Menu from '../models/menu.js';
 import Foods from '../models/foods.js';
 import TypeFoods from '../models/typeFood.js';
 import MenuFood from '../models/menu_food.js';
+import DetailHistory from '../models/detailHistory.js';
+import HistoryWeight from '../models/historyWeight.js';
 import nodemailer from 'nodemailer'
 
 const router = express.Router();
@@ -149,26 +151,35 @@ export const addBodyIndex = async (req, res) => {
             const isBodyIndex = await BodyIndex.findOne({
                 author: req.body.id,
             })
-            if(!isBodyIndex) {
+            if(isBodyIndex.weight === 0) {
+                const updateBodyIndex = await BodyIndex.updateOne(
+                    {author: isBodyIndex.author},
+                    {$set :{
+                        height: req.body.height,
+                        weight: req.body.weight,
+                        age: req.body.age,
+                        sex: req.body.sex,
+                        bodyfat: req.body.bodyfat,
+                    }}
+                )
     
-                const bodyIndex = new BodyIndex({
-                    author: req.body.id,
-                    height: req.body.height,
-                    weight: req.body.weight,
-                    age: req.body.age,
-                    sex: req.body.sex,
-                    bodyfat: req.body.bodyfat,
+                const newHistoryWeight = new HistoryWeight({
+                    user_id: req.body.id
                 })
-               const newBodyIndex = await bodyIndex.save()
-               res.send({ 
-                    _id: newBodyIndex.id,
-                    author: newBodyIndex.author,
-                    height: newBodyIndex.height,
-                    weight: newBodyIndex.weight,
-                    age: newBodyIndex.age,
-                    sex: newBodyIndex.sex,
-                    bodyfat: newBodyIndex.bodyfat,
-               })
+                const isSaveHW = await newHistoryWeight.save()
+                if(isSaveHW) {
+
+                    const newDetailHistory = new DetailHistory({
+                        history_weight_id: newHistoryWeight._id,
+                        weight: req.body.weight,
+                        created_at: req.body.createdAt,
+                    })
+                    const isNewDH = await newDetailHistory.save()
+                }
+                if(updateBodyIndex) {
+                    res.status(200)
+                }
+                else res.status(401)
             }
             else {
                 const updateBodyIndex = await BodyIndex.updateOne(
@@ -181,7 +192,16 @@ export const addBodyIndex = async (req, res) => {
                         bodyfat: req.body.bodyfat,
                     }}
                 )
-                if(updateBodyIndex) {
+                const historyWeightOld = await HistoryWeight.find({
+                    user_id: req.body.id
+                })
+                const newDetailHistory = new DetailHistory({
+                    history_weight_id: historyWeightOld._id,
+                    weight: req.body.weight,
+                    createdAt: req.body.createdAt,
+                })
+                const isNewDH = await newDetailHistory.save()
+                if(updateBodyIndex && isNewDH) {
                     res.status(200)
                 }
                 else res.status(401)
@@ -276,7 +296,7 @@ export const getBodyIndex = async (req, res) => {
                 author: req.body.id,
             })
            const newBodyIndex = await bodyIndex.save()
-           res.status(200).json(bodyIndex)
+           res.status(200).json(newBodyIndex)
         }
         else {
            res.status(200).json(isBodyIndex)
@@ -535,6 +555,25 @@ export const getTypeFood = async (req, res) => {
             res.status(200).json(isTypeFood)
         }
         else res.status(401)
+    }
+    catch(error) {
+        res.status(404).json({ message: error.message }); 
+    }
+}
+
+//Lấy lịch sử cân nặng
+export const getHistoryWeight = async (req, res) => {
+    try {
+        const historyWeight = await HistoryWeight.findOne({
+            user_id: req.body.id
+        })
+        if(historyWeight) {
+            const detailHistory = await DetailHistory.find({
+                history_weight_id: historyWeight._id
+            })
+            res.status(200).json(detailHistory)
+        }
+        else res.status(401).send({message: 'Người dùng chưa tạo cân nặng nào'})
     }
     catch(error) {
         res.status(404).json({ message: error.message }); 

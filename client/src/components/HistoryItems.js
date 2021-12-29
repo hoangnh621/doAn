@@ -3,14 +3,40 @@ import  '../scss/HistoryItems.scss'
 import TodayChart from './TodayChart'
 import PercentFourMealChart from './PercentFourMealChart'
 import { useState, useMemo, useEffect} from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector,  } from 'react-redux'
 import HistoryCaloChart from './HistoryCaloChart.js'
+import HistoryWeight from './HistoryWeight'
 import moment from 'moment'
 
 const HistoryItems = () => {
     const [dropdownOpen, setOpen] = useState(false);
 
     const toggle = () => setOpen(!dropdownOpen);
+
+    // const [dropdownOpen2, setOpen2] = useState(false);
+
+    // const toggle2 = () => setOpen2(!dropdownOpen2);
+     //Biểu đồ lịch sử cân nặng
+     
+     const [dataWeight, setDataWeight] = useState()
+     const userWeight = useSelector( state => {
+        return state.userWeight
+    })
+    const { getHistoryWeight } = userWeight
+    useMemo(()=> {
+        if(getHistoryWeight) {
+            const newDataWeight = getHistoryWeight.map(item => {
+                const date = moment(item.created_at,'DDMMYYYY').add(1, 'month').format('DD-MM-YYYY')
+               return ({
+                    name: date,
+                    weight: item.weight
+                })
+            }
+            )
+            setDataWeight(newDataWeight)
+        }
+    },[ getHistoryWeight])
+
     //Biểu đồ hôm nay
     const [percent, setPercent] = useState(80)
     const userIndexGoal = useSelector( state => {
@@ -30,55 +56,10 @@ const HistoryItems = () => {
     )
 
     //Biểu đồ lich sử calo
-    const [historyCalo, setHistoryCalo] = useState(
-        [
-            {
-              name: 'Page A',
-              goal: 4000,
-              done: 2400,
-              amt: 2400,
-            },
-            {
-              name: 'Page B',
-              goal: 3000,
-              done: 1398,
-              amt: 2210,
-            },
-            {
-              name: 'Page C',
-              goal: 2000,
-              done: 5000,
-              amt: 2290,
-            },
-            {
-              name: 'Page D',
-              goal: 2780,
-              done: 3908,
-              amt: 2000,
-            },
-            {
-              name: 'Page E',
-              goal: 1890,
-              done: 4800,
-              amt: 2181,
-            },
-            {
-              name: 'Page F',
-              goal: 2390,
-              done: 3800,
-              amt: 2500,
-            },
-            {
-              name: 'Page G',
-              goal: 3490,
-              done: 4300,
-              amt: 2100,
-            },
-          ]
-    )
+    const [historyCalo, setHistoryCalo] = useState([])
     useMemo(() => {
         if(indexGoal && nutriToday && nutriTypeMeal) {
-            const newPercent = Math.round(nutriToday.calo/indexGoal.calo * 100)
+            const newPercent = Math.round(nutriToday.calo/indexGoal.calo * 100) || 0
             setPercent(newPercent)
             setDataTypeMeal(
                 [
@@ -163,7 +144,6 @@ const HistoryItems = () => {
             return handleMeal
         }
     },[allFoodState, allMealFoodState, allMealState])
-    console.log(handleMeal)
 
     //Tạo ra  mảng các ngày cần xem lịch sử calo, mặc định 7 ngày
     //state số ngày muốn xem lịch sử
@@ -179,7 +159,6 @@ const HistoryItems = () => {
                     const prevDateNotY = moment().month(10).add(-i,'day').format('DD/MM')
                     arrDate.push({prevDate, prevDateNotY})
                 }
-                console.log('arrdate', arrDate)
                 const dataCalo = arrDate.map(item => {
                     const dataForItem = handleMeal.filter(meal => {
                         return meal.createdAt === item.prevDate
@@ -203,13 +182,12 @@ const HistoryItems = () => {
                         }
                     }
                 })
-                console.log('dataCalo', dataCalo)
-    
                 setHistoryCalo(dataCalo)
             }
         }
     },[handleMeal, indexGoal, numberDate, nutriToday, nutriTypeMeal])
 
+   
     return (
         <Row className = "history-items">
         <Col className=" today-history-weight col-md-6 p-0 ">
@@ -237,8 +215,20 @@ const HistoryItems = () => {
                 <div className = 'history-weight-child'>
                     <div className="today-history-header">
                         <h4>Lịch sử cân nặng</h4>
+                        {/* <Dropdown isOpen={dropdownOpen2} toggle={toggle2} >
+                        <DropdownToggle caret >
+                            Lần cập nhật
+                        </DropdownToggle>
+                        <DropdownMenu>
+                            <DropdownItem onClick = {() => setNumberDate(7)}>7 lần gần nhất</DropdownItem>
+                            <DropdownItem onClick = {() => setNumberDate(30)}>14 lần gần nhất</DropdownItem>
+                            <DropdownItem onClick = {() => setNumberDate(90)}>Tất cả</DropdownItem>
+                        </DropdownMenu>
+                        </Dropdown> */}
                     </div>
-                    
+                    <HistoryWeight
+                    dataWeight = { dataWeight }
+                    />
                 </div>
                
             </div>

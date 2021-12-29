@@ -44,7 +44,9 @@ import { USER_SIGNIN_REQUEST, USER_SIGNIN_SUCCESS, USER_SIGNIN_FAIL, USER_LOGOUT
     USER_GETFOOD_REQUEST,
     USER_GETFOOD,
     GETFOOD_FAIL,
-
+    USER_GETHISTORYWEIGHT, 
+    USER_GETHISTORYWEIGHT_REQUEST,
+    GETHISTORYWEIGHT_FAIL
 } from "../constants/userConstants";
 
 function userSigninReducer(state = {}, action) {
@@ -230,6 +232,23 @@ function userSetFoodReducer(state = {}, action) {
         default: return state;
     }
 } 
+
+export const getHistoryWeightReducer = (state = {}, action) => {
+    switch(action.type) {
+        case USER_GETHISTORYWEIGHT_REQUEST:
+            return { loading: true };
+        case USER_GETHISTORYWEIGHT:
+            return {
+                
+                loading: false ,
+                getHistoryWeight: action.payload
+             };
+        case GETHISTORYWEIGHT_FAIL: 
+            return { loading: false, error: action.payload };
+        default: return state;
+    }
+    
+}
 
 
 
