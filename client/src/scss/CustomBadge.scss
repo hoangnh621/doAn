@@ -1,0 +1,19 @@
+@import 'color';
+
+.low {
+    color: $low !important;
+    border-radius: 50rem !important;
+    background-color: $background-color-low !important;
+}
+
+.mid {
+    color: $mid !important;
+    border-radius: 50rem !important;
+    background-color: $background-color-mid !important;
+}
+
+.hight {
+    color: $hight !important;
+    border-radius: 50rem !important;
+    background-color: $background-color-hight !important;
+}

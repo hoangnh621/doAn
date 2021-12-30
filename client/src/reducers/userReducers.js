@@ -46,7 +46,10 @@ import { USER_SIGNIN_REQUEST, USER_SIGNIN_SUCCESS, USER_SIGNIN_FAIL, USER_LOGOUT
     GETFOOD_FAIL,
     USER_GETHISTORYWEIGHT, 
     USER_GETHISTORYWEIGHT_REQUEST,
-    GETHISTORYWEIGHT_FAIL
+    GETHISTORYWEIGHT_FAIL,
+    USER_CREATETASK_REQUEST,
+    USER_CREATETASK,
+    CREATETASK_FAIL
 } from "../constants/userConstants";
 
 function userSigninReducer(state = {}, action) {
@@ -233,7 +236,7 @@ function userSetFoodReducer(state = {}, action) {
     }
 } 
 
-export const getHistoryWeightReducer = (state = {}, action) => {
+const getHistoryWeightReducer = (state = {}, action) => {
     switch(action.type) {
         case USER_GETHISTORYWEIGHT_REQUEST:
             return { loading: true };
@@ -250,11 +253,30 @@ export const getHistoryWeightReducer = (state = {}, action) => {
     
 }
 
+const setTaskReducer = (state = {}, action) => {
+    switch(action.type) {
+        case USER_CREATETASK_REQUEST:
+            return {  ...state,loading: true };
+        case USER_CREATETASK:
+            return {
+                ...state,
+                loading: false ,
+                setTask: action.payload
+             };
+        case CREATETASK_FAIL: 
+            return {  ...state,loading: false, error: action.payload };
+        default: return state;
+    }
+    
+}
+
 
 
 export { userSigninReducer, userRegisterReducer, userForgotPasswordReducer, userResetPasswordReducer,
     userAddBodyIndexReducer,
     userGetBodyIndexReducer,
     userAddMenuReducer,
-    userSetFoodReducer
+    userSetFoodReducer,
+    getHistoryWeightReducer,
+    setTaskReducer
 }

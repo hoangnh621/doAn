@@ -12,6 +12,7 @@ import resetpassword from './routes/resetpassword.js';
 import goal from './routes/goal.js';
 import menu from './routes/menu.js';
 import history from './routes/history.js';
+import task from './routes/task.js';
 
 const app = express();
 
@@ -44,6 +45,9 @@ app.use('/menu', menu)
 
 //Lịch sử
 app.use('/history', history)
+
+//Nhiệm vụ
+app.use('/task', task)
 
 
 

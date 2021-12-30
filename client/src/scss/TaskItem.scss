@@ -1,0 +1,201 @@
+@import 'color';
+
+.task-container {
+    height: 100%;
+    padding: 1.75rem 0 1.75rem 0;
+    .task-item {
+        height: 100%;
+        border-radius: 0.428rem;
+        background-color: $background-color-second;
+        border: 0.0625rem solid $border;
+
+
+        .row {
+            height: 100%;
+
+            .col-2 {
+                border-right: 0.0625rem solid $border;
+                .header-task {
+                    
+                    padding: 1.3125rem 2.625rem 1.3125rem 1.3125rem;
+                    .btn {
+                        @include buttonPrimary;
+                    }
+                   
+                }
+
+                .body-task {
+                    .nav {
+                        .nav-item {
+                            .nav-link {
+                                display: flex;
+                                align-items: center;
+                                padding-left: 1.125rem;
+                                color: $text-main;
+
+                                svg {
+                                    margin-right: 0.75rem;
+                                }
+
+                                span {
+                                    margin-right: 0.75rem;
+                                    height: 0.75rem;
+                                    width: 0.75rem;
+                                    border-radius: 50%;
+                                }
+
+                                &:hover {
+                                    color: $primary;
+                                    svg {
+                                        color: $primary;
+                                    }
+                                }
+                            }
+
+                            &:nth-child(4) {
+                                .nav-link {
+                                    span {
+                                        background-color: $low;
+                                    }
+                                }
+                            }
+
+                            &:nth-child(5) {
+                                .nav-link {
+                                    span {
+                                        background-color: $mid;
+                                    }
+                                } 
+                            }
+
+                            &:nth-child(6) {
+                                .nav-link {
+                                    span {
+                                        background-color: $hight;
+                                    }
+                                } 
+                            }
+
+                            .active {
+                                color: $primary;
+                                border-left: 0.125rem solid $primary;
+                                border-radius: 0;
+                                background-color: $background-color-second;
+                                svg {
+                                    color: $primary;
+                                }
+                            }
+
+                            .disabled {
+                                margin-top: 2.625rem;
+                                color: $text-second;
+                            }
+                        }
+
+                    }
+                }
+            }
+
+            .col-10 {
+                padding-left: 0;
+                .row {
+                    .col {
+                        padding: 1.3125rem 2rem;
+
+                        .type-task {
+                            margin-top: 1.375rem;
+                            p {
+                                color: $text-main;
+                            }
+                        }
+
+                        p {
+                            color: $text-main;
+                        }
+
+                        textarea {
+                            background-color: $background-color-second;
+                            color: $text-main;
+                            border-radius: 0.428rem;
+
+                            &:focus-visible {
+                                outline: none;
+                                border-color: $primary;
+                            }
+                        }
+
+                        .save-reset {
+                            display: flex;
+                            justify-content: flex-end;
+                            margin-top: 0.5rem;
+                            .btn:first-child {
+                                @include buttonPrimary;
+                            }
+                            .btn:nth-child(2) {
+                                margin-left: 1rem;
+                            }
+                        }
+                    }
+                }
+
+                .search-task {
+                    height: 3.0625rem;
+                    display: flex;
+                    align-items: center;
+                    border-bottom: 0.0625rem solid $border;
+                    svg {
+                        font-size: 1.3125rem;
+                        color: $text-second;
+                        margin-right: 0.75rem;
+                        margin-left: 0.75rem;
+                    }
+
+                    input {
+                        width: calc(100% - 3.25rem);
+                        background-color: $background-color-second;
+                        border: 0;
+                        color: $text-second;
+
+                        &:focus-visible {
+                            outline: 0;
+                        }
+                    }
+                }
+
+                .tab-content {
+                    .tab-pane {
+                        .list-group {
+                            .list-group-item {
+                                background-color: $background-color-second;
+                                border-bottom: 0.0625rem solid $border;
+                                .row {
+                                    .col {
+                                        color: $text-main;
+
+                                        &:nth-child(4) {
+                                            border: 0;
+                                        }
+                                    }
+
+                                    .col:nth-child(5) {
+                                       display: flex;
+                                       justify-content: center;
+                                       align-items: flex-start;
+                                            svg {
+                                                font-size: 1.3125rem;
+                                            }
+
+                                        &:hover {
+                                            cursor: pointer;
+                                            color: $hight;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

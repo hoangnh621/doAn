@@ -1,6 +1,9 @@
 import '../scss/InputInformation.scss'
 
-function InputInformation({id, content, type = 'text', placeholder, data, setData, min = 0, max, warning = false, contentWarning = ''}) {
+function InputInformation({id, content, type = 'text', placeholder, data, setData, min = 0, max,
+ warning = false, contentWarning = '', onClick = () => {}, 
+ isDisabled = ''
+}) {
     return (
         <div className = "InputInformation ">
             <label htmlFor={id}>{content}</label>
@@ -11,7 +14,10 @@ function InputInformation({id, content, type = 'text', placeholder, data, setDat
             id = {id} 
             value = {data}
             onChange = {(e) => setData(e.target.value)}
-            placeholder = {placeholder} />
+            placeholder = {placeholder}
+            onClick = {onClick}
+            readOnly = {isDisabled}
+             />
             {
                 warning 
                 ? 

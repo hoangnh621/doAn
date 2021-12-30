@@ -52,7 +52,10 @@ import {
   GETFOOD_FAIL,
   USER_GETHISTORYWEIGHT, 
   USER_GETHISTORYWEIGHT_REQUEST,
-  GETHISTORYWEIGHT_FAIL
+  GETHISTORYWEIGHT_FAIL,
+  USER_CREATETASK_REQUEST,
+  USER_CREATETASK,
+  CREATETASK_FAIL,
 } from "../constants/userConstants";
 
 //Đăng nhập
@@ -79,6 +82,7 @@ const logout = () => (dispatch) => {
     localStorage.removeItem('nutriToday')
     localStorage.removeItem('nutriTypeMeal')
     localStorage.removeItem('getHistoryWeight')
+    localStorage.removeItem('setTask')
     dispatch({ type: USER_LOGOUT })
 }
 
@@ -438,6 +442,30 @@ const getHistoryWeightAction = ( ) => async (dispatch, getState) => {
   }
 }
 
+//Cập nhật task
+const createTask = (name, type, desc, due ) => async (dispatch, getState) => {
+  dispatch({ type:USER_CREATETASK_REQUEST, payload: {name, type, desc, due }})
+  try {
+    const {userSignin: { userInfo }} = getState();
+    const id = userInfo._id
+    const type_update = 'setTask'
+    const { data } = await Axios.post("http://localhost:5000/task",{ type_update, id, name, type, desc, due},
+    {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+    )
+    dispatch({
+     type: USER_CREATETASK, payload: data
+    });
+    console.log('data', data)
+    localStorage.setItem('setTask', JSON.stringify(data))
+  } catch (error) {
+    dispatch({ type: CREATETASK_FAIL, payload: error.message });
+  }
+}
+
 export { signin, logout, register, forgotpassword, resetpassword, addBodyIndex, addGoalFrequency,
   updatePercentFood,
   getBodyIndex,
@@ -450,5 +478,6 @@ export { signin, logout, register, forgotpassword, resetpassword, addBodyIndex, 
   updateFood,
   deleteFood,
   getFood,
-  getHistoryWeightAction
+  getHistoryWeightAction,
+  createTask
 }

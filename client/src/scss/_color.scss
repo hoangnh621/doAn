@@ -3,6 +3,10 @@
 //color
 $primary: rgb(115, 103, 240);
 $warning: rgb(240, 151, 67);
+$low: rgb(40, 199, 111);
+$mid: rgb(255, 159, 67);
+$hight: rgb(234, 84, 85);
+$border: rgb(59, 66, 83);
 $primary-button: rgba(115, 103, 240, .7);
 $primary-progress: rgba(115, 103, 240, .12);
 
@@ -15,6 +19,9 @@ $background-color-hoverTable: rgba(0,0,0,.075);
 $background-color-main: rgb(22, 29, 49);
 $background-color-second: rgb(40, 48, 70);
 $background-color-primary: rgba(115,103,240,.12);
+$background-color-low: rgba(40, 199, 111,.12);
+$background-color-mid: rgba(255, 159, 67,.12);
+$background-color-hight: rgba(234, 84, 85,.12);
 
 @mixin buttonPrimary {
     background-image: linear-gradient(118deg, $primary,$primary-button);

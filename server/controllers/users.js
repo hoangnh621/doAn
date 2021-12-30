@@ -4,6 +4,8 @@ import Users from '../models/users.js';
 import BodyIndex from '../models/bodyIndex.js';
 import Menu from '../models/menu.js';
 import Foods from '../models/foods.js';
+import Tasks from '../models/tasks.js';
+import UserTasks from '../models/user_tasks.js';
 import TypeFoods from '../models/typeFood.js';
 import MenuFood from '../models/menu_food.js';
 import DetailHistory from '../models/detailHistory.js';
@@ -574,6 +576,51 @@ export const getHistoryWeight = async (req, res) => {
             res.status(200).json(detailHistory)
         }
         else res.status(401).send({message: 'Người dùng chưa tạo cân nặng nào'})
+    }
+    catch(error) {
+        res.status(404).json({ message: error.message }); 
+    }
+}
+
+//
+export const setTask = async (req, res) => {
+    try {
+        if(req.body.type_update === 'setTask') {
+            const isUserTask = await UserTasks.findOne({
+                user_id: req.body.id
+            })
+            if(!isUserTask ) {
+                const newUserTask = new UserTasks({
+                    user_id: req.body.id
+                })
+                const isSaveUserTask = newUserTask.save()
+                if(isSaveUserTask) {
+                    const newTask = new Tasks({
+                        user_tasks_id: newUserTask._id,
+                        name: req.body.name,
+                        type: req.body.type,
+                        decs: req.body.decs,
+                        due: req.body.due,
+                    })
+                    const isSaveTask = newTask.save()
+                    res.status(200).json(newTask)
+                }
+                else res.status(401).json({ message: 'error'})
+            }
+            else {
+                const newTask = new Tasks({
+                    user_tasks_id: isUserTask._id,
+                    name: req.body.name,
+                    type: req.body.type,
+                    decs: req.body.decs,
+                    due: req.body.due,
+                })
+                const isSaveTask = newTask.save()
+                res.status(200).json(newTask)
+            }
+        }
+        else res.status(401).json({ message: 'lỗi'})
+        
     }
     catch(error) {
         res.status(404).json({ message: error.message }); 
