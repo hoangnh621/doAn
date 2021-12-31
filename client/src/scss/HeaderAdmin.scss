@@ -1,0 +1,81 @@
+@import 'color';
+
+.header-admin {
+    margin-top: 1.75rem;
+
+    .col {
+        &:nth-child(2n+ 1) {
+            padding-right: 0.875rem;
+        }
+        &:nth-child(2n) {
+            padding-left: 0.875rem;
+        }
+        &:nth-child(1) {
+            .item-header-admin {
+                .icon-admin {
+                    color: $low;
+                    background-color: $background-color-low;
+                }
+            }
+        }
+
+        &:nth-child(2) {
+            .item-header-admin {
+                .icon-admin {
+                    color: $primary;
+                    background-color: $background-color-primary;
+                }
+            }
+        }
+
+        &:nth-child(3) {
+            .item-header-admin {
+                .icon-admin {
+                    color: $mid;
+                    background-color: $background-color-mid;
+                }
+            }
+        }
+        &:nth-child(4) {
+            .item-header-admin {
+                .icon-admin {
+                    color: $hight;
+                    background-color: $background-color-hight;
+                }
+            }
+        }
+        .item-header-admin {
+            padding: 1.3125rem;
+            display: flex;
+            justify-content:space-between;
+            color: $text-main;
+            border-radius: 0.428rem;
+            background-color: $background-color-second;
+
+            .total-item {
+                h3 {
+                    font-size: 1.3125rem;
+                    font-weight: 600;
+                    margin-bottom: 0.625rem;
+                }
+
+                p {
+                    margin: 0;
+                    font-size: 0.875rem;
+                }
+            }
+
+            .icon-admin {
+                height: 2.875rem;
+                width: 2.875rem;
+                display: flex;
+                align-items: center;
+                justify-content:center;
+                border-radius: 50%;
+                font-size: 21px;
+                // font-weight:600;
+            }
+        }
+    }
+
+}

@@ -3,6 +3,8 @@ import { CgScreen} from 'react-icons/cg'
 import { MdChecklist} from 'react-icons/md'
 import { FiCalendar, FiCheckSquare} from 'react-icons/fi'
 import { RiUserLine, RiLineChartLine} from 'react-icons/ri'
+import { MdOutlineFastfood } from 'react-icons/md'
+import { BiFoodMenu } from 'react-icons/bi'
 
 
 //Item của trang chủ
@@ -34,7 +36,7 @@ const arrItems = [
     {
         id: 'task',
         children:  <FiCheckSquare/>,
-        text: 'Ghi chú',
+        text: 'Nhiệm vụ',
         to: '/task',
     },
     {
@@ -51,5 +53,27 @@ const arrItems = [
     },
 ]
 
+//Item admin
+const adminItem = [
+    {
+        id: 'managerUser',
+        children:   <RiUserLine/>,
+        text: 'Quản lý người dùng',
+        to: '/managerUser',
+    },
+    {
+        id: 'managerFood',
+        children:   <MdOutlineFastfood/>,
+        text: 'Quản lý thức ăn',
+        to: '/managerFood',
+    },
+    {
+        id: 'managerTypeFood',
+        children:   <BiFoodMenu/>,
+        text: 'Loại thức ăn',
+        to: '/managerTypeFood',
+    },
+]
 
-export  { arrItems}
+
+export  { arrItems, adminItem}

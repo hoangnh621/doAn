@@ -56,6 +56,15 @@ import {
   USER_CREATETASK_REQUEST,
   USER_CREATETASK,
   CREATETASK_FAIL,
+  USER_GETTASK_REQUEST,
+  USER_GETTASK,
+  GETTASK_FAIL,
+  USER_DELETETASK_REQUEST,
+  USER_DELETETASK,
+  DELETETASK_FAIL,
+  USER_CHECKEDTASK_REQUEST,
+  USER_CHECKEDTASK,
+  CHECKEDTASK_FAIL
 } from "../constants/userConstants";
 
 //Đăng nhập
@@ -442,7 +451,7 @@ const getHistoryWeightAction = ( ) => async (dispatch, getState) => {
   }
 }
 
-//Cập nhật task
+//Cập nhật/thêm task
 const createTask = (name, type, desc, due ) => async (dispatch, getState) => {
   dispatch({ type:USER_CREATETASK_REQUEST, payload: {name, type, desc, due }})
   try {
@@ -459,10 +468,83 @@ const createTask = (name, type, desc, due ) => async (dispatch, getState) => {
     dispatch({
      type: USER_CREATETASK, payload: data
     });
-    console.log('data', data)
+    
     localStorage.setItem('setTask', JSON.stringify(data))
   } catch (error) {
     dispatch({ type: CREATETASK_FAIL, payload: error.message });
+  }
+}
+
+//Cập nhật công việc đã checked
+const checkedTask = (dataChecked ) => async (dispatch, getState) => {
+  dispatch({ type:USER_CHECKEDTASK_REQUEST, payload: {dataChecked }})
+  try {
+    const {userSignin: { userInfo }} = getState();
+    const id = userInfo._id
+    const type_update = 'checkedTask'
+    const { data } = await Axios.post("http://localhost:5000/task",{ type_update, id, dataChecked},
+    {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+    )
+    dispatch({
+     type: USER_CHECKEDTASK, payload: data
+    });
+    console.log('data', data)
+    localStorage.setItem('setTask', JSON.stringify(data))
+  } catch (error) {
+    dispatch({ type: CHECKEDTASK_FAIL, payload: error.message });
+  }
+}
+
+
+//Xóa task
+const userDeleteTask = (taskId ) => async (dispatch, getState) => {
+  dispatch({ type:USER_DELETETASK_REQUEST, payload: {taskId }})
+  try {
+    const {userSignin: { userInfo }} = getState();
+    const id = userInfo._id
+    const type_update = 'deleteTask'
+    const { data } = await Axios.post("http://localhost:5000/task",{ type_update, id, taskId},
+    {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+    )
+    dispatch({
+     type: USER_DELETETASK, payload: data
+    });
+    
+    localStorage.setItem('getTask', JSON.stringify(data))
+  } catch (error) {
+    dispatch({ type: DELETETASK_FAIL, payload: error.message });
+  }
+}
+
+//Lấy ra task 
+const userGetTask = ( ) => async (dispatch, getState) => {
+  dispatch({ type:USER_GETTASK_REQUEST, payload: { }})
+  try {
+    const {userSignin: { userInfo }} = getState();
+    const id = userInfo._id
+    const type_update = 'getTask'
+    const { data } = await Axios.post("http://localhost:5000/task",{ type_update, id, },
+    {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+    )
+    dispatch({
+     type: USER_GETTASK, payload: data
+    });
+    
+    localStorage.setItem('getTask', JSON.stringify(data))
+  } catch (error) {
+    dispatch({ type: GETTASK_FAIL, payload: error.message });
   }
 }
 
@@ -479,5 +561,8 @@ export { signin, logout, register, forgotpassword, resetpassword, addBodyIndex, 
   deleteFood,
   getFood,
   getHistoryWeightAction,
-  createTask
+  createTask,
+  userGetTask,
+  userDeleteTask,
+  checkedTask
 }

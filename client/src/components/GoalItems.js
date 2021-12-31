@@ -14,8 +14,16 @@ import { setNutri } from '../actions/nutri'
 
 const GoalItems = () => {
     //Lấy dữ liệu được trả về từ server
+    const userSignin = useSelector( state => {
+        return state.userSignin
+    })
     useEffect(() => {
-        dispatch(getBodyIndex())
+        if(userSignin) {
+
+            if(!userSignin.isAdmin) {
+                dispatch(getBodyIndex())
+            }
+        }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
     const bodyis = useSelector( state => {

@@ -14,44 +14,24 @@ import InputInformation from './InputInformation'
 import CustomRadio from './CustomRadio'
 import CalendarMeal from './CalendarMeal'
 import { useDispatch, useSelector} from 'react-redux'
-import { createTask } from '../actions/userAction'
-
-const dataTask = [
-    { 
-        _id: '1',
-        title: "Mua cá, mua gà",
-        type: "low",
-        isDone: true,
-        isImportant: true,
-        due: '01012022',
-        description: 'Mua cá về nấu canh chua, mua gà về kho'
-    },
-    { 
-        _id: '2',
-        title: "Mua cá, mua gà",
-        type: "mid",
-        isDone: true,
-        isImportant: true,
-        due: '01012022',
-        description: 'Mua cá về nấu canh chua, mua gà về kho'
-    },
-    { 
-        _id: '3',
-        title: "Mua cá, mua gà",
-        type: "hight",
-        isDone: true,
-        isImportant: true,
-        due: '01012022',
-        description: 'Mua cá về nấu canh chua, mua gà về kho'
-    }
-]
-
+import { createTask, userGetTask, userDeleteTask, checkedTask } from '../actions/userAction'
 
 
 const TaskItems = () => {
     const dispatch = useDispatch()
-    const userState = useSelector( state => state)
-    console.log(userState)
+    useEffect(() => {
+        dispatch(userGetTask())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[])
+    const userTask = useSelector( state => state.userTask)
+    const { getTask } = userTask
+    console.log(getTask)
+    const [dataTask, setDataTask] = useState([])
+    useMemo(() => {
+        if(getTask) {
+            setDataTask(getTask)
+        }
+    },[getTask])
     //Hiển thị các tab bên trái của task item
     const [active, setActive] = useState('1')
 
@@ -67,11 +47,18 @@ const TaskItems = () => {
             const idTaskChecked = taskChecked.map(item => item._id)
             setIdChecked(idTaskChecked)
         }
-    },[])
+    },[dataTask])
+
+    useEffect(() => {
+        // dispatch(userGetTask())
+        if(idChecked.length !== 0)
+        dispatch(checkedTask(idChecked))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[idChecked])
 
     // Thêm nhiệm vụ
     // eslint-disable-next-line no-unused-vars
-    const [isAddTask, setIsAddTask] = useState(true)
+    const [isAddTask, setIsAddTask] = useState(false)
    
 
     //Xử lý dữ liệu khi checked vào các checkbox
@@ -85,12 +72,9 @@ const TaskItems = () => {
                  ...prev_IdChecked,
                  data._id,
              ]))
-            //  setDataSearchTable (prevData => ([
-            //      ...prevData,
-            //      data
-            //  ]))
         } 
      }, [idChecked])
+     console.log(idChecked)
 
      //Add task
      const [nameTask, setNameTask] = useState('')
@@ -131,7 +115,64 @@ const TaskItems = () => {
          }
          dispatch(createTask(nameTask, typeTask, dataTextarea, dueDate))
      }
-     
+
+     //Xóa task
+     const handleDeleteTask = (taskId) => { 
+         dispatch(userDeleteTask(taskId))
+         dispatch(userGetTask())
+     }
+     //Thoát khỏi chi tiết task
+     const handleExitDetailTask = () => {
+         setIsAddTask(false)
+         dispatch(userGetTask())
+     }
+     //Task hoàn thành
+     const doneTask = useMemo(() => {
+         if(dataTask) {
+             const doneTask = dataTask.filter(item => item.isDone === true)
+             return doneTask
+         }
+     },[dataTask])
+
+     //task low
+     const lowTask = useMemo(() => {
+        if(dataTask) {
+            const lowTask = dataTask.filter(item => item.type === 'low')
+            return lowTask
+        }
+    },[dataTask])
+     //task mid
+     const midTask = useMemo(() => {
+        if(dataTask) {
+            const midTask = dataTask.filter(item => item.type === 'mid')
+            return midTask
+        }
+    },[dataTask])
+
+    //task hight
+    const hightTask = useMemo(() => {
+        if(dataTask) {
+            const hightTask = dataTask.filter(item => item.type === 'hight')
+            return hightTask
+        }
+    },[dataTask])
+
+     //Hiển thị chi tiết nhiệm vụ
+     const handleDetailTask = (name, type, datatextarea, due) => {
+        let typeTask = ''
+        switch (type) {
+            case 'low': typeTask = 'task-radio-1'
+            break
+            case 'mid': typeTask = 'task-radio-2'
+            break
+            default: typeTask = 'task-radio-3'
+        }
+         setNameTask(name)
+         setIsTypeTask(typeTask)
+         setDueDate(due)
+         setDataTextarea(datatextarea)
+         setIsAddTask(true)
+     }
      
 
     return (
@@ -140,7 +181,7 @@ const TaskItems = () => {
                 <Row>
                     <Col className = 'col-2'>
                         <div className = 'header-task'>
-                            <Button >Thêm nhiệm vụ</Button>
+                            <Button onClick = {() => setIsAddTask(true)}>Thêm nhiệm vụ</Button>
                         </div>
                         <div className = 'body-task'>
                             <Nav pills vertical>
@@ -282,6 +323,7 @@ const TaskItems = () => {
                                 }
                                 <div className="save-reset">
                                     <Button onClick = {() => handleSetTask()}>Lưu</Button>
+                                    <Button onClick = {() => handleExitDetailTask()}>Thoát</Button>
                                     <Button outline onClick = {handleReset}>Reset</Button>
                                 </div>
                             </Col>
@@ -299,6 +341,40 @@ const TaskItems = () => {
                                         <ListGroup>
                                             {dataTask.map((item, i) => {
                                                 return (
+                                                    <ListGroupItem key={i} >
+                                                        <Row>
+                                                            <Col className='col-1'>
+                                                                <CustomCheckbox
+                                                                    label=''
+                                                                    handleChecked={handleChecked}
+                                                                    data={item}
+                                                                    idChecked={idChecked} />
+                                                            </Col>
+                                                            <Col className='col-7' onClick = {() => handleDetailTask(item.name, item.type, item.desc, item.due)}>
+                                                                {item.name}
+                                                            </Col>
+                                                            <Col className='col-1'>
+                                                                <CustomBadge
+                                                                    type={item.type} />
+                                                            </Col>
+                                                            <Col className='col-2 '>
+                                                                {moment(item.due, 'DDMMYYYY').format('DD-MM-YYYY')}
+                                                            </Col>
+                                                            <Col className='col-1'>
+                                                                <Button onClick = {() => handleDeleteTask(item._id)}>
+                                                                    <MdOutlineDelete />
+                                                                </Button>
+                                                            </Col>
+                                                        </Row>
+                                                    </ListGroupItem>
+                                                )
+                                            })}
+                                        </ListGroup>
+                                    </TabPane>
+                                    <TabPane tabId='2'>
+                                    <ListGroup>
+                                            {doneTask.map((item, i) => {
+                                                return (
                                                     <ListGroupItem key={i}>
                                                         <Row>
                                                             <Col className='col-1'>
@@ -309,17 +385,19 @@ const TaskItems = () => {
                                                                     idChecked={idChecked} />
                                                             </Col>
                                                             <Col className='col-7'>
-                                                                {item.title}
+                                                                {item.name}
                                                             </Col>
                                                             <Col className='col-1'>
                                                                 <CustomBadge
                                                                     type={item.type} />
                                                             </Col>
                                                             <Col className='col-2 '>
-                                                                {moment(item.due, 'DDMMYYYY').add(1, 'month').format('DD-MM-YYYY')}
+                                                                {moment(item.due, 'DDMMYYYY').format('DD-MM-YYYY')}
                                                             </Col>
                                                             <Col className='col-1'>
-                                                                <MdOutlineDelete />
+                                                                <Button onClick = {() => handleDeleteTask(item._id)}>
+                                                                    <MdOutlineDelete />
+                                                                </Button>
                                                             </Col>
                                                         </Row>
                                                     </ListGroupItem>
@@ -327,37 +405,107 @@ const TaskItems = () => {
                                             })}
                                         </ListGroup>
                                     </TabPane>
-                                    <TabPane tabId='2'>
-                                        <p>
-                                            Pudding candy canes sugar plum cookie chocolate cake powder croissant. Carrot cake tiramisu danish candy
-                                            cake muffin croissant tart dessert. Tiramisu caramels candy canes chocolate cake sweet roll liquorice
-                                            icing cupcake. Sesame snaps wafer marshmallow danish dragée candy muffin jelly beans tootsie roll. Jelly
-                                            beans oat cake chocolate cake tiramisu sweet.
-                                        </p>
-                                    </TabPane>
                                     <TabPane tabId='3'>
-                                        <p>
-                                            Carrot cake dragée chocolate. Lemon drops ice cream wafer gummies dragée. Chocolate bar liquorice
-                                            cheesecake cookie chupa chups marshmallow oat cake biscuit. Dessert toffee fruitcake ice cream powder
-                                            tootsie roll cake. Macaroon brownie lemon drops croissant marzipan sweet roll macaroon lollipop. Danish
-                                            fruitcake bonbon bear claw gummi bears apple pie.
-                                        </p>
+                                    <ListGroup>
+                                            {lowTask.map((item, i) => {
+                                                return (
+                                                    <ListGroupItem key={i}>
+                                                        <Row>
+                                                            <Col className='col-1'>
+                                                                <CustomCheckbox
+                                                                    label=''
+                                                                    handleChecked={handleChecked}
+                                                                    data={item}
+                                                                    idChecked={idChecked} />
+                                                            </Col>
+                                                            <Col className='col-7'>
+                                                                {item.name}
+                                                            </Col>
+                                                            <Col className='col-1'>
+                                                                <CustomBadge
+                                                                    type={item.type} />
+                                                            </Col>
+                                                            <Col className='col-2 '>
+                                                                {moment(item.due, 'DDMMYYYY').format('DD-MM-YYYY')}
+                                                            </Col>
+                                                            <Col className='col-1'>
+                                                                <Button onClick = {() => handleDeleteTask(item._id)}>
+                                                                    <MdOutlineDelete />
+                                                                </Button>
+                                                            </Col>
+                                                        </Row>
+                                                    </ListGroupItem>
+                                                )
+                                            })}
+                                        </ListGroup>
                                     </TabPane>
                                     <TabPane tabId='4'>
-                                        <p>
-                                            Carrot cake dragée chocolate. Lemon drops ice cream wafer gummies dragée. Chocolate bar liquorice
-                                            cheesecake cookie chupa chups marshmallow oat cake biscuit. Dessert toffee fruitcake ice cream powder
-                                            tootsie roll cake. Macaroon brownie lemon drops croissant marzipan sweet roll macaroon lollipop. Danish
-                                            fruitcake bonbon bear claw gummi bears apple pie.
-                                        </p>
+                                    <ListGroup>
+                                            {midTask.map((item, i) => {
+                                                return (
+                                                    <ListGroupItem key={i}>
+                                                        <Row>
+                                                            <Col className='col-1'>
+                                                                <CustomCheckbox
+                                                                    label=''
+                                                                    handleChecked={handleChecked}
+                                                                    data={item}
+                                                                    idChecked={idChecked} />
+                                                            </Col>
+                                                            <Col className='col-7'>
+                                                                {item.name}
+                                                            </Col>
+                                                            <Col className='col-1'>
+                                                                <CustomBadge
+                                                                    type={item.type} />
+                                                            </Col>
+                                                            <Col className='col-2 '>
+                                                                {moment(item.due, 'DDMMYYYY').format('DD-MM-YYYY')}
+                                                            </Col>
+                                                            <Col className='col-1'>
+                                                                <Button onClick = {() => handleDeleteTask(item._id)}>
+                                                                    <MdOutlineDelete />
+                                                                </Button>
+                                                            </Col>
+                                                        </Row>
+                                                    </ListGroupItem>
+                                                )
+                                            })}
+                                        </ListGroup>
                                     </TabPane>
                                     <TabPane tabId='5'>
-                                        <p>
-                                            Carrot cake dragée chocolate. Lemon drops ice cream wafer gummies dragée. Chocolate bar liquorice
-                                            cheesecake cookie chupa chups marshmallow oat cake biscuit. Dessert toffee fruitcake ice cream powder
-                                            tootsie roll cake. Macaroon brownie lemon drops croissant marzipan sweet roll macaroon lollipop. Danish
-                                            fruitcake bonbon bear claw gummi bears apple pie.
-                                        </p>
+                                    <ListGroup>
+                                            {hightTask.map((item, i) => {
+                                                return (
+                                                    <ListGroupItem key={i}>
+                                                        <Row>
+                                                            <Col className='col-1'>
+                                                                <CustomCheckbox
+                                                                    label=''
+                                                                    handleChecked={handleChecked}
+                                                                    data={item}
+                                                                    idChecked={idChecked} />
+                                                            </Col>
+                                                            <Col className='col-7'>
+                                                                {item.name}
+                                                            </Col>
+                                                            <Col className='col-1'>
+                                                                <CustomBadge
+                                                                    type={item.type} />
+                                                            </Col>
+                                                            <Col className='col-2 '>
+                                                                {moment(item.due, 'DDMMYYYY').format('DD-MM-YYYY')}
+                                                            </Col>
+                                                            <Col className='col-1'>
+                                                                <Button onClick = {() => handleDeleteTask(item._id)}>
+                                                                    <MdOutlineDelete />
+                                                                </Button>
+                                                            </Col>
+                                                        </Row>
+                                                    </ListGroupItem>
+                                                )
+                                            })}
+                                        </ListGroup>
                                     </TabPane>
                                 </TabContent>
                                 </>)

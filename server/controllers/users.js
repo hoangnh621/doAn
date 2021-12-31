@@ -11,6 +11,7 @@ import MenuFood from '../models/menu_food.js';
 import DetailHistory from '../models/detailHistory.js';
 import HistoryWeight from '../models/historyWeight.js';
 import nodemailer from 'nodemailer'
+import mongoose from 'mongoose'
 
 const router = express.Router();
 
@@ -25,6 +26,7 @@ export const login = async (req, res) => {
                 _id: loginUser.id,
                 name: loginUser.name,
                 email: loginUser.email,
+                isAdmin: loginUser.isAdmin,
                 token: getToken(loginUser),
             });
         }  
@@ -599,7 +601,7 @@ export const setTask = async (req, res) => {
                         user_tasks_id: newUserTask._id,
                         name: req.body.name,
                         type: req.body.type,
-                        decs: req.body.decs,
+                        desc: req.body.desc,
                         due: req.body.due,
                     })
                     const isSaveTask = newTask.save()
@@ -608,18 +610,140 @@ export const setTask = async (req, res) => {
                 else res.status(401).json({ message: 'error'})
             }
             else {
-                const newTask = new Tasks({
-                    user_tasks_id: isUserTask._id,
+                //kiểm tra task đã tồn tại chưa
+                const isOldTask = await Tasks.findOne({
                     name: req.body.name,
-                    type: req.body.type,
-                    decs: req.body.decs,
-                    due: req.body.due,
                 })
-                const isSaveTask = newTask.save()
-                res.status(200).json(newTask)
+                //đã tồn tại rồi
+                if(isOldTask) {
+                    const isUpdateTask = await Tasks.updateOne(
+                        {name: req.body.name},
+                        { $set: {
+                            type: req.body.type,
+                            desc: req.body.desc,
+                            due: req.body.due,
+                        }}
+                    )
+                    const isTask = await Tasks.find({
+                        user_tasks_id: isUserTask._id
+                    })
+                    res.status(200).json(isTask)
+                }
+                else {
+
+                    const newTask = new Tasks({
+                        user_tasks_id: isUserTask._id,
+                        name: req.body.name,
+                        type: req.body.type,
+                        desc: req.body.desc,
+                        due: req.body.due,
+                    })
+                    const isSaveTask = newTask.save()
+                    const isTask = await Tasks.find({
+                        user_tasks_id: isUserTask._id
+                    })
+                    res.status(200).json(isTask)
+                }
             }
         }
-        else res.status(401).json({ message: 'lỗi'})
+        else if(req.body.type_update === 'getTask') {
+            const isUserTask = await UserTasks.findOne({
+                user_id: req.body.id
+            })
+            if(isUserTask) {
+                const isTask = await Tasks.find({
+                    user_tasks_id: isUserTask._id
+                })
+                if(isTask) {
+                    res.status(200).json(isTask)
+                }
+                else res.status(401).json({ message: 'người dùng chưa có task'})
+            }
+            else res.status(401).json({ message: 'người dùng chưa có task'})
+        }
+        else if(req.body.type_update === 'deleteTask') {
+            const isUserTask = await UserTasks.findOne({
+                user_id: req.body.id
+            })
+            if(isUserTask) {
+                const isTask = await Tasks.deleteOne({
+                    user_tasks_id: isUserTask._id,
+                    _id: req.body.taskId
+                })
+                const isGetTask = await Tasks.find({
+                    user_tasks_id: isUserTask._id
+                })
+                if(isTask && isGetTask) {
+                    res.status(200).json(isGetTask)
+                }
+                else res.status(401).json({ message: 'Xóa thất bại'})
+            }
+            else res.status(401).json({ message: 'người dùng chưa có task'})
+        }
+        else if(req.body.type_update === 'checkedTask') {
+            const isUserTask = await UserTasks.findOne({
+                user_id: req.body.id
+            })
+            if(isUserTask) {
+                if(req.body.dataChecked.length !== 0) {
+
+                    const newDataChecked = req.body.dataChecked.map(item => {
+                        return mongoose.Types.ObjectId(item);
+                    })
+                    const isDoneTask = await Tasks.updateMany(
+                        {
+                                _id: {
+                                $in: newDataChecked
+                            },
+                            // user_tasks_id: isUserTask._id
+                        },
+                        {
+                            $set: {isDone: true}
+                        }
+                    )
+                    const isNotDoneTask = await Tasks.updateMany(
+                        {
+                                _id: {
+                                $nin: newDataChecked
+                            },
+                            // user_tasks_id: isUserTask._id
+                        },
+                        {
+                            $set: {isDone: false}
+                        }
+                    )
+
+                    const isGetTask = await Tasks.find({
+                        user_tasks_id: isUserTask._id
+                    })
+                    if( isGetTask) {
+                        res.status(200).json(isGetTask)
+                    }
+                    else res.status(401).json({ message: 'Xóa thất bại'})
+                }
+                else {
+                    const isNotDoneTask = await Tasks.updateMany(
+                        {
+                            user_tasks_id: isUserTask._id
+                        },
+                        {
+                            $set: {isDone: false}
+                        }
+                    )
+                    const isGetTask = await Tasks.find({
+                        user_tasks_id: isUserTask._id
+                    })
+                    if( isGetTask) {
+                        res.status(200).json(isGetTask)
+                    }
+                    else res.status(401).json({ message: 'Xóa thất bại'})
+                }
+                const isGetTask = await Tasks.find({
+                    user_tasks_id: isUserTask._id
+                })
+            }
+            else res.status(401).json({ message: 'người dùng chưa có task'})
+        }
         
     }
     catch(error) {

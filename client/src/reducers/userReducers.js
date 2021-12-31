@@ -49,7 +49,16 @@ import { USER_SIGNIN_REQUEST, USER_SIGNIN_SUCCESS, USER_SIGNIN_FAIL, USER_LOGOUT
     GETHISTORYWEIGHT_FAIL,
     USER_CREATETASK_REQUEST,
     USER_CREATETASK,
-    CREATETASK_FAIL
+    CREATETASK_FAIL,
+    USER_GETTASK_REQUEST,
+    USER_GETTASK,
+    GETTASK_FAIL,
+    USER_DELETETASK_REQUEST,
+    USER_DELETETASK,
+    DELETETASK_FAIL,
+    USER_CHECKEDTASK_REQUEST,
+    USER_CHECKEDTASK,
+    CHECKEDTASK_FAIL
 } from "../constants/userConstants";
 
 function userSigninReducer(state = {}, action) {
@@ -264,6 +273,36 @@ const setTaskReducer = (state = {}, action) => {
                 setTask: action.payload
              };
         case CREATETASK_FAIL: 
+            return {  ...state,loading: false, error: action.payload };
+        case USER_GETTASK_REQUEST:
+            return {  ...state,loading: true };
+        case USER_GETTASK:
+            return {
+                ...state,
+                loading: false ,
+                getTask: action.payload
+                };
+        case GETTASK_FAIL: 
+            return {  ...state,loading: false, error: action.payload };
+        case USER_DELETETASK_REQUEST:
+            return {  ...state,loading: true };
+        case USER_DELETETASK:
+            return {
+                ...state,
+                loading: false ,
+                getTask: action.payload
+                };
+        case DELETETASK_FAIL: 
+            return {  ...state,loading: false, error: action.payload };
+        case USER_CHECKEDTASK_REQUEST:
+            return {  ...state,loading: true };
+        case USER_CHECKEDTASK:
+            return {
+                ...state,
+                loading: false ,
+                setTask: action.payload
+                };
+        case CHECKEDTASK_FAIL: 
             return {  ...state,loading: false, error: action.payload };
         default: return state;
     }

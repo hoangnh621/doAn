@@ -21,8 +21,17 @@ const MealItems = () => {
         setActive(tab);
     }
     const dispatch = useDispatch()
+    const userSignin = useSelector( state => 
+        {
+            return state.userSignin
+        }
+    )
+    const { userInfo } = userSignin
     useEffect(() => {
-        dispatch(getMeal())
+        if(userInfo) {
+            if(!userInfo.isAdmin)
+            dispatch(getMeal())
+        }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
     //Lấy state thực đơn

@@ -8,7 +8,7 @@ userSetFoodReducer,
 getHistoryWeightReducer,
 setTaskReducer
 } from './reducers/userReducers';
-
+import { adminGetDataReducer } from './reducers/adminReducer'
 import { setNutriReducer } from './reducers/nutriReducer'
 import { userSetMealReducer } from './reducers/mealReducer'
 
@@ -61,7 +61,16 @@ const initialState = {
       setTask: localStorage.getItem('setTask')
       ? JSON.parse(localStorage.getItem('setTask'))
       : {},
+      getTask: localStorage.getItem('getTask')
+      ? JSON.parse(localStorage.getItem('getTask'))
+      : {},
     },
+
+    adminSetData: {
+      adminGetData: localStorage.getItem('adminGetData')
+      ? JSON.parse(localStorage.getItem('adminGetData'))
+      : null,
+    }
     
 };
 
@@ -76,7 +85,8 @@ const reducer = combineReducers({
     userIndexGoal: setNutriReducer,
     userMeal: userSetMealReducer,
     userWeight: getHistoryWeightReducer,
-    userTask: setTaskReducer
+    userTask: setTaskReducer, 
+    adminSetData: adminGetDataReducer
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

@@ -31,7 +31,7 @@ function Register() {
             <Col  className = "d-none register-image d-lg-flex col-lg-8 " >
                 <div className="w-100 d-lg-flex">
                     <img 
-                    src="https://pixinvent.com/demo/vuexy-react-admin-dashboard-template/demo-4/static/media/register-v2-dark.0e4dbf53.svg"
+                    src="https://pixinvent.com/demo/vuexy-react-admin-dashboard-template/demo-4/static/media/register-v2-dark.2b051707.svg"
                     alt="" 
                     />
                 </div>

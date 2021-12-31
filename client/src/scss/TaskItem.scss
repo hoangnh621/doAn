@@ -4,6 +4,7 @@
     height: 100%;
     padding: 1.75rem 0 1.75rem 0;
     .task-item {
+    
         height: 100%;
         border-radius: 0.428rem;
         background-color: $background-color-second;
@@ -132,6 +133,9 @@
                                 @include buttonPrimary;
                             }
                             .btn:nth-child(2) {
+                                @include buttonPrimary;
+                            }
+                            .btn {
                                 margin-left: 1rem;
                             }
                         }
@@ -163,6 +167,8 @@
                 }
 
                 .tab-content {
+                    max-height: 46.8125rem;
+                    overflow-y: scroll;
                     .tab-pane {
                         .list-group {
                             .list-group-item {
@@ -174,6 +180,30 @@
 
                                         &:nth-child(4) {
                                             border: 0;
+                                        }
+
+                                        &:nth-child(5) {
+                                            padding: 1rem;
+                                            .btn {
+                                                color: $text-main;
+                                                padding: 0;
+                                                background-color: $background-color-second;
+                                                border: 0;
+
+                                                &:hover {
+                                                    color: $hight;
+                                                }
+
+                                                &:focus { 
+                                                    box-shadow: none;
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    .col-7 {
+                                        &:hover {
+                                            cursor: pointer;
                                         }
                                     }
 

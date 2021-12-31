@@ -12,6 +12,10 @@ const task = mongoose.Schema({
     desc: { 
         type: String, 
     },
+    isDone: {
+        type: Boolean,
+        default: false,
+    },
     user_tasks_id: { 
         type: String, 
         require: true,
