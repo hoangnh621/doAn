@@ -40,7 +40,6 @@ const HistoryItems = () => {
     //Biểu đồ hôm nay
     const [percent, setPercent] = useState(80)
     const userIndexGoal = useSelector( state => {
-        console.log(state)
         return state.userIndexGoal
     })
     const {indexGoal, nutriToday, nutriTypeMeal} = userIndexGoal

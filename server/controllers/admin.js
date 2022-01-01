@@ -13,7 +13,9 @@ export const adminSetData = async (req, res) => {
 
             const foods = await Foods.find();
             const menu = await Menu.find();
-            const users = await Users.find();
+            const users = await Users.find({
+                isAdmin: { $ne: true}
+            });
             const typefood = await TypeFoods.find();
                     
             res.status(200).json({

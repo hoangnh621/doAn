@@ -1,0 +1,87 @@
+@import 'color';
+
+.managerUser {
+    margin-top: 1.75rem;
+    
+    .header-manager-user {
+        border-radius: 0.428rem;
+        background-color: $background-color-second;
+        padding: 1.3125rem;
+
+        .admin-button-header {
+            display: flex;
+            justify-content: space-between;
+            color: $text-main;
+            h4 {
+                font-size: 1.125rem;
+            }
+    
+            .admin-button-update {
+                .btn {
+                    margin-left: 1rem;
+                    @include buttonPrimary;
+                }
+            }
+        }
+
+        .admin-button-body {
+            .col {
+                .InputInformation {
+                    margin-bottom: 0;
+                }
+            }
+        }
+
+    }
+
+    .body-manager-user {
+        padding: 1.3125rem;
+        margin-top: 1.75rem;
+        border-radius: 0.428rem;
+        background-color: $background-color-second;
+
+        .header-table-manager {
+
+            .col {
+                .InputInformation {
+                    margin-bottom: 0;
+                }
+            }
+        }
+
+        .userTable {
+            width: 100%;
+            color: $text-main;
+            thead {
+                display: table;
+                width: 100%;
+                table-layout: fixed;/* even columns width , fix width of table too*/
+                width: calc( 100% - 1em )
+            }
+
+            tbody {
+                display: block;
+                overflow-y: scroll;
+                max-height: 22.125rem;
+                width: 100%;
+
+                tr {
+                    display: table;
+                    width: 100%; 
+                    table-layout: fixed;
+
+                    &:hover {
+                        color: #fff;
+                        cursor: pointer;
+                    }
+
+                    td {
+                        &:nth-child(1) {
+                            color: $primary;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

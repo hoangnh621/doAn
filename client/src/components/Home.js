@@ -101,6 +101,7 @@ function Home() {
                         ? 
                         <Routes>
                         <Route index element = {<ManagerUser/>}/>
+                        <Route path = '/managerUser' element = {<ManagerUser/>}/>
                         </Routes>
                         : 
                         <Routes>

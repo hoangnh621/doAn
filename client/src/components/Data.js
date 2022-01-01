@@ -1,7 +1,7 @@
 import {GiHotMeal} from 'react-icons/gi'
 import { CgScreen} from 'react-icons/cg'
 import { MdChecklist} from 'react-icons/md'
-import { FiCalendar, FiCheckSquare} from 'react-icons/fi'
+import { FiCalendar, FiCheckSquare, FiUserPlus} from 'react-icons/fi'
 import { RiUserLine, RiLineChartLine} from 'react-icons/ri'
 import { MdOutlineFastfood } from 'react-icons/md'
 import { BiFoodMenu } from 'react-icons/bi'
@@ -62,6 +62,12 @@ const adminItem = [
         to: '/managerUser',
     },
     {
+        id: 'bodyIndexUser',
+        children:   <FiUserPlus/>,
+        text: 'Chỉ số người dùng',
+        to: '/managerBodyIdex',
+    },
+    {
         id: 'managerFood',
         children:   <MdOutlineFastfood/>,
         text: 'Quản lý thức ăn',
@@ -72,6 +78,18 @@ const adminItem = [
         children:   <BiFoodMenu/>,
         text: 'Loại thức ăn',
         to: '/managerTypeFood',
+    },
+    {
+        id: 'managerMenu',
+        children:   <MdChecklist/>,
+        text: 'Quản lý thực đơn',
+        to: '/managerMenu',
+    },
+    {
+        id: 'managerTask',
+        children:   <FiCheckSquare/>,
+        text: 'Quản lý nhiệm vụ',
+        to: '/managerTask',
     },
 ]
 
