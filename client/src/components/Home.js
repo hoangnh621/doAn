@@ -9,6 +9,8 @@ import HistoryItems from './HistoryItems'
 import UserItems from './UserItems'
 import ScreenItems from './ScreenItems'
 import ManagerUser from './ManagerUser'
+import ManagerBodyIndex from './ManagerBodyIndex'
+import ManagerFood from './ManagerFood'
 import HeaderAdmin from './HeaderAdmin'
 import { Routes, Route, NavLink, useNavigate } from 'react-router-dom'
 import { Row, Col, ListGroup } from 'reactstrap'
@@ -24,7 +26,6 @@ import { adminGetData} from '../actions/adminAction'
 function Home() {
 
     const userSignin = useSelector( state => {
-        console.log(state)
         return state.userSignin
     })
     const { userInfo } = userSignin
@@ -102,6 +103,8 @@ function Home() {
                         <Routes>
                         <Route index element = {<ManagerUser/>}/>
                         <Route path = '/managerUser' element = {<ManagerUser/>}/>
+                        <Route path = '/managerBodyIdex' element = {<ManagerBodyIndex/>}/>
+                        <Route path = '/managerFood' element = {<ManagerFood/>}/>
                         </Routes>
                         : 
                         <Routes>
