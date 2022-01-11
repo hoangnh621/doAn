@@ -4,6 +4,7 @@ import Menu from '../models/menu.js';
 import Users from '../models/users.js';
 import TypeFoods from '../models/typeFood.js';
 import Foods from '../models/foods.js';
+import Tasks from '../models/tasks.js';
 import BodyIndex from '../models/bodyIndex.js';
 
 const router = express.Router();
@@ -19,13 +20,15 @@ export const adminSetData = async (req, res) => {
             });
             const typefood = await TypeFoods.find();
             const bodyIndex = await BodyIndex.find();
+            const tasks = await Tasks.find();
                     
             res.status(200).json({
                 foods,
                 menu,
                 users,
                 typefood,
-                bodyIndex
+                bodyIndex,
+                tasks
             });
         }
         else res.status(401).json({ message: 'Lỗi'})

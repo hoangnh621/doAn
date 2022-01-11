@@ -7,10 +7,11 @@ import GoalItems from './GoalItems'
 import TaskItems from './TaskItems'
 import HistoryItems from './HistoryItems'
 import UserItems from './UserItems'
-import ScreenItems from './ScreenItems'
 import ManagerUser from './ManagerUser'
 import ManagerBodyIndex from './ManagerBodyIndex'
 import ManagerFood from './ManagerFood'
+import ManagerTypeFood from './ManagerTypeFood'
+import ManagerTask from './ManagerTask'
 import HeaderAdmin from './HeaderAdmin'
 import { Routes, Route, NavLink, useNavigate } from 'react-router-dom'
 import { Row, Col, ListGroup } from 'reactstrap'
@@ -31,7 +32,6 @@ function Home() {
     const { userInfo } = userSignin
     const [isAdmin, setIsAdmin] = useState(false)
     // const { isAdmin } = userInfo
-    console.log(userInfo)
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [dataNavbar, setDataNavbar] = useState([])
@@ -105,6 +105,8 @@ function Home() {
                         <Route path = '/managerUser' element = {<ManagerUser/>}/>
                         <Route path = '/managerBodyIdex' element = {<ManagerBodyIndex/>}/>
                         <Route path = '/managerFood' element = {<ManagerFood/>}/>
+                        <Route path = '/managerTypeFood' element = {<ManagerTypeFood/>}/>
+                        <Route path = '/managerTask' element = {<ManagerTask/>}/>
                         </Routes>
                         : 
                         <Routes>
@@ -115,7 +117,6 @@ function Home() {
                             <Route path = '/history'element = {<HistoryItems/>}/>
                             <Route path = '/task'element = {<TaskItems/>}/>
                             <Route path = '/user'element = {<UserItems/>}/>
-                            <Route path = '/screen'element = {<ScreenItems/>}/>
                         </Routes>
                     }
                 </Col>

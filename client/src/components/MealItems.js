@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import PaginationData from './PaginationData'
 import { getMeal } from '../actions/mealAction'
 import { setNutriToday, setNutriTypeMeal } from '../actions/nutri'
+import moment from 'moment'
 
 const Context = createContext()
 
@@ -114,7 +115,6 @@ const MealItems = () => {
      //Lấy state bữa ăn
      const userMeal = useSelector( state => 
         {
-            console.log('state', state)
             return state.userMeal
         }
     )
@@ -190,10 +190,11 @@ const MealItems = () => {
 
     //Click chọn ngày và hiển thị bữa ăn tương ứng
     const createdAt = ''+date.getDate()+''+ date.getMonth()+''+ date.getFullYear()
+    const createdAtMoment = moment(date).format('DDMYYYY')
     const handleUpdateFromCalendar = ( ) => {
         if(handleMeal) {
 
-            const newMealData =  handleMeal.filter((meal) => meal.createdAt === createdAt)
+            const newMealData =  handleMeal.filter((meal) => meal.createdAt === createdAtMoment)
             if(newMealData.length === 0) {
                 setCheckedData([])
             }
@@ -204,7 +205,7 @@ const MealItems = () => {
     useMemo(() => {
         if(handleMeal) {
 
-            const newMealData =  handleMeal.filter((meal) => meal.createdAt === createdAt)
+            const newMealData =  handleMeal.filter((meal) => meal.createdAt === createdAtMoment)
             if(newMealData.length === 0) {
                 setCheckedData([])
             }
@@ -217,12 +218,12 @@ const MealItems = () => {
                 setCheckedData(mealToday)
             }
         }
-    },[createdAt, handleMeal])
+    },[createdAtMoment, handleMeal])
 
     useEffect(() => {
         if(handleMeal) {
 
-            const newMealData =  handleMeal.filter((meal) => meal.createdAt === createdAt)
+            const newMealData =  handleMeal.filter((meal) => meal.createdAt === createdAtMoment)
             if(newMealData.length !== 0) {
                 //Tổng calo
                 const reduceFunctionCalo = (prev, currentValue) => {
@@ -266,7 +267,7 @@ const MealItems = () => {
                 dispatch(setNutriTypeMeal(caloBreak, caloLunch, caloDinner, caloSnacks,))
             }
         }
-    },[createdAt, dispatch, handleMeal])
+    },[createdAt, createdAtMoment, dispatch, handleMeal])
 
     //Tìm kiếm và phân trang
     const [totalItems, setTotalItems] = useState(0)

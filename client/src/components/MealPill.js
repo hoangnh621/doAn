@@ -4,6 +4,7 @@ import { useState, useMemo, memo, useEffect, useRef } from 'react'
 import { TabContent, TabPane, Nav, NavItem, NavLink, Button } from 'reactstrap'
 import { useSelector, useDispatch } from 'react-redux'
 import { createMeal, deleteMeal } from '../actions/mealAction'
+import moment from 'moment'
 
 
 const MealPill = ({checkedData,setCheckedData, setProgressValue,active, toggle, date}) => {
@@ -110,11 +111,11 @@ const MealPill = ({checkedData,setCheckedData, setProgressValue,active, toggle, 
     },[CarbsBreak, CarbsDinner, CarbsLunch, CarbsSnacks, FatBreak, FatDinner, FatLunch, FatSnacks, ProteinBreak, ProteinDinner, ProteinLunch, ProteinSnacks, indexGoal, setProgressValue])
    
     //Lưu bữa ăn
-    const createdAt = ''+date.getDate()+''+ date.getMonth()+''+ date.getFullYear()
+    // const createdAt = ''+date.getDate()+''+ date.getMonth()+''+ date.getFullYear()
+    const createdAt = moment(date).format('DDMYYYY')
+    console.log('date',moment(date).format('DD-MM-YYYY'))
     const dispatch = useDispatch()
     const handleSetMeal = () => {
-        console.log('dispath')
-        console.log(breakfast.current)
         dispatch(createMeal(breakfast.current,
             lunch.current,
             dinner.current,

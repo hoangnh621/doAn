@@ -20,6 +20,7 @@ const HistoryItems = () => {
      
      const [dataWeight, setDataWeight] = useState()
      const userWeight = useSelector( state => {
+         console.log(state)
         return state.userWeight
     })
     const { getHistoryWeight } = userWeight
@@ -154,8 +155,8 @@ const HistoryItems = () => {
     
                 const arrDate = []
                 for(let i = 0; i < numberDate; i++) {
-                    const prevDate = moment().month(10).add(-i,'day').format('DDMMYYYY')
-                    const prevDateNotY = moment().month(10).add(-i,'day').format('DD/MM')
+                    const prevDate = moment().add(-i, 'day').format('DDMYYYY')
+                    const prevDateNotY = moment().add(-i,'day').format('DD/MM')
                     arrDate.push({prevDate, prevDateNotY})
                 }
                 const dataCalo = arrDate.map(item => {
@@ -181,6 +182,8 @@ const HistoryItems = () => {
                         }
                     }
                 })
+                console.log(arrDate)
+                console.log(handleMeal)
                 setHistoryCalo(dataCalo)
             }
         }

@@ -281,8 +281,6 @@ const GoalItems = () => {
         const fat = Math.round((cGoal * persentFat/100)/9)
         dispatch(setNutri(cGoal, pro, carbs, fat))
     },[cGoal, dispatch, persentCarbs, persentFat, persentPro] )
-    const allState = useSelector( state => state)
-    console.log(allState)
 
     //Cập nhật giao diện khi dữ liệu được lấy từ server về
     // eslint-disable-next-line react-hooks/exhaustive-deps

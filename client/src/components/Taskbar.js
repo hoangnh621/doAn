@@ -4,9 +4,11 @@ import IconNav from './IconNav'
 import AvatarDropdown from './AvatarDropdown'
 import {RiSearchLine, RiCloseLine} from 'react-icons/ri'
 import {FiCheckSquare, FiCalendar, FiBell} from 'react-icons/fi'
+import { useNavigate } from 'react-router-dom'
 
 function Taskbar() {
     const [openSearch, setOpenSearch] = useState(false);
+    const navigate = useNavigate()
 
     const arrNav = [
         {
@@ -22,15 +24,15 @@ function Taskbar() {
             id: 'nav-CheckSquare',
             href: null,
             children: <FiCheckSquare/>,
-            text: "Lời nhắc",
-            handler: () => {},
+            text: "Nhiệm vụ",
+            handler: () => navigate('/task'),
         },
         {
             id: 'nav-Calendar',
             href: null,
             children: <FiCalendar/>,
-            text: "Lịch",
-            handler: () => {},
+            text: "Lịch sử",
+            handler: () => navigate('/history'),
         },
         {
             id: 'nav-Bell',

@@ -1,5 +1,4 @@
 import {GiHotMeal} from 'react-icons/gi'
-import { CgScreen} from 'react-icons/cg'
 import { MdChecklist} from 'react-icons/md'
 import { FiCalendar, FiCheckSquare, FiUserPlus} from 'react-icons/fi'
 import { RiUserLine, RiLineChartLine} from 'react-icons/ri'
@@ -44,12 +43,6 @@ const arrItems = [
         children: <RiUserLine/>,
         text: 'Người dùng',
         to: '/user',
-    },
-    {
-        id: 'screen',
-        children:   <CgScreen/>,
-        text: 'Giao diện',
-        to: '/screen',
     },
 ]
 
