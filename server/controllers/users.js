@@ -26,6 +26,7 @@ export const login = async (req, res) => {
                 _id: loginUser.id,
                 name: loginUser.name,
                 email: loginUser.email,
+                password: loginUser.password,
                 isAdmin: loginUser.isAdmin,
                 token: getToken(loginUser),
             });
@@ -749,6 +750,34 @@ export const setTask = async (req, res) => {
     catch(error) {
         res.status(404).json({ message: error.message }); 
     }
+}
+
+//Thay đổi mật khẩu và tên tài khoản
+export const setInfo = async (req, res) => {
+    try {
+        if(req.body.type_update === 'setInfo') {
+            const isUser = await Users.find({
+                
+            })
+            if(isUser) {
+                const isUpdateUser = await Users.updateOne(
+                    {_id: isUser._id},
+                    {$set :{
+                        password: req.body.password,
+                        name: req.body.name,
+                    }}
+                )
+                res.status(200).json({
+                    password: req.body.password,
+                    name: req.body.name,
+                })
+            }
+            else res.status(401)
+        }
+    }
+    catch(error) {
+        res.status(404).json({ message: error.message }); 
+    } 
 }
 
 export default router

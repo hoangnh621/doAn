@@ -7,9 +7,11 @@ import { createMeal, deleteMeal } from '../actions/mealAction'
 import moment from 'moment'
 
 
+
 const MealPill = ({checkedData,setCheckedData, setProgressValue,active, toggle, date}) => {
     
     const userIndexGoal = useSelector( state => {
+        console.log(state)
         return state.userIndexGoal
     })
     const { indexGoal } = userIndexGoal
@@ -113,8 +115,8 @@ const MealPill = ({checkedData,setCheckedData, setProgressValue,active, toggle, 
     //Lưu bữa ăn
     // const createdAt = ''+date.getDate()+''+ date.getMonth()+''+ date.getFullYear()
     const createdAt = moment(date).format('DDMYYYY')
-    console.log('date',moment(date).format('DD-MM-YYYY'))
     const dispatch = useDispatch()
+    
     const handleSetMeal = () => {
         dispatch(createMeal(breakfast.current,
             lunch.current,

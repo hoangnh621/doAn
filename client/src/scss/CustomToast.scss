@@ -1,0 +1,77 @@
+@import 'color';
+
+@keyframes customToast {
+    0% {
+        right: 0rem;
+        top: 7.75rem;
+    }
+
+    100% {
+        right: 2rem;
+        top: 7.75rem;
+    }
+}
+
+.toastSuccess {
+    position: fixed;
+    right: 2rem;
+    top: 7.75rem;
+    z-index: 999;
+    animation-name: customToast;
+    animation-duration: 1s;
+    // animation-delay: 2s;
+    background-color: $background-color-main !important;
+    .toast-header {
+        background-color: $background-color-main;
+        color: $low;
+        border-bottom: none;
+
+        button {
+            color: $text-main;
+        }
+
+        svg{
+            font-size: 1rem;
+            margin-right: 0.5rem;
+        }
+
+        strong {
+            display: flex;
+            align-items: center;
+            margin-right: 8rem !important;
+        }
+    }
+
+    .toast-body {
+        background-color: $background-color-second;
+        color: $text-main;
+    }
+}
+
+.toastFailure {
+    background-color: $background-color-main;
+    .toast-header {
+        background-color: $background-color-main;
+        color: $hight;
+        border-bottom: none;
+
+        button {
+            color: $text-main;
+        }
+
+        svg{
+            font-size: 1rem;
+            margin-right: 0.5rem;
+        }
+
+        strong {
+            display: flex;
+            align-items: center;
+        }
+    }
+
+    .toast-body {
+        background-color: $background-color-second;
+        color: $text-main;
+    }
+}

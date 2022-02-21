@@ -7,7 +7,6 @@ import { NavLink } from 'react-router-dom'
 function InputPassword({id, content, placeholder, isForgotPassword, data, setData}) {
     const [isHide, setIsHide] = useState(true);
     const [type, setType] = useState('password')
-    //Ấn vào button dòng 27 sẽ thay đổi icon và kiểu type là password hay text tại dòng 25
     const handleDisplay = () => {
         setIsHide(!isHide);
         if(type === 'password')

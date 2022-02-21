@@ -58,7 +58,12 @@ import { USER_SIGNIN_REQUEST, USER_SIGNIN_SUCCESS, USER_SIGNIN_FAIL, USER_LOGOUT
     DELETETASK_FAIL,
     USER_CHECKEDTASK_REQUEST,
     USER_CHECKEDTASK,
-    CHECKEDTASK_FAIL
+    CHECKEDTASK_FAIL,
+    THEME_LIGHT,
+    THEME_DARK,
+    USER_SETINFO_REQUEST,
+    USER_SETINFO,
+    SETINFO_FAIL,
 } from "../constants/userConstants";
 
 function userSigninReducer(state = {}, action) {
@@ -301,12 +306,37 @@ const setTaskReducer = (state = {}, action) => {
                 ...state,
                 loading: false ,
                 setTask: action.payload
-                };
+            };
         case CHECKEDTASK_FAIL: 
             return {  ...state,loading: false, error: action.payload };
         default: return state;
     }
     
+}
+
+const userSetInfoReducer = (state = {}, action) => {
+    switch(action.type) {
+        case USER_SETINFO_REQUEST:
+            return { loading: true };
+        case USER_SETINFO:
+            return {
+                loading: false ,
+                setNamePassword: action.payload
+             };
+        case SETINFO_FAIL: 
+            return { loading: false, error: action.payload };
+        default: return state;
+    }
+}
+
+const userSetThemeReducer = (state = {}, action) => {
+    switch(action.type) {
+        case THEME_LIGHT:
+            return { userSetTheme : action.payload };
+        case THEME_DARK:
+            return { userSetTheme : action.payload };
+        default: return state;
+    }
 }
 
 
@@ -317,5 +347,7 @@ export { userSigninReducer, userRegisterReducer, userForgotPasswordReducer, user
     userAddMenuReducer,
     userSetFoodReducer,
     getHistoryWeightReducer,
-    setTaskReducer
+    setTaskReducer,
+    userSetThemeReducer,
+    userSetInfoReducer
 }

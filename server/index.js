@@ -13,6 +13,7 @@ import goal from './routes/goal.js';
 import menu from './routes/menu.js';
 import history from './routes/history.js';
 import task from './routes/task.js';
+import user from './routes/user.js';
 
 const app = express();
 
@@ -48,6 +49,9 @@ app.use('/history', history)
 
 //Nhiệm vụ
 app.use('/task', task)
+
+//Người dùng
+app.use('/user', user)
 
 
 

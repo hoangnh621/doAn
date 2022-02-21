@@ -22,6 +22,8 @@ $background-color-primary: rgba(115,103,240,.12);
 $background-color-low: rgba(40, 199, 111,.12);
 $background-color-mid: rgba(255, 159, 67,.12);
 $background-color-hight: rgba(234, 84, 85,.12);
+$background-color-light: rgba(242, 242, 242,1);
+
 
 @mixin buttonPrimary {
     background-image: linear-gradient(118deg, $primary,$primary-button);

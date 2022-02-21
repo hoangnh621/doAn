@@ -64,7 +64,12 @@ import {
   DELETETASK_FAIL,
   USER_CHECKEDTASK_REQUEST,
   USER_CHECKEDTASK,
-  CHECKEDTASK_FAIL
+  CHECKEDTASK_FAIL,
+  THEME_DARK,
+  THEME_LIGHT,
+  USER_SETINFO_REQUEST,
+  USER_SETINFO,
+  SETINFO_FAIL,
 } from "../constants/userConstants";
 
 //Đăng nhập
@@ -92,6 +97,8 @@ const logout = () => (dispatch) => {
     localStorage.removeItem('nutriTypeMeal')
     localStorage.removeItem('getHistoryWeight')
     localStorage.removeItem('setTask')
+    localStorage.removeItem('adminGetData')
+    localStorage.removeItem('userSetInfo')
     dispatch({ type: USER_LOGOUT })
 }
 
@@ -548,6 +555,38 @@ const userGetTask = ( ) => async (dispatch, getState) => {
   }
 }
 
+//Thay đổi tên người dùng và mật khẩu
+const userSetInfo = ( name, password) => async (dispatch, getState) => {
+  dispatch({ type:USER_SETINFO_REQUEST, payload: { name, password }})
+  try {
+    const {userSignin: { userInfo }} = getState();
+    const id = userInfo._id
+    const type_update = 'setInfo'
+    const { data } = await Axios.post("http://localhost:5000/user",{ type_update, id, name, password },
+    {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+    )
+    dispatch({
+     type: USER_SETINFO, payload: data
+    });
+    console.log('data', data)
+    localStorage.setItem('userSetInfo', JSON.stringify(data))
+  } catch (error) {
+    dispatch({ type: SETINFO_FAIL, payload: error.message });
+  }
+}
+
+//Thay đổi theme
+const setThemeAction = (theme) => async (dispatch) =>{
+    if(theme === 'light') 
+    dispatch({type: THEME_LIGHT, payload: theme})
+    else 
+    dispatch({type: THEME_DARK, payload: theme})
+}
+
 export { signin, logout, register, forgotpassword, resetpassword, addBodyIndex, addGoalFrequency,
   updatePercentFood,
   getBodyIndex,
@@ -564,5 +603,7 @@ export { signin, logout, register, forgotpassword, resetpassword, addBodyIndex, 
   createTask,
   userGetTask,
   userDeleteTask,
-  checkedTask
+  checkedTask,
+  setThemeAction,
+  userSetInfo
 }

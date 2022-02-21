@@ -230,7 +230,7 @@ const MealItems = () => {
                     const calo = (currentValue.totalPro * 4 + currentValue.totalCarbs*4 + currentValue.totalFat*9)
                     return prev + calo
                 }
-                const todayCalo = newMealData.reduce(reduceFunctionCalo, 0)
+                const todayCalo = Math.round(newMealData.reduce(reduceFunctionCalo, 0))
                 //Tổng totalPro
                 const reduceFunctionPro = (prev, currentValue) => {
                     const pro = (currentValue.totalPro )
